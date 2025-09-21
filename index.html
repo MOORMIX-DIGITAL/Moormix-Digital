@@ -30,7 +30,7 @@
         <div class="container mx-auto px-4 py-3 flex justify-around items-center max-w-7xl">
             <!-- Logo -->
             <div class="flex items-center">
-                <img src="images/logo.png" alt="Logo de Moormix Digital" class="h-10 w-auto">
+                <img src="images/Logo.jpeg" alt="Logo de Moormix Digital" class="h-10 w-auto">
             </div>
 
             <!-- Botones de Navegación -->
@@ -134,10 +134,10 @@
         // Array de productos de ejemplo con variantes
         const products = [
             {
-                name: "Honor Play 9A",
+                name: "Celular ENV Note 20",
                 shortDescription: "Dispositivo de alto rendimiento para todas tus necesidades digitales.",
                 longDescription: "IMAGEN REFERENCIAL. El Cellular ENV Note 20 es un dispositivo de alto rendimiento diseñado para satisfacer todas tus necesidades digitales.\nCon su potente procesador Octa-core, disfrutarás de una experiencia fluida y sin interrupciones.\nLa pantalla de 6.79 pulgadas te brinda una visualización inmersiva, mientras que su cámara de alta resolución captura cada detalle con claridad.",
-                images: ["images/honorplay9a.png", "images/honorplay9a.png", "images/honorplay9a.png"],
+                images: ["images/honorplay9a.png", "https://placehold.co/800x800/ffffff/000000?text=Honor+9A+Espalda", "https://placehold.co/800x800/ffffff/000000?text=Honor+9A+Lateral"],
                 specs: [
                     "Procesador Octa-core (2* Cortex-A75 at 2.0 GHz+6*Cortex-A55 at 1.8 GHz)",
                     "Sistema operativo Android 15",
@@ -152,7 +152,8 @@
                     { almacenamiento: "256GB", ram: "8GB", color: "Blanco", price: 135, stock: 8 },
                     { almacenamiento: "512GB", ram: "12GB", color: "Negro", price: 150, stock: 10 },
                     { almacenamiento: "512GB", ram: "12GB", color: "Gris", price: 152, stock: 5 }
-                ]
+                ],
+                tag: "Oferta"
             },
             {
                 name: "iPhone 15 Pro",
@@ -170,64 +171,8 @@
                     { almacenamiento: "128GB", ram: "8GB", color: "Azul Titán", price: 1299, stock: 10 },
                     { almacenamiento: "256GB", ram: "8GB", color: "Negro Titanio", price: 1399, stock: 5 },
                     { almacenamiento: "512GB", ram: "8GB", color: "Blanco Titanio", price: 1599, stock: 3 }
-                ]
-            },
-            {
-                name: "Samsung Galaxy S23 Ultra",
-                shortDescription: "Innovación y rendimiento con S Pen integrado y cámara de 200MP.",
-                longDescription: "El Galaxy S23 Ultra combina una innovación revolucionaria con un rendimiento impecable. Su cámara de 200MP captura cada momento con un detalle asombroso, y el S Pen integrado te ofrece una forma completamente nueva de trabajar y jugar.",
-                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
-                specs: [
-                    "Procesador Snapdragon 8 Gen 2",
-                    "Pantalla Dynamic AMOLED 2X de 6.8 pulgadas",
-                    "Cámara de 200MP",
-                    "S Pen integrado",
-                    "Batería de 5000 mAh."
                 ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "8GB", color: "Negro", price: 1199, stock: 20 },
-                    { almacenamiento: "256GB", ram: "12GB", color: "Verde", price: 1249, stock: 15 },
-                    { almacenamiento: "512GB", ram: "12GB", color: "Crema", price: 1299, stock: 8 },
-                    { almacenamiento: "512GB", ram: "12GB", color: "Lavanda", price: 1305, stock: 5 }
-                ]
-            },
-            {
-                name: "Samsung Galaxy S23 Ultra",
-                shortDescription: "Innovación y rendimiento con S Pen integrado y cámara de 200MP.",
-                longDescription: "El Galaxy S23 Ultra combina una innovación revolucionaria con un rendimiento impecable. Su cámara de 200MP captura cada momento con un detalle asombroso, y el S Pen integrado te ofrece una forma completamente nueva de trabajar y jugar.",
-                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
-                specs: [
-                    "Procesador Snapdragon 8 Gen 2",
-                    "Pantalla Dynamic AMOLED 2X de 6.8 pulgadas",
-                    "Cámara de 200MP",
-                    "S Pen integrado",
-                    "Batería de 5000 mAh."
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "8GB", color: "Negro", price: 1199, stock: 20 },
-                    { almacenamiento: "256GB", ram: "12GB", color: "Verde", price: 1249, stock: 15 },
-                    { almacenamiento: "512GB", ram: "12GB", color: "Crema", price: 1299, stock: 8 },
-                    { almacenamiento: "512GB", ram: "12GB", color: "Lavanda", price: 1305, stock: 5 }
-                ]
-            },
-            {
-                name: "Samsung Galaxy S23 Ultra",
-                shortDescription: "Innovación y rendimiento con S Pen integrado y cámara de 200MP.",
-                longDescription: "El Galaxy S23 Ultra combina una innovación revolucionaria con un rendimiento impecable. Su cámara de 200MP captura cada momento con un detalle asombroso, y el S Pen integrado te ofrece una forma completamente nueva de trabajar y jugar.",
-                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
-                specs: [
-                    "Procesador Snapdragon 8 Gen 2",
-                    "Pantalla Dynamic AMOLED 2X de 6.8 pulgadas",
-                    "Cámara de 200MP",
-                    "S Pen integrado",
-                    "Batería de 5000 mAh."
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "8GB", color: "Negro", price: 1199, stock: 20 },
-                    { almacenamiento: "256GB", ram: "12GB", color: "Verde", price: 1249, stock: 15 },
-                    { almacenamiento: "512GB", ram: "12GB", color: "Crema", price: 1299, stock: 8 },
-                    { almacenamiento: "512GB", ram: "12GB", color: "Lavanda", price: 1305, stock: 5 }
-                ]
+                tag: "Nuevo"
             },
             {
                 name: "Samsung Galaxy S23 Ultra",
@@ -259,8 +204,12 @@
                 return;
             }
             productsToRender.forEach((product, index) => {
+                const tagColor = product.tag === "Oferta" ? "bg-red-500" : (product.tag === "Nuevo" ? "bg-green-500" : "bg-cyan-600");
+                const tagHtml = product.tag ? `<span class="absolute top-2 right-2 ${tagColor} text-white text-xs font-semibold px-2 py-1 rounded-full uppercase shadow-md">${product.tag}</span>` : '';
+                
                 const productCard = `
-                    <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full">
+                    <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full relative">
+                        ${tagHtml}
                         <img src="${product.images[0]}" alt="${product.name}" class="w-full h-40 object-cover rounded-lg mb-4">
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">${product.name}</h3>
                         <p class="text-gray-500 text-sm mb-4 flex-1">${product.shortDescription}</p>
