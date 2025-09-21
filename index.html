@@ -3,540 +3,496 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Celulares</title>
+    <title>Moormix Digital</title>
+    <!-- Incluir Tailwind CSS desde CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font 'Inter' -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f4f5f7;
-            transition: background-color 0.3s ease;
-        }
-        body.modal-open {
-            overflow: hidden;
-        }
-        .modal-content {
-            animation: fadeInScale 0.3s ease-out;
-        }
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        .sticky-filters {
-            top: 1rem;
-            align-self: flex-start;
-        }
-        .modal-tabs .tab-button.active {
-            border-bottom: 2px solid #3b82f6;
-            color: #3b82f6;
+            background-color: #f3f4f6;
+            color: #374151;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="min-h-screen flex flex-col">
 
-    <!-- Barra Superior -->
-    <div class="bg-blue-600 text-white text-center py-2 px-4 text-sm font-semibold sticky top-0 z-50">
-        Envíos gratis con planes a crédito
+    <!-- Barra Superior de Anuncios -->
+    <div class="bg-cyan-600 text-white text-center py-2 px-4 shadow-md">
+        <p class="text-sm font-medium">Envíos gratis con planes a crédito</p>
     </div>
 
-    <!-- Cabecera -->
-    <header class="bg-white shadow-sm sticky top-8 z-40">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <!-- Encabezado y Navegación -->
+    <header class="bg-white sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-around items-center max-w-7xl">
             <!-- Logo -->
-            <div class="flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-blue-600">
-                    <path fill-rule="evenodd" d="M1.5 8.25a3 3 0 013-3h15a3 3 0 013 3v6a3 3 0 01-3 3h-15a3 3 0 01-3-3v-6zm18 3a1.5 1.5 0 01-1.5 1.5h-12a1.5 1.5 0 010-3h12a1.5 1.5 0 011.5 1.5z" clip-rule="evenodd" />
-                </svg>
+            <div class="flex items-center">
+                <img src="images/Logo.jpeg" alt="Logo de Moormix Digital" class="h-10 w-auto">
             </div>
-            <!-- Menú de Navegación -->
-            <nav class="hidden md:flex space-x-6">
-                <a href="#catalogo" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">Catálogo</a>
-                <a href="#sobre-nosotros" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">Sobre Nosotros</a>
-                <a href="#contacto" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">Quejas y Sugerencias</a>
+
+            <!-- Botones de Navegación -->
+            <nav class="space-x-4">
+                <button id="btn-inicio" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors">Inicio</button>
+                <button id="btn-catalogo" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors">Catálogo</button>
+                <button id="btn-nosotros" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors">Sobre nosotros</button>
+                <button id="btn-contacto" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors">Contacto</button>
             </nav>
         </div>
     </header>
 
-    <!-- Presentación -->
-    <section id="presentacion" class="container mx-auto px-4 py-16 text-center">
-        <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-            Los mejores celulares a tu alcance
-        </h1>
-        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Descubre nuestra colección de smartphones de última generación con envíos gratis y planes de crédito que se adaptan a ti.
-        </p>
-        <a href="#catalogo" class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition-transform duration-300 transform hover:scale-105">
-            Explora el Catálogo
-        </a>
-    </section>
+    <!-- Contenido Principal (Las "páginas" del sitio) -->
+    <main class="container mx-auto px-4 py-8 flex-1 max-w-7xl">
 
-    <!-- Catálogo de Productos -->
-    <section id="catalogo" class="container mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Nuestro Catálogo</h2>
-        <div class="flex flex-col md:flex-row gap-8">
-            <!-- Columna de Filtros -->
-            <div class="md:w-1/4 sticky sticky-filters max-h-[80vh] overflow-y-auto p-4 rounded-lg shadow-md bg-white">
-                <h3 class="text-xl font-semibold mb-4 text-gray-800">Filtros</h3>
-                
-                <!-- Filtro por Categorías -->
-                <div class="mb-6">
-                    <h4 class="font-bold text-gray-700 mb-2">Categorías</h4>
-                    <nav class="flex flex-col space-y-2 text-sm text-gray-600">
-                        <button class="text-left hover:text-blue-600 transition-colors duration-200" onclick="filterProducts('all')">Todos los Productos</button>
-                        <button class="text-left hover:text-blue-600 transition-colors duration-200" onclick="filterProducts('gama-alta')">Gama Alta</button>
-                        <button class="text-left hover:text-blue-600 transition-colors duration-200" onclick="filterProducts('gama-media')">Gama Media</button>
-                        <button class="text-left hover:text-blue-600 transition-colors duration-200" onclick="filterProducts('gama-baja')">Gama Baja</button>
-                    </nav>
-                </div>
-                
-                <!-- Filtro por Etiquetas -->
-                <div class="mb-6">
-                    <h4 class="font-bold text-gray-700 mb-2">Etiquetas</h4>
-                    <div class="flex flex-col space-y-2 text-sm text-gray-600">
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="tag" value="lanzamiento" class="rounded text-blue-600 focus:ring-blue-500" onclick="filterProducts()">
-                            <span>Último Lanzamiento</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="tag" value="credito" class="rounded text-blue-600 focus:ring-blue-500" onclick="filterProducts()">
-                            <span>Con Crédito Disponible</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Filtro por Rango de Precios -->
-                <div>
-                    <h4 class="font-bold text-gray-700 mb-2">Rango de Precio</h4>
-                    <div class="flex items-center space-x-2 text-sm text-gray-600">
-                        <input type="number" id="min-price" placeholder="Mínimo" class="w-full px-2 py-1 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
-                        <span>-</span>
-                        <input type="number" id="max-price" placeholder="Máximo" class="w-full px-2 py-1 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <button class="mt-4 w-full bg-gray-200 text-gray-700 font-semibold py-2 rounded-md hover:bg-gray-300 transition-colors duration-200" onclick="filterProducts()">Aplicar</button>
-                </div>
-            </div>
-
-            <!-- Columna de Productos -->
-            <div id="product-list" class="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Product Cards will be rendered here by JavaScript -->
+        <!-- Página Principal (Por defecto visible) -->
+        <div id="page-inicio" class="content-page">
+            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 animate-fade-in">Bienvenido a Moormix Digital</h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-8">Tu tienda de confianza para los últimos modelos de celulares. Explora nuestro catálogo y encuentra el dispositivo perfecto para ti.</p>
+                <button id="btn-ir-catalogo" class="bg-cyan-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-cyan-700 transition-colors transform hover:scale-105">Explorar Catálogo</button>
             </div>
         </div>
-    </section>
 
-    <!-- Modal del Producto -->
-    <div id="product-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl lg:max-w-5xl modal-content my-10 max-h-[90vh] overflow-y-auto">
-            <!-- Contenido del Modal -->
-            <div class="p-4 sm:p-6 lg:p-8">
-                <div class="flex flex-col lg:flex-row gap-8">
-                    <!-- Columna de Imágenes -->
-                    <div class="flex-shrink-0 w-full lg:w-1/3">
-                        <div class="flex flex-col">
-                            <img id="modal-main-image" src="" alt="Imagen principal del producto" class="rounded-lg shadow-md mb-4 w-full h-auto object-cover">
-                            <div id="modal-thumbnails" class="flex space-x-2">
-                                <!-- Thumbnails will be injected here -->
-                            </div>
+        <!-- Página de Catálogo (Inicialmente oculta) -->
+        <div id="page-catalogo" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-center mb-8">Catálogo de Teléfonos</h2>
+            
+            <!-- Barra de Búsqueda y Ordenamiento -->
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4">
+                <input type="text" id="search-input" placeholder="Buscar por nombre o descripción..." class="w-full sm:w-1/2 rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2">
+                <div class="flex items-center space-x-2">
+                    <label for="sort-order" class="text-sm font-medium text-gray-700">Ordenar por:</label>
+                    <select id="sort-order" class="rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2">
+                        <option value="default">Por defecto</option>
+                        <option value="name">Nombre (A-Z)</option>
+                        <option value="price">Precio (Menor a Mayor)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <!-- Los productos se insertarán aquí con JavaScript -->
+            </div>
+        </div>
+
+        <!-- Página "Sobre Nosotros" (Inicialmente oculta) -->
+        <div id="page-nosotros" class="content-page hidden">
+            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-6 text-center">Sobre Nosotros</h2>
+                <p class="text-gray-700 mb-4 text-center">
+                    En Moormix Digital, nos apasiona la tecnología y nos dedicamos a ofrecer los mejores y más recientes dispositivos móviles a nuestros clientes. Nuestra misión es brindar una experiencia de compra sencilla, segura y satisfactoria, garantizando productos de calidad y un servicio excepcional.
+                </p>
+                <p class="text-gray-700 text-center">
+                    Creemos que cada persona merece tener acceso a la mejor tecnología para mantenerse conectado. Nos esforzamos por ser tu socio digital de confianza, ofreciendo planes flexibles y envíos rápidos.
+                </p>
+            </div>
+        </div>
+
+        <!-- Página de Contacto (Inicialmente oculta) -->
+        <div id="page-contacto" class="content-page hidden">
+            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-center">Contacto</h2>
+                <p class="text-gray-700 mb-6 text-center">
+                    Para reclamos o sugerencias, por favor, rellena el siguiente formulario. Nos pondremos en contacto contigo lo antes posible.
+                </p>
+                <form id="contact-form" class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Tu nombre</label>
+                        <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Tu correo electrónico</label>
+                        <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2" required>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700">Mensaje (Reclamo o sugerencia)</label>
+                        <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2" required></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-cyan-600 text-white font-bold py-2 px-4 rounded-md hover:bg-cyan-700 transition-colors">Enviar Reclamo / Sugerencia</button>
+                </form>
+                <div id="form-message" class="mt-4 text-center text-sm font-medium hidden"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal para más información del producto -->
+    <div id="info-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
+                &times;
+            </button>
+            <div id="modal-content" class="text-center">
+                <!-- Contenido del modal se carga dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array de productos de ejemplo con variantes
+        const products = [
+            {
+                name: "Celular ENV Note 20",
+                shortDescription: "Dispositivo de alto rendimiento para todas tus necesidades digitales.",
+                longDescription: "IMAGEN REFERENCIAL. El Cellular ENV Note 20 es un dispositivo de alto rendimiento diseñado para satisfacer todas tus necesidades digitales.\nCon su potente procesador Octa-core, disfrutarás de una experiencia fluida y sin interrupciones.\nLa pantalla de 6.79 pulgadas te brinda una visualización inmersiva, mientras que su cámara de alta resolución captura cada detalle con claridad.",
+                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Espalda", "https://placehold.co/800x800/ffffff/000000?text=Lateral"],
+                specs: [
+                    "Procesador Octa-core (2* Cortex-A75 at 2.0 GHz+6*Cortex-A55 at 1.8 GHz)",
+                    "Sistema operativo Android 15",
+                    "Pantalla 6.79\" HD +IPS",
+                    "Dimensiones 170.75*77.5*8.5mm",
+                    "Cámara frontal 8 MP",
+                    "Cámara trasera 50 MP",
+                    "Batería 5000mAh 9V/2A"
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "8GB", color: "Negro", price: 133, stock: 15 },
+                    { almacenamiento: "256GB", ram: "8GB", color: "Blanco", price: 135, stock: 8 },
+                    { almacenamiento: "512GB", ram: "12GB", color: "Negro", price: 150, stock: 10 },
+                    { almacenamiento: "512GB", ram: "12GB", color: "Gris", price: 152, stock: 5 }
+                ]
+            },
+            {
+                name: "iPhone 15 Pro",
+                shortDescription: "El más avanzado de Apple, con chip A17 Pro y sistema de cámara triple de 48MP.",
+                longDescription: "El iPhone 15 Pro redefine la experiencia móvil con su chip A17 Pro, el más potente jamás visto en un smartphone. Su sistema de cámara Pro de 48MP te permite capturar fotos y videos con una calidad inigualable. Con su diseño de titanio de grado aeroespacial, es sorprendentemente ligero y resistente.",
+                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
+                specs: [
+                    "Chip A17 Pro",
+                    "Pantalla Super Retina XDR de 6.1 pulgadas",
+                    "Sistema de cámara Pro de 48MP",
+                    "Face ID",
+                    "Batería de 27 horas de reproducción de video."
+                ],
+                variants: [
+                    { almacenamiento: "128GB", ram: "8GB", color: "Azul Titán", price: 1299, stock: 10 },
+                    { almacenamiento: "256GB", ram: "8GB", color: "Negro Titanio", price: 1399, stock: 5 },
+                    { almacenamiento: "512GB", ram: "8GB", color: "Blanco Titanio", price: 1599, stock: 3 }
+                ]
+            },
+            {
+                name: "Samsung Galaxy S23 Ultra",
+                shortDescription: "Innovación y rendimiento con S Pen integrado y cámara de 200MP.",
+                longDescription: "El Galaxy S23 Ultra combina una innovación revolucionaria con un rendimiento impecable. Su cámara de 200MP captura cada momento con un detalle asombroso, y el S Pen integrado te ofrece una forma completamente nueva de trabajar y jugar.",
+                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
+                specs: [
+                    "Procesador Snapdragon 8 Gen 2",
+                    "Pantalla Dynamic AMOLED 2X de 6.8 pulgadas",
+                    "Cámara de 200MP",
+                    "S Pen integrado",
+                    "Batería de 5000 mAh."
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "8GB", color: "Negro", price: 1199, stock: 20 },
+                    { almacenamiento: "256GB", ram: "12GB", color: "Verde", price: 1249, stock: 15 },
+                    { almacenamiento: "512GB", ram: "12GB", color: "Crema", price: 1299, stock: 8 },
+                    { almacenamiento: "512GB", ram: "12GB", color: "Lavanda", price: 1305, stock: 5 }
+                ]
+            }
+        ];
+        
+        // Función para renderizar los productos en el catálogo
+        function renderProducts(productsToRender) {
+            const catalogoGrid = document.getElementById('catalogo-grid');
+            catalogoGrid.innerHTML = ''; // Limpiar el contenedor
+            if (productsToRender.length === 0) {
+                catalogoGrid.innerHTML = `<p class="col-span-full text-center text-gray-500">No se encontraron productos.</p>`;
+                return;
+            }
+            productsToRender.forEach((product, index) => {
+                const productCard = `
+                    <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full">
+                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">${product.name}</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex-1">${product.shortDescription}</p>
+                        <span class="text-2xl font-bold text-cyan-600 mb-4">$${product.variants[0].price}</span>
+                        <button class="info-btn w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg hover:bg-gray-300 transition-colors" data-product-index="${index}">
+                            Más Info
+                        </button>
+                    </div>
+                `;
+                catalogoGrid.innerHTML += productCard;
+            });
+            // Añadir listeners a los nuevos botones
+            document.querySelectorAll('.info-btn').forEach(button => {
+                button.addEventListener('click', showModal);
+            });
+        }
+        
+        // Función para mostrar el modal con la información del producto
+        function showModal(event) {
+            const index = event.target.getAttribute('data-product-index');
+            const product = products[index];
+            const modal = document.getElementById('info-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            // Recolectar opciones únicas para cada categoría
+            const uniqueOptions = {
+                almacenamiento: [...new Set(product.variants.map(v => v.almacenamiento))].sort(),
+                ram: [...new Set(product.variants.map(v => v.ram))].sort(),
+                color: [...new Set(product.variants.map(v => v.color))].sort()
+            };
+            
+            // Establecer la variante inicial como la primera
+            let selectedVariant = product.variants[0];
+
+            // Generar las opciones dinámicamente
+            let optionsHtml = '';
+            for (const key in uniqueOptions) {
+                const label = key.charAt(0).toUpperCase() + key.slice(1);
+                optionsHtml += `
+                    <div class="mb-4">
+                        <p class="text-gray-700 font-semibold mb-2">${label}:</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${uniqueOptions[key].map(option => `
+                                <button class="option-btn px-4 py-2 border rounded-full text-sm font-medium transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-100 data-[selected=true]:bg-cyan-600 data-[selected=true]:text-white data-[selected=true]:border-cyan-600" data-option-type="${key}" data-option-value="${option}" ${option === selectedVariant[key] ? 'data-selected="true"' : ''}>
+                                    ${option}
+                                </button>
+                            `).join('')}
                         </div>
                     </div>
-                    <!-- Columna de Detalles y Opciones -->
-                    <div class="w-full lg:w-2/3">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="text-left">
-                                <h2 id="modal-product-name" class="text-2xl font-bold text-gray-900"></h2>
-                                <p id="modal-product-brand" class="text-gray-500 text-sm mt-1"></p>
+                `;
+            }
+
+            const whatsappMessage = `Hola, me interesa comprar el ${product.name} con ${selectedVariant.almacenamiento} de almacenamiento, ${selectedVariant.ram} de RAM y color ${selectedVariant.color}.`;
+            modalContent.innerHTML = `
+                <div class="flex flex-col lg:flex-row items-center lg:items-start text-left space-y-8 lg:space-y-0 lg:space-x-8 p-4">
+                    <!-- Galería de imágenes -->
+                    <div class="flex flex-col items-center w-full lg:w-1/2">
+                        <img id="main-product-image" src="${product.images[0]}" alt="${product.name}" class="w-full h-auto rounded-lg shadow-lg mb-4">
+                        <div class="flex space-x-2 overflow-x-auto w-full justify-center">
+                            ${product.images.map(image => `
+                                <img src="${image}" alt="${product.name}" class="thumbnail w-20 h-20 rounded-md cursor-pointer border-2 border-transparent hover:border-cyan-600 transition-colors" onclick="document.getElementById('main-product-image').src='${image}'">
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <!-- Detalles y opciones del producto -->
+                    <div class="w-full lg:w-1/2">
+                        <span class="bg-cyan-600 text-white text-xs font-semibold px-2 py-1 rounded-full uppercase">ENV</span>
+                        <h3 class="text-3xl font-bold text-gray-900 mt-2">${product.name}</h3>
+                        <p class="text-sm text-gray-500 mt-2">Disponibles: <span id="modal-stock">${selectedVariant.stock}</span>!</p>
+                        <span id="modal-price" class="text-4xl font-extrabold text-cyan-600 block my-4">$${selectedVariant.price},00</span>
+                        
+                        <!-- Opciones de selección (RAM, Almacenamiento, Color) -->
+                        ${optionsHtml}
+                        
+                        <!-- Cantidad y Añadir al carrito -->
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                                <button id="qty-minus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors">-</button>
+                                <input id="qty-input" type="number" value="1" min="1" max="${selectedVariant.stock}" class="w-12 text-center border-none focus:outline-none p-2">
+                                <button id="qty-plus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors">+</button>
                             </div>
-                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors duration-200 text-3xl font-light">&times;</button>
-                        </div>
-
-                        <div id="modal-stock" class="text-sm font-medium mb-4"></div>
-                        <p id="modal-price" class="text-4xl font-extrabold text-blue-600 mb-6"></p>
-
-                        <!-- Opciones Dinámicas -->
-                        <div id="modal-options-container" class="space-y-6 mb-8">
-                            <!-- Options will be injected here by JavaScript -->
-                        </div>
-
-                        <!-- Botones de Acción -->
-                        <div class="flex space-x-4 mb-8">
-                            <a id="whatsapp-buy-btn" href="#" class="flex-1 bg-blue-600 text-white text-center font-bold py-3 px-6 rounded-full shadow-lg hover:bg-blue-700 transition-transform duration-300 transform hover:scale-105" target="_blank">
-                                Comprar por WhatsApp
+                            <a id="modal-whatsapp-link" href="https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}" class="flex-1 text-center bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition-colors">
+                                COMPRAR POR WHATSAPP
                             </a>
                         </div>
                         
                         <!-- Pestañas de Descripción y Especificaciones -->
-                        <div class="flex border-b border-gray-200 mb-4 modal-tabs">
-                            <button id="tab-description" class="tab-button active px-4 py-2 text-gray-700 font-semibold transition-colors duration-200">Descripción del producto</button>
-                            <button id="tab-specs" class="tab-button px-4 py-2 text-gray-700 font-semibold transition-colors duration-200">Especificaciones</button>
+                        <div class="border-b border-gray-200 mt-6">
+                            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                                <button id="tab-desc" class="tab-btn border-b-2 border-cyan-600 text-cyan-600 font-bold py-2 px-4 transition-colors duration-200">DESCRIPCIÓN</button>
+                                <button id="tab-specs" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-4 transition-colors duration-200">ESPECIFICACIÓN</button>
+                            </nav>
                         </div>
-                        <div id="modal-tabs-content">
-                            <div id="content-description">
-                                <p id="modal-description-text" class="text-gray-600"></p>
-                            </div>
-                            <div id="content-specs" class="hidden">
-                                <p id="modal-specs-text" class="text-gray-600"></p>
-                            </div>
+                        <div id="tab-content" class="pt-4 text-gray-700 text-sm">
+                            <!-- El contenido de la pestaña se carga aquí -->
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Sección Sobre Nosotros -->
-    <section id="sobre-nosotros" class="bg-gray-100 container mx-auto px-4 py-12 rounded-lg my-12 shadow-lg">
-        <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Sobre Nosotros</h2>
-        <p class="text-gray-600 leading-relaxed max-w-3xl mx-auto text-center">
-            Somos una empresa dedicada a brindarte la mejor tecnología móvil. Nuestro objetivo es conectar a las personas con dispositivos de alta calidad, ofreciendo planes de crédito flexibles y un servicio al cliente excepcional. Creemos en la transparencia y en construir relaciones duraderas con nuestros clientes.
-        </p>
-    </section>
-
-    <!-- Sección de Quejas y Sugerencias -->
-    <section id="contacto" class="container mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Contacto</h2>
-        <div class="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
-            <p class="text-gray-600 mb-6 text-center">
-                Valoramos tu opinión. Por favor, deja tus comentarios, sugerencias o reclamos.
-            </p>
-            <form class="space-y-6">
-                <div>
-                    <label for="nombre" class="block text-gray-700 font-semibold mb-2">Nombre</label>
-                    <input type="text" id="nombre" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
-                    <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label for="mensaje" class="block text-gray-700 font-semibold mb-2">Mensaje</label>
-                    <textarea id="mensaje" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-blue-600 text-white font-bold py-3 px-12 rounded-full shadow-lg hover:bg-blue-700 transition-transform duration-300 transform hover:scale-105">
-                        Enviar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </section>
-
-<script>
-    const allProducts = [
-        {
-            name: 'Samsung Galaxy S23',
-            brand: 'Samsung',
-            category: 'gama-alta',
-            tags: ['lanzamiento', 'credito'],
-            variants: [
-                {
-                    storage: '128GB',
-                    ram: '8GB',
-                    color: 'Phantom Black',
-                    price: '999',
-                    stock: 5,
-                    images: [
-                        'https://placehold.co/600x600/1f2937/ffffff?text=Galaxy+S23',
-                        'https://placehold.co/600x600/9ca3af/ffffff?text=Front',
-                        'https://placehold.co/600x600/4b5563/ffffff?text=Back',
-                        'https://placehold.co/600x600/6b7280/ffffff?text=Side'
-                    ],
-                    description: 'El Samsung Galaxy S23 es un smartphone de alta gama con un diseño elegante y un rendimiento excepcional. Ideal para fotografía y multitarea.',
-                    specs: 'Pantalla Dynamic AMOLED 2X de 6.1 pulgadas, procesador Snapdragon 8 Gen 2, cámara principal de 50MP, batería de 3900 mAh.'
-                },
-                {
-                    storage: '256GB',
-                    ram: '8GB',
-                    color: 'Cream',
-                    price: '1049',
-                    stock: 3,
-                    images: [
-                        'https://placehold.co/600x600/f5f5dc/000000?text=Galaxy+S23',
-                        'https://placehold.co/600x600/f5f5dc/000000?text=Front',
-                        'https://placehold.co/600x600/f5f5dc/000000?text=Back',
-                        'https://placehold.co/600x600/f5f5dc/000000?text=Side'
-                    ],
-                    description: 'El Samsung Galaxy S23 es un smartphone de alta gama con un diseño elegante y un rendimiento excepcional. Ideal para fotografía y multitarea.',
-                    specs: 'Pantalla Dynamic AMOLED 2X de 6.1 pulgadas, procesador Snapdragon 8 Gen 2, cámara principal de 50MP, batería de 3900 mAh.'
-                }
-            ]
-        },
-        {
-            name: 'iPhone 14 Pro',
-            brand: 'Apple',
-            category: 'gama-alta',
-            tags: ['credito'],
-            variants: [
-                {
-                    storage: '256GB',
-                    ram: '6GB',
-                    color: 'Space Black',
-                    price: '1299',
-                    stock: 7,
-                    images: [
-                        'https://placehold.co/600x600/000000/ffffff?text=iPhone+14+Pro',
-                        'https://placehold.co/600x600/333333/ffffff?text=Front',
-                        'https://placehold.co/600x600/555555/ffffff?text=Back'
-                    ],
-                    description: 'El iPhone 14 Pro es un teléfono potente con un sistema de cámaras revolucionario y la nueva Dynamic Island.',
-                    specs: 'Pantalla Super Retina XDR de 6.1 pulgadas, chip A16 Bionic, sistema de cámara Pro de 48MP, Face ID.'
-                },
-                {
-                    storage: '512GB',
-                    ram: '6GB',
-                    color: 'Deep Purple',
-                    price: '1499',
-                    stock: 2,
-                    images: [
-                        'https://placehold.co/600x600/4a2c5e/ffffff?text=iPhone+14+Pro',
-                        'https://placehold.co/600x600/4a2c5e/ffffff?text=Front',
-                        'https://placehold.co/600x600/4a2c5e/ffffff?text=Back'
-                    ],
-                    description: 'El iPhone 14 Pro es un teléfono potente con un sistema de cámaras revolucionario y la nueva Dynamic Island.',
-                    specs: 'Pantalla Super Retina XDR de 6.1 pulgadas, chip A16 Bionic, sistema de cámara Pro de 48MP, Face ID.'
-                }
-            ]
-        },
-        {
-            name: 'Google Pixel 7a',
-            brand: 'Google',
-            category: 'gama-media',
-            tags: [],
-            variants: [
-                {
-                    storage: '128GB',
-                    ram: '8GB',
-                    color: 'Sea',
-                    price: '499',
-                    stock: 12,
-                    images: [
-                        'https://placehold.co/600x600/80a0b0/ffffff?text=Pixel+7a',
-                        'https://placehold.co/600x600/80a0b0/ffffff?text=Front',
-                        'https://placehold.co/600x600/80a0b0/ffffff?text=Back'
-                    ],
-                    description: 'El Google Pixel 7a ofrece la increíble experiencia de Pixel a un precio más accesible, con su poderosa cámara y chip Tensor G2.',
-                    specs: 'Pantalla Actua de 6.1 pulgadas, chip Google Tensor G2, cámara principal de 64MP, batería de 4385 mAh.'
-                }
-            ]
-        },
-        {
-            name: 'Motorola E14',
-            brand: 'Motorola',
-            category: 'gama-baja',
-            tags: ['lanzamiento'],
-            variants: [
-                {
-                    storage: '64GB',
-                    ram: '4GB',
-                    color: 'Graphite Gray',
-                    price: '149',
-                    stock: 20,
-                    images: [
-                        'https://placehold.co/600x600/374151/ffffff?text=Motorola+E14',
-                        'https://placehold.co/600x600/374151/ffffff?text=Front',
-                        'https://placehold.co/600x600/374151/ffffff?text=Back'
-                    ],
-                    description: 'Un smartphone básico y confiable para el día a día, con un rendimiento sólido y una batería de larga duración.',
-                    specs: 'Pantalla de 6.5 pulgadas, procesador MediaTek Helio G37, cámara de 13MP, batería de 5000 mAh.'
-                }
-            ]
-        }
-    ];
-
-    let currentProduct = null;
-    let selectedVariant = null;
-
-    const productList = document.getElementById('product-list');
-    const modal = document.getElementById('product-modal');
-    const modalProductName = document.getElementById('modal-product-name');
-    const modalProductBrand = document.getElementById('modal-product-brand');
-    const modalPrice = document.getElementById('modal-price');
-    const modalStock = document.getElementById('modal-stock');
-    const modalMainImage = document.getElementById('modal-main-image');
-    const modalThumbnails = document.getElementById('modal-thumbnails');
-    const modalOptionsContainer = document.getElementById('modal-options-container');
-    const whatsappBuyBtn = document.getElementById('whatsapp-buy-btn');
-    const descriptionTab = document.getElementById('tab-description');
-    const specsTab = document.getElementById('tab-specs');
-    const descriptionContent = document.getElementById('content-description');
-    const specsContent = document.getElementById('content-specs');
-    const descriptionText = document.getElementById('modal-description-text');
-    const specsText = document.getElementById('modal-specs-text');
-
-    // Función para renderizar el catálogo de productos
-    function renderProducts(filteredProducts = allProducts) {
-        productList.innerHTML = '';
-        if (filteredProducts.length === 0) {
-            productList.innerHTML = '<p class="text-center text-gray-500 w-full col-span-full">No se encontraron productos que coincidan con los filtros.</p>';
-            return;
-        }
-
-        filteredProducts.forEach(product => {
-            const variant = product.variants[0]; // Usar la primera variante para la tarjeta del catálogo
-            const card = document.createElement('div');
-            card.className = 'bg-white rounded-lg shadow-md p-4 flex flex-col items-center text-center transition-transform transform hover:scale-105 min-h-[420px]';
-            card.innerHTML = `
-                <img src="${variant.images[0]}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg mb-4">
-                <h3 class="text-xl font-semibold mb-1 text-gray-800">${product.name}</h3>
-                <p class="text-gray-500 text-sm mb-2">${product.brand}</p>
-                <span class="text-2xl font-bold text-blue-600 mb-4">$${variant.price}</span>
-                <button onclick="openModal('${product.name}')" class="w-full bg-blue-600 text-white font-bold py-2 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-200">
-                    Más info
-                </button>
             `;
-            productList.appendChild(card);
-        });
-    }
+            
+            // Función para actualizar el precio y stock en el modal
+            function updateModalUI() {
+                const currentSelection = {
+                    almacenamiento: document.querySelector('.option-btn[data-option-type="almacenamiento"][data-selected="true"]').getAttribute('data-option-value'),
+                    ram: document.querySelector('.option-btn[data-option-type="ram"][data-selected="true"]').getAttribute('data-option-value'),
+                    color: document.querySelector('.option-btn[data-option-type="color"][data-selected="true"]').getAttribute('data-option-value')
+                };
 
-    // Función para filtrar productos
-    function filterProducts(category = null) {
-        const minPrice = parseFloat(document.getElementById('min-price').value) || 0;
-        const maxPrice = parseFloat(document.getElementById('max-price').value) || Infinity;
-        const selectedTags = Array.from(document.querySelectorAll('input[name="tag"]:checked')).map(el => el.value);
+                const matchedVariant = product.variants.find(v => 
+                    v.almacenamiento === currentSelection.almacenamiento &&
+                    v.ram === currentSelection.ram &&
+                    v.color === currentSelection.color
+                );
 
-        const filtered = allProducts.filter(product => {
-            const matchesCategory = category === 'all' || !category || product.category === category;
-            const matchesTags = selectedTags.every(tag => product.tags.includes(tag));
-            const hasVariantInPriceRange = product.variants.some(variant => {
-                const price = parseFloat(variant.price);
-                return price >= minPrice && price <= maxPrice;
-            });
+                if (matchedVariant) {
+                    document.getElementById('modal-price').textContent = `$${matchedVariant.price},00`;
+                    document.getElementById('modal-stock').textContent = matchedVariant.stock;
+                    document.getElementById('qty-input').max = matchedVariant.stock;
+                    document.getElementById('qty-input').value = 1; // Reset cantidad
 
-            return matchesCategory && matchesTags && hasVariantInPriceRange;
-        });
-
-        renderProducts(filtered);
-    }
-
-    // Función para abrir el modal del producto
-    function openModal(productName) {
-        currentProduct = allProducts.find(p => p.name === productName);
-        if (!currentProduct) {
-            console.error('Producto no encontrado:', productName);
-            return;
-        }
-
-        // Seleccionar la primera variante por defecto
-        selectedVariant = currentProduct.variants[0];
-        
-        renderModalContent();
-        modal.classList.remove('hidden');
-        document.body.classList.add('modal-open');
-    }
-
-    // Función para renderizar el contenido del modal
-    function renderModalContent() {
-        if (!currentProduct || !selectedVariant) {
-            console.error('No se ha seleccionado un producto o variante.');
-            return;
-        }
-
-        modalProductName.textContent = currentProduct.name;
-        modalProductBrand.textContent = currentProduct.brand;
-        modalPrice.textContent = `$${selectedVariant.price}`;
-        
-        // Renderizar stock
-        const stockColor = selectedVariant.stock > 0 ? 'text-green-600' : 'text-red-600';
-        modalStock.innerHTML = `Disponibilidad: <span class="${stockColor} font-bold">${selectedVariant.stock > 0 ? 'En Stock' : 'Agotado'}</span>`;
-
-        // Renderizar la imagen principal y las miniaturas
-        modalMainImage.src = selectedVariant.images[0];
-        modalThumbnails.innerHTML = '';
-        selectedVariant.images.forEach((image, index) => {
-            const thumb = document.createElement('img');
-            thumb.src = image;
-            thumb.alt = `Thumbnail ${index + 1}`;
-            thumb.className = 'w-16 h-16 rounded-md object-cover cursor-pointer hover:ring-2 hover:ring-blue-500 transition-shadow';
-            thumb.onclick = () => modalMainImage.src = image;
-            modalThumbnails.appendChild(thumb);
-        });
-
-        // Renderizar opciones dinámicas
-        modalOptionsContainer.innerHTML = '';
-        const options = {
-            'Almacenamiento': 'storage',
-            'RAM': 'ram',
-            'Color': 'color'
-        };
-
-        for (const [key, prop] of Object.entries(options)) {
-            const group = document.createElement('div');
-            group.className = 'flex flex-col';
-            group.innerHTML = `<h4 class="font-semibold text-gray-700 mb-2">${key}</h4>`;
-            const buttonsContainer = document.createElement('div');
-            buttonsContainer.className = 'flex flex-wrap gap-2';
-
-            const uniqueValues = [...new Set(currentProduct.variants.map(v => v[prop]))];
-            uniqueValues.forEach(value => {
-                const button = document.createElement('button');
-                const isActive = selectedVariant[prop] === value;
-                button.textContent = value;
-                button.className = `px-4 py-2 rounded-full font-medium transition-colors duration-200 ${isActive ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-blue-100'}`;
-                button.onclick = () => selectOption(prop, value);
-                buttonsContainer.appendChild(button);
-            });
-            group.appendChild(buttonsContainer);
-            modalOptionsContainer.appendChild(group);
-        }
-
-        // Actualizar URL de WhatsApp
-        const whatsappMessage = `Hola, me interesa el modelo ${currentProduct.name} con las siguientes especificaciones: Almacenamiento ${selectedVariant.storage}, RAM ${selectedVariant.ram}, Color ${selectedVariant.color}. ¿Podrías darme más información?`;
-        whatsappBuyBtn.href = `https://wa.me/59367427594?text=${encodeURIComponent(whatsappMessage)}`;
-        
-        // Renderizar descripción y especificaciones
-        descriptionText.textContent = selectedVariant.description;
-        specsText.textContent = selectedVariant.specs;
-        descriptionTab.classList.add('active');
-        specsTab.classList.remove('active');
-        descriptionContent.classList.remove('hidden');
-        specsContent.classList.add('hidden');
-    }
-    
-    // Función para cambiar la variante según la opción seleccionada
-    function selectOption(prop, value) {
-        const newVariant = currentProduct.variants.find(v => v[prop] === value && v.storage === selectedVariant.storage && v.ram === selectedVariant.ram && v.color === selectedVariant.color);
-        if (newVariant) {
-            selectedVariant = newVariant;
-        } else {
-            // Si la combinación no existe, busca la primera variante que coincida con la nueva opción
-            const matchingVariants = currentProduct.variants.filter(v => v[prop] === value);
-            if (matchingVariants.length > 0) {
-                selectedVariant = matchingVariants[0];
+                    const whatsappMessage = `Hola, me interesa comprar el ${product.name} con ${matchedVariant.almacenamiento} de almacenamiento, ${matchedVariant.ram} de RAM y color ${matchedVariant.color}.`;
+                    document.getElementById('modal-whatsapp-link').href = `https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}`;
+                } else {
+                    document.getElementById('modal-price').textContent = 'No disponible';
+                    document.getElementById('modal-stock').textContent = '0';
+                    document.getElementById('qty-input').max = 0;
+                    document.getElementById('qty-input').value = 0;
+                    document.getElementById('modal-whatsapp-link').href = '#';
+                }
             }
+            
+            // Lógica para pestañas
+            const tabDescBtn = document.getElementById('tab-desc');
+            const tabSpecsBtn = document.getElementById('tab-specs');
+            const tabContent = document.getElementById('tab-content');
+            
+            function showTabContent(tabId) {
+                tabDescBtn.classList.remove('border-cyan-600', 'text-cyan-600', 'font-bold');
+                tabDescBtn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                tabSpecsBtn.classList.remove('border-cyan-600', 'text-cyan-600', 'font-bold');
+                tabSpecsBtn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                
+                if (tabId === 'tab-desc') {
+                    tabDescBtn.classList.add('border-cyan-600', 'text-cyan-600', 'font-bold');
+                    // Reemplazar saltos de línea con <br> para una mejor visualización
+                    const formattedDescription = product.longDescription.replace(/\n/g, '<br>');
+                    tabContent.innerHTML = `<p>${formattedDescription}</p>`;
+                } else if (tabId === 'tab-specs') {
+                    tabSpecsBtn.classList.add('border-cyan-600', 'text-cyan-600', 'font-bold');
+                    const specsList = product.specs.map(spec => `<li class="mb-1">${spec}</li>`).join('');
+                    tabContent.innerHTML = `<ul class="list-disc list-inside space-y-1">${specsList}</ul>`;
+                }
+            }
+
+            tabDescBtn.addEventListener('click', () => showTabContent('tab-desc'));
+            tabSpecsBtn.addEventListener('click', () => showTabContent('tab-specs'));
+
+            // Lógica para cantidad
+            const qtyInput = document.getElementById('qty-input');
+            document.getElementById('qty-plus').addEventListener('click', () => {
+                let currentVal = parseInt(qtyInput.value);
+                if (currentVal < parseInt(qtyInput.max)) {
+                    qtyInput.value = currentVal + 1;
+                }
+            });
+            document.getElementById('qty-minus').addEventListener('click', () => {
+                let currentVal = parseInt(qtyInput.value);
+                if (currentVal > 1) {
+                    qtyInput.value = currentVal - 1;
+                }
+            });
+
+            // Lógica para las opciones de selección
+            document.querySelectorAll('.option-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const optionType = e.target.getAttribute('data-option-type');
+                    // Deseleccionar todas las opciones del mismo tipo
+                    document.querySelectorAll(`.option-btn[data-option-type="${optionType}"]`).forEach(btn => {
+                        btn.removeAttribute('data-selected');
+                    });
+                    // Seleccionar la opción actual
+                    e.target.setAttribute('data-selected', 'true');
+                    
+                    updateModalUI();
+                });
+            });
+
+            // Mostrar la pestaña de descripción por defecto y actualizar la UI
+            showTabContent('tab-desc');
+            updateModalUI(); // Llamada inicial
+            modal.classList.remove('hidden');
         }
-        renderModalContent();
-    }
 
-    // Función para cambiar entre pestañas de descripción y especificaciones
-    descriptionTab.onclick = () => {
-        descriptionTab.classList.add('active');
-        specsTab.classList.remove('active');
-        descriptionContent.classList.remove('hidden');
-        specsContent.classList.add('hidden');
-    };
+        // Función para ocultar el modal
+        function hideModal() {
+            document.getElementById('info-modal').classList.add('hidden');
+        }
 
-    specsTab.onclick = () => {
-        specsTab.classList.add('active');
-        specsTab.classList.remove('active');
-        descriptionContent.classList.add('hidden');
-        specsContent.classList.remove('hidden');
-    };
+        // Manejadores de eventos para la navegación
+        document.getElementById('btn-inicio').addEventListener('click', () => {
+            showPage('page-inicio');
+        });
+        document.getElementById('btn-catalogo').addEventListener('click', () => {
+            showPage('page-catalogo');
+            updateCatalog();
+        });
+        document.getElementById('btn-nosotros').addEventListener('click', () => {
+            showPage('page-nosotros');
+        });
+        document.getElementById('btn-contacto').addEventListener('click', () => {
+            showPage('page-contacto');
+        });
+        document.getElementById('btn-ir-catalogo').addEventListener('click', () => {
+            showPage('page-catalogo');
+            updateCatalog();
+        });
 
-    function closeModal() {
-        modal.classList.add('hidden');
-        document.body.classList.remove('modal-open');
-        currentProduct = null;
-        selectedVariant = null;
-    }
+        // Manejadores de eventos para búsqueda y ordenamiento
+        document.getElementById('search-input').addEventListener('input', updateCatalog);
+        document.getElementById('sort-order').addEventListener('change', updateCatalog);
+        
+        // Manejador de evento para cerrar el modal
+        document.getElementById('close-modal').addEventListener('click', hideModal);
+        document.getElementById('info-modal').addEventListener('click', (event) => {
+            if (event.target === event.currentTarget) {
+                hideModal();
+            }
+        });
 
-    // Renderizar productos al cargar la página
-    document.addEventListener('DOMContentLoaded', () => {
-        renderProducts();
-    });
-</script>
+        // Función para actualizar el catálogo con búsqueda y ordenamiento
+        function updateCatalog() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const sortOrder = document.getElementById('sort-order').value;
+
+            let filteredProducts = products.filter(product => {
+                const name = product.name.toLowerCase();
+                const shortDescription = product.shortDescription.toLowerCase();
+                return name.includes(searchTerm) || shortDescription.includes(searchTerm);
+            });
+
+            if (sortOrder === 'name') {
+                filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortOrder === 'price') {
+                filteredProducts.sort((a, b) => a.variants[0].price - b.variants[0].price);
+            }
+
+            renderProducts(filteredProducts);
+        }
+
+        // Función para cambiar de página
+        function showPage(pageId) {
+            document.querySelectorAll('.content-page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        // Manejador de evento para el formulario de contacto
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const subject = "Reclamo o sugerencia de " + name;
+            const body = `Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`;
+            const mailtoLink = `mailto:moormixdigital@outloo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Simular el envío del correo abriendo la aplicación de email del usuario
+            window.location.href = mailtoLink;
+
+            // Mostrar un mensaje de confirmación
+            const formMessage = document.getElementById('form-message');
+            formMessage.textContent = "Tu mensaje ha sido enviado a tu cliente de correo para su confirmación.";
+            formMessage.classList.remove('hidden');
+            formMessage.classList.add('text-green-600');
+            
+            // Limpiar el formulario después de un breve retraso
+            setTimeout(() => {
+                document.getElementById('contact-form').reset();
+                formMessage.classList.add('hidden');
+            }, 5000);
+        });
+
+        // Inicializar la página de inicio al cargar
+        showPage('page-inicio');
+        // Inicializar el catálogo con la función de actualización
+        updateCatalog();
+
+    </script>
 </body>
 </html>
