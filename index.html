@@ -308,7 +308,7 @@
                         <span class="bg-cyan-600 text-white text-xs font-semibold px-2 py-1 rounded-full uppercase">ENV</span>
                         <h3 class="text-3xl font-bold text-gray-900 mt-2">${product.name}</h3>
                         <p class="text-sm text-gray-500 mt-2">Disponibles: <span id="modal-stock">${selectedVariant.stock}</span>!</p>
-                        <span id="modal-price" class="text-4xl font-extrabold text-cyan-600 block my-4">$${selectedVariant.price},00</span>
+                        <span id="modal-price" class="text-4xl font-extrabold text-cyan-600 block my-4">$${selectedVariant.price.toFixed(2)},00</span>
                         
                         <!-- Opciones de selección (RAM, Almacenamiento, Color) -->
                         ${optionsHtml}
