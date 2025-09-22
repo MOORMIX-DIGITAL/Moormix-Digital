@@ -354,7 +354,7 @@
                 );
 
                 if (matchedVariant) {
-                    document.getElementById('modal-price').textContent = `$${matchedVariant.price},00`;
+                    document.getElementById('modal-price').textContent = `$${matchedVariant.price.toFixed(2)},00`;
                     document.getElementById('modal-stock').textContent = matchedVariant.stock;
                     document.getElementById('qty-input').max = matchedVariant.stock;
                     document.getElementById('qty-input').value = 1; // Reset cantidad
