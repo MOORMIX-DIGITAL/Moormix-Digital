@@ -238,7 +238,7 @@
                 return;
             }
             productsToRender.forEach((product, index) => {
-                const tagColor = product.tag === "Oferta" ? "bg-red-500" : (product.tag === "Nuevo" ? "bg-green-500" : "bg-cyan-600");
+                const tagColor = product.tag === "Oferta" ? "bg-red-500" : (product.tag === "Nuevo" ? "bg-green-500" : "bg-cyan-600" : (product.tag === "Pocas Unidades" ? "bg-yellow-500" : "bg-cyan-600"));
                 const tagHtml = product.tag ? `<span class="absolute top-2 right-2 ${tagColor} text-white text-xs font-semibold px-2 py-1 rounded-full uppercase shadow-md">${product.tag}</span>` : '';
                 
                 const productCard = `
