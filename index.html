@@ -152,6 +152,7 @@
         const products = [
             {
                 name: "Honor Play 9A",
+                brand: "Honor",
                 shortDescription: "Dispositivo de alto rendimiento para todas tus necesidades digitales.",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles",
                 images: ["images/honorplay9a.png", "https://placehold.co/800x800/ffffff/000000?text=Honor+9A+Espalda", "https://placehold.co/800x800/ffffff/000000?text=Honor+9A+Lateral"],
@@ -173,6 +174,7 @@
             },
             {
                 name: "Infinix Smart 9 HD",
+                brand: "Infinix",
                 shortDescription: "64GB/6RAM.<br>¡Incluye Regalo!",
                 longDescription: "El iPhone 15 Pro redefine la experiencia móvil con su chip A17 Pro, el más potente jamás visto en un smartphone. Su sistema de cámara Pro de 48MP te permite capturar fotos y videos con una calidad inigualable. Con su diseño de titanio de grado aeroespacial, es sorprendentemente ligero y resistente.",
                 images: ["images/infinixsmart9hd.png", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
@@ -193,6 +195,7 @@
             },
             {
                 name: "Infinix Smart 10",
+                brand: "Infinix",
                 shortDescription: "Innovación y rendimiento con S Pen integrado y cámara de 200MP.",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos, Estudiantiles, Multitareas y Gamers",
                 images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
@@ -321,7 +324,7 @@
                     
                     <!-- Detalles y opciones del producto -->
                     <div class="w-full lg:w-1/2">
-                        <span class="bg-cyan-600 text-white text-xs font-semibold px-2 py-1 rounded-full uppercase">ENV</span>
+                        <span class="bg-cyan-600 text-white text-xs font-semibold px-2 py-1 rounded-full uppercase">${product.brand}</span>
                         <h3 class="text-3xl font-bold text-gray-900 mt-2">${product.name}</h3>
                         <p class="text-sm text-gray-500 mt-2">Disponibles: <span id="modal-stock">${selectedVariant.stock}</span>!</p>
                         <div class="my-4">
