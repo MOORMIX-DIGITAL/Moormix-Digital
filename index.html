@@ -39,22 +39,32 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
-    <header class="bg-cyan-600 shadow-lg sticky top-0 z-50">
+    <div class="bg-cyan-700 text-white text-center text-sm py-1.5 font-medium">
+        Envíos gratis con planes a crédito
+    </div>
+    
+    <header class="bg-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0 text-white text-xl md:text-2xl font-bold whitespace-nowrap overflow-hidden">
-                    MoormixDigital
+                
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-cyan-600 flex items-center justify-center text-white font-bold text-lg">
+                        M
+                    </div>
+                    <div class="text-gray-900 text-xl font-bold whitespace-nowrap overflow-hidden hidden sm:block">
+                        MoormixDigital
+                    </div>
                 </div>
 
                 <nav class="hidden sm:flex space-x-4">
-                    <button id="btn-inicio" class="nav-btn text-white hover:bg-cyan-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">Inicio</button>
-                    <button id="btn-catalogo" class="nav-btn text-white hover:bg-cyan-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">Catálogo</button>
-                    <button id="btn-nosotros" class="nav-btn text-white hover:bg-cyan-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">Nosotros</button>
-                    <button id="btn-contacto" class="nav-btn text-white hover:bg-cyan-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contacto</button>
+                    <button id="btn-inicio" class="nav-btn text-gray-700 hover:text-cyan-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Inicio</button>
+                    <button id="btn-catalogo" class="nav-btn text-gray-700 hover:text-cyan-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Catálogo</button>
+                    <button id="btn-nosotros" class="nav-btn text-gray-700 hover:text-cyan-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Sobre nosotros</button>
+                    <button id="btn-contacto" class="nav-btn text-gray-700 hover:text-cyan-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contacto</button>
                 </nav>
 
                 <div class="sm:hidden">
-                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-cyan-200 hover:text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-600" aria-controls="mobile-menu" aria-expanded="false">
                         <svg class="block h-6 w-6" id="menu-icon-open" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                         </svg>
@@ -66,16 +76,16 @@
             </div>
         </div>
 
-        <div class="sm:hidden hidden" id="mobile-menu">
+        <div class="sm:hidden hidden bg-white border-t" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <button id="mobile-btn-inicio" class="nav-btn text-white hover:bg-cyan-700 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Inicio</button>
-                <button id="mobile-btn-catalogo" class="nav-btn text-white hover:bg-cyan-700 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Catálogo</button>
-                <button id="mobile-btn-nosotros" class="nav-btn text-white hover:bg-cyan-700 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Nosotros</button>
-                <button id="mobile-btn-contacto" class="nav-btn text-white hover:bg-cyan-700 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Contacto</button>
+                <button id="mobile-btn-inicio" class="nav-btn text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Inicio</button>
+                <button id="mobile-btn-catalogo" class="nav-btn text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Catálogo</button>
+                <button id="mobile-btn-nosotros" class="nav-btn text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Sobre nosotros</button>
+                <button id="mobile-btn-contacto" class="nav-btn text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Contacto</button>
             </div>
         </div>
     </header>
-
+    
     <main class="flex-grow">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
@@ -83,9 +93,8 @@
                 <div class="text-center bg-white rounded-xl p-6 sm:p-12 shadow-xl">
                     <h1 class="text-3xl sm:text-5xl font-extrabold text-cyan-600 mb-4">Bienvenido a MoormixDigital</h1>
                     <p class="text-base sm:text-xl text-gray-700 mb-8">Tu destino para la última tecnología en smartphones. Calidad, garantía y los mejores precios.</p>
-                    <img src="https://placehold.co/1200x400/000000/ffffff?text=Banner+Principal+Tecnología" alt="Banner de Tecnología" class="w-full rounded-lg shadow-inner mb-8">
-                    <button id="btn-ir-catalogo" class="bg-pink-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-pink-600 transition-colors shadow-lg">
-                        Ver Catálogo Ahora
+                    <button id="btn-ir-catalogo" class="bg-cyan-600 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-cyan-700 transition-colors shadow-lg">
+                        Explorar Catálogo
                     </button>
                 </div>
             </section>
@@ -471,7 +480,7 @@
                 ],
             },
             // =========================================================================
-            // 3. HONOR X5B PLUS - ÍNDICE [11] (Ajuste de precio base para que el precio final coincida con la imagen)
+            // 3. HONOR X5B PLUS
             // =========================================================================
             {
                 name: "Honor x5b Plus",
@@ -710,12 +719,12 @@
 
 
         // =========================================================================
-        // FUNCIÓN CORREGIDA: RENDERIZADO DE PRODUCTOS (SOLUCIÓN FINAL AL ERROR DE ÍNDICE)
+        // FUNCIÓN: RENDERIZADO DE PRODUCTOS
         // =========================================================================
         function renderProducts(productsToRender) {
             const catalogoGrid = document.getElementById('catalogo-grid');
             
-            // 1. LIMPIAR COMPLETAMENTE el contenedor para eliminar cualquier listener o tarjeta vieja
+            // 1. LIMPIAR COMPLETAMENTE el contenedor
             catalogoGrid.innerHTML = ''; 
 
             if (productsToRender.length === 0) {
@@ -726,7 +735,7 @@
             // 2. GENERAR EL HTML de las tarjetas
             productsToRender.forEach((product) => { 
                 
-                // *** [CLAVE] En lugar de usar el índice del bucle, usamos el índice del producto en el array ORIGINAL ***
+                // Usamos el índice del producto en el array ORIGINAL para asegurar que siempre apunte al correcto.
                 const productIndexInOriginalArray = products.indexOf(product);
 
                 const tagColor = product.tag === "Oferta" ? "bg-red-500" : (product.tag === "Nuevo" ? "bg-green-500" : (product.tag === "Pocas Unidades" ? "bg-yellow-500" : (product.tag ? "bg-pink-500" : "bg-cyan-600")));
@@ -760,9 +769,8 @@
                 catalogoGrid.innerHTML += productCard;
             });
             
-            // 3. REASIGNAR LISTENERS: Añadir listeners a los nuevos botones
+            // 3. REASIGNAR LISTENERS
             document.querySelectorAll('.info-btn').forEach(button => {
-                // Se usa el índice del producto en el array original para referenciarlo en el modal
                 button.addEventListener('click', showModal);
             });
         }
@@ -806,7 +814,7 @@
 
         // 3. Función para mostrar el modal con la información del producto
         function showModal(event) {
-            // [CLAVE CORRECCIÓN DE ÍNDICE] Asegurarse de tomar el índice correcto
+            
             let index = event.target.getAttribute('data-product-index');
             
             // Si el clic ocurrió en un hijo del botón (ej. un span), busca el índice en el botón padre
@@ -1351,15 +1359,17 @@
         // Configuración de navegación para Escritorio y Móvil
         setupNavigation('btn-inicio', 'page-inicio');
         setupNavigation('btn-catalogo', 'page-catalogo');
-        setupNavigation('btn-nosotros', 'page-nosotros');
+        // El botón "Sobre nosotros" ahora usa el ID 'btn-nosotros'
+        setupNavigation('btn-nosotros', 'page-nosotros'); 
         setupNavigation('btn-contacto', 'page-contacto');
         setupNavigation('mobile-btn-inicio', 'page-inicio');
         setupNavigation('mobile-btn-catalogo', 'page-catalogo');
-        setupNavigation('mobile-btn-nosotros', 'page-nosotros');
+        // El botón "Sobre nosotros" ahora usa el ID 'mobile-btn-nosotros'
+        setupNavigation('mobile-btn-nosotros', 'page-nosotros'); 
         setupNavigation('mobile-btn-contacto', 'page-contacto');
 
 
-        // Manejador para el botón "Ver Catálogo Ahora"
+        // Manejador para el botón "Explorar Catálogo"
         document.getElementById('btn-ir-catalogo').addEventListener('click', () => {
             showPage('page-catalogo');
             updateCatalog();
