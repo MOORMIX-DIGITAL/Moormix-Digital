@@ -21,6 +21,20 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+
+        /* Clases de utilidad para el acordeón (Toggle) */
+        .finance-content-hidden {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            padding: 0 1rem; /* Padding horizontal inicial */
+        }
+
+        .finance-content-visible {
+            max-height: 1000px; /* Suficientemente grande para el contenido */
+            transition: max-height 0.3s ease-in, padding 0.3s ease-in;
+            padding: 1rem; /* Padding vertical y horizontal final */
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -781,39 +795,48 @@
                             </span>
                         </div>
 
-                        <div id="finance-options" class="mb-6 p-4 bg-gray-100 rounded-lg">
-                            <p class="text-gray-700 font-bold mb-3 text-center border-b pb-2 border-gray-300">Pagar a Plazos:</p>
-                            
-                            <div class="flex flex-col sm:flex-row gap-4">
+                        <div id="finance-accordion" class="mb-6 bg-gray-100 rounded-lg overflow-hidden">
+                            <button id="finance-toggle" class="w-full text-left p-4 flex justify-between items-center text-gray-700 font-bold hover:bg-gray-200 transition-colors border-b border-gray-300">
+                                <span>Pagar a Plazos (Ver Opciones)</span>
+                                <svg id="finance-icon" class="w-5 h-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <div id="finance-content" class="finance-content-hidden">
                                 
-                                <div class="mb-3 w-full sm:w-1/2">
-                                    <label class="block text-sm font-medium text-gray-600 mb-1">Plazo (Meses):</label>
-                                    <div class="flex gap-2 justify-start">
-                                        <button class="finance-term-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200 data-[selected=true]:bg-pink-600 data-[selected=true]:text-white data-[selected=true]:border-pink-600" data-months="3" data-selected="true">3 Meses</button>
-                                        <button class="finance-term-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="6">6 Meses</button>
-                                        <button class="finance-term-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="9">9 Meses</button>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    
+                                    <div class="mb-3 w-full sm:w-1/2">
+                                        <label class="block text-sm font-medium text-gray-600 mb-1">Plazo (Meses):</label>
+                                        <div class="flex flex-col gap-2 justify-start">
+                                            <button class="finance-term-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200 data-[selected=true]:bg-pink-600 data-[selected=true]:text-white data-[selected=true]:border-pink-600" data-months="3" data-selected="true">3 Meses</button>
+                                            <button class="finance-term-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="6">6 Meses</button>
+                                            <button class="finance-term-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="9">9 Meses</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3 w-full sm:w-1/2">
+                                        <label class="block text-sm font-medium text-gray-600 mb-1">Frecuencia de Pago:</label>
+                                        <div class="flex flex-col gap-2 justify-start">
+                                            <button class="finance-freq-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="semanal">Semanal</button>
+                                            <button class="finance-freq-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="quincenal">Quincenal</button>
+                                            <button class="finance-freq-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="mensual" data-selected="true">Mensual</button>
+                                        </div>
                                     </div>
                                 </div>
-                                
-                                <div class="mb-3 w-full sm:w-1/2">
-                                    <label class="block text-sm font-medium text-gray-600 mb-1">Frecuencia de Pago:</label>
-                                    <div class="flex gap-2 justify-start">
-                                        <button class="finance-freq-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="semanal">Semanal</button>
-                                        <button class="finance-freq-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="quincenal">Quincenal</button>
-                                        <button class="finance-freq-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="mensual" data-selected="true">Mensual</button>
-                                    </div>
+                                <div class="mt-4 text-center p-3 bg-white rounded-md shadow-inner border-t pt-3">
+                                    <p class="text-sm text-gray-600 mb-1">Tu <span id="payment-label">${initialInstallment.frequencyLabel}</span> sería de:</p>
+                                    <span id="installment-amount" class="text-3xl font-extrabold text-pink-600">
+                                        $${initialInstallment.installment.toFixed(2)}
+                                    </span>
+                                    <p class="text-xs text-gray-500 mt-1">
+                                        (Total Financiado: $<span id="total-financed">${initialInstallment.totalFinanced.toFixed(2)}</span> en <span id="num-payments">${initialInstallment.numPayments}</span> cuotas)
+                                    </p>
                                 </div>
+
                             </div>
-                            <div class="mt-4 text-center p-3 bg-white rounded-md shadow-inner border-t pt-3">
-                                <p class="text-sm text-gray-600 mb-1">Tu <span id="payment-label">${initialInstallment.frequencyLabel}</span> sería de:</p>
-                                <span id="installment-amount" class="text-3xl font-extrabold text-pink-600">
-                                    $${initialInstallment.installment.toFixed(2)}
-                                </span>
-                                <p class="text-xs text-gray-500 mt-1">
-                                    (Total Financiado: $<span id="total-financed">${initialInstallment.totalFinanced.toFixed(2)}</span> en <span id="num-payments">${initialInstallment.numPayments}</span> cuotas)
-                                </p>
                             </div>
-                        </div>
 
                         ${optionsHtml}
 
@@ -845,7 +868,7 @@
                 </div>
             `;
 
-            // Lógica de Pagos a Plazos (NUEVA FUNCIÓN)
+            // Lógica de Pagos a Plazos
             function updateInstallmentUI() {
                 const currentPrice = parseFloat(modalContent.querySelector('#modal-price').textContent.replace('$', ''));
                 const selectedMonths = modalContent.querySelector('.finance-term-btn[data-selected="true"]').getAttribute('data-months');
@@ -861,6 +884,25 @@
                 modalContent.querySelector('#num-payments').textContent = result.numPayments;
                 modalContent.querySelector('#payment-label').textContent = result.frequencyLabel;
             }
+
+            // ACORDEÓN: Función para manejar el despliegue
+            const financeContent = modalContent.querySelector('#finance-content');
+            const financeToggle = modalContent.querySelector('#finance-toggle');
+            const financeIcon = modalContent.querySelector('#finance-icon');
+            
+            financeToggle.addEventListener('click', () => {
+                const isHidden = financeContent.classList.contains('finance-content-hidden');
+                
+                if (isHidden) {
+                    financeContent.classList.remove('finance-content-hidden');
+                    financeContent.classList.add('finance-content-visible');
+                    financeIcon.style.transform = 'rotate(180deg)';
+                } else {
+                    financeContent.classList.remove('finance-content-visible');
+                    financeContent.classList.add('finance-content-hidden');
+                    financeIcon.style.transform = 'rotate(0deg)';
+                }
+            });
 
             // Manejador de botones de Plazo (Meses)
             modalContent.querySelectorAll('.finance-term-btn').forEach(button => {
@@ -1009,13 +1051,15 @@
                 const currentPrice = parseFloat(modalContent.querySelector('#modal-price').textContent.replace('$', ''));
                 const totalPrice = (currentPrice * (parseInt(qtyInput.value) || 1)).toFixed(2);
                 
-                // Incluir la opción de pago a plazos seleccionada
-                const selectedMonths = modalContent.querySelector('.finance-term-btn[data-selected="true"]').getAttribute('data-months');
-                const selectedFrequency = modalContent.querySelector('.finance-freq-btn[data-selected="true"]').getAttribute('data-frequency');
-                const installmentAmount = modalContent.querySelector('#installment-amount').textContent;
-
+                // Incluir la opción de pago a plazos seleccionada SOLO si el acordeón está abierto
+                const isFinanceVisible = financeContent.classList.contains('finance-content-visible');
+                
                 let paymentDetail = `Precio de Contado: $${totalPrice}.`;
-                if (installmentAmount && installmentAmount.includes('$')) {
+                
+                if (isFinanceVisible) {
+                    const selectedMonths = modalContent.querySelector('.finance-term-btn[data-selected="true"]').getAttribute('data-months');
+                    const selectedFrequency = modalContent.querySelector('.finance-freq-btn[data-selected="true"]').getAttribute('data-frequency');
+                    const installmentAmount = modalContent.querySelector('#installment-amount').textContent;
                     paymentDetail += `\nOpción a Plazos: ${installmentAmount} (${selectedFrequency} por ${selectedMonths} meses).`;
                 }
 
