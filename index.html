@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moormix Digital - Tecnología Móvil</title>
+    <title>MoormixDigital - Tecnología Móvil</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Estilo personalizado para las opciones seleccionadas en el modal */
@@ -29,7 +29,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex-shrink-0 text-white text-xl md:text-2xl font-bold whitespace-nowrap overflow-hidden">
-                    Moormix Digital
+                    MoormixDigital
                 </div>
 
                 <nav class="hidden sm:flex space-x-4">
@@ -67,7 +67,7 @@
 
             <section id="page-inicio" class="content-page space-y-12">
                 <div class="text-center bg-white rounded-xl p-6 sm:p-12 shadow-xl">
-                    <h1 class="text-3xl sm:text-5xl font-extrabold text-cyan-600 mb-4">Bienvenido a Moormix Digital</h1>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-cyan-600 mb-4">Bienvenido a MoormixDigital</h1>
                     <p class="text-base sm:text-xl text-gray-700 mb-8">Tu destino para la última tecnología en smartphones. Calidad, garantía y los mejores precios.</p>
                     <img src="https://placehold.co/1200x400/000000/ffffff?text=Banner+Principal+Tecnología" alt="Banner de Tecnología" class="w-full rounded-lg shadow-inner mb-8">
                     <button id="btn-ir-catalogo" class="bg-pink-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-pink-600 transition-colors shadow-lg">
@@ -87,12 +87,12 @@
                     </select>
                 </div>
 
-                <div id="catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div id="catalogo-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                     </div>
             </section>
 
             <section id="page-nosotros" class="content-page hidden bg-white rounded-xl p-6 sm:p-10 shadow-xl space-y-6">
-                <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-pink-500 pb-2">Acerca de Moormix Digital</h2>
+                <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-pink-500 pb-2">Acerca de MoormixDigital</h2>
                 <p class="text-gray-700 text-base sm:text-lg">
                     Somos un equipo apasionado por la tecnología móvil, dedicados a ofrecer a nuestros clientes en Ecuador acceso a los últimos modelos de smartphones con la mejor relación calidad-precio. Nuestra misión es simple: conectar personas con la tecnología que necesitan, ofreciendo una experiencia de compra transparente y segura.
                 </p>
@@ -631,24 +631,26 @@
                 const firstVariantPriceWithTax = product.variants[0].priceWithTax.toFixed(2);
 
                 const productCard = `
-                    <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full relative">
+                    <div class="bg-white p-3 rounded-xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full relative">
                         ${tagHtml}
-                        <img src="https://placehold.co/800x800/ffffff/000000?text=${product.name.replace(/\s/g, '+')}" alt="${product.name}" class="w-full h-40 object-contain rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">${product.name}</h3>
-                        <p class="text-gray-500 text-sm mb-4 flex-1">${product.shortDescription}</p>
-                       <div class="mb-4">
-                            <span class="text-sm text-gray-400 line-through">
+                        <div class="w-full h-32 flex items-center justify-center mb-2">
+                           <img src="https://placehold.co/800x800/ffffff/000000?text=${product.name.replace(/\s/g, '+')}" alt="${product.name}" class="max-w-full max-h-full object-contain rounded-lg">
+                        </div>
+                        
+                        <h3 class="text-base font-semibold text-gray-800 mt-2 mb-1 truncate w-full px-1">${product.name}</h3>
+                        <p class="text-gray-500 text-xs mb-3 flex-1">${product.shortDescription}</p>
+                       <div class="mb-3">
+                            <span class="text-xs text-gray-400 line-through block">
                                 $${firstVariantPrice}
                             </span>
-                            <br>
-                            <span class="text-2xl font-bold text-cyan-600">
+                            <span class="text-xl font-bold text-cyan-600">
                                 $${firstVariantPriceWithTax}
                             </span>
-                            <span class="text-xs font-semibold text-gray-500">
-                                (Precio con IVA)
+                            <span class="text-xs font-semibold text-gray-500 block leading-none">
+                                (+IVA)
                             </span>
                         </div>
-                        <button class="info-btn w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg hover:bg-gray-300 transition-colors" data-product-index="${index}">
+                        <button class="info-btn w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors" data-product-index="${index}">
                             Más Info
                         </button>
                     </div>
@@ -742,15 +744,20 @@
                             </a>
                         </div>
 
-                        <div class="border-b border-gray-200 mt-6">
-                            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                                <button id="tab-desc" class="tab-btn border-b-2 border-cyan-600 text-cyan-600 font-bold py-2 px-4 transition-colors duration-200">DESCRIPCIÓN</button>
-                                <button id="tab-specs" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-4 transition-colors duration-200">ESPECIFICACIÓN</button>
-                            </nav>
+                        <div class="mt-6 space-y-3">
+                            <button id="tab-desc-btn" class="w-full text-left p-3 rounded-lg bg-cyan-600 text-white font-bold shadow-md transition-colors duration-200">
+                                DESCRIPCIÓN
+                            </button>
+                            <div id="tab-desc-content" class="tab-content pt-2 pb-4 text-gray-700 text-sm">
+                                </div>
+
+                            <button id="tab-specs-btn" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 font-bold hover:bg-gray-300 shadow-md transition-colors duration-200">
+                                ESPECIFICACIÓN
+                            </button>
+                            <div id="tab-specs-content" class="tab-content hidden pt-2 pb-4 text-gray-700 text-sm">
+                                </div>
                         </div>
-                        <div id="tab-content" class="pt-4 text-gray-700 text-sm">
-                            </div>
-                    </div>
+                        </div>
                 </div>
             `;
 
@@ -790,7 +797,7 @@
 
                     const hasStock = matchedVariant.stock > 0;
 
-                    // Actualizar estado de los botones +/- y del enlace de WhatsApp
+                    // Actualizar estado de los botones +/-
                     qtyPlusBtn.disabled = matchedVariant.stock <= parseInt(qtyInput.value);
                     qtyMinusBtn.disabled = parseInt(qtyInput.value) <= 1;
 
@@ -823,32 +830,44 @@
                 }
             }
 
-            // Lógica para pestañas
-            const tabDescBtn = modalContent.querySelector('#tab-desc');
-            const tabSpecsBtn = modalContent.querySelector('#tab-specs');
-            const tabContent = modalContent.querySelector('#tab-content');
+            // Lógica para PESTAÑAS VERTICALES
+            const tabDescBtn = modalContent.querySelector('#tab-desc-btn');
+            const tabSpecsBtn = modalContent.querySelector('#tab-specs-btn');
+            const tabDescContent = modalContent.querySelector('#tab-desc-content');
+            const tabSpecsContent = modalContent.querySelector('#tab-specs-content');
 
+            // 1. Inyectar el contenido
+            const formattedDescription = product.longDescription.replace(/\n/g, '<br>');
+            tabDescContent.innerHTML = `<p>${formattedDescription}</p>`;
+            const specsList = product.specs.map(spec => `<li class="mb-1">${spec}</li>`).join('');
+            tabSpecsContent.innerHTML = `<ul class="list-disc list-inside space-y-1">${specsList}</ul>`;
+
+            // 2. Función para mostrar/ocultar el contenido
             function showTabContent(tabId) {
-                // Reiniciar estilos de todas las pestañas
-                modalContent.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove('border-cyan-600', 'text-cyan-600', 'font-bold');
-                    btn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
-                });
+                // Desactivar todos los contenidos
+                modalContent.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
 
-                if (tabId === 'tab-desc') {
-                    tabDescBtn.classList.add('border-cyan-600', 'text-cyan-600', 'font-bold');
-                    const formattedDescription = product.longDescription.replace(/\n/g, '<br>');
-                    tabContent.innerHTML = `<p>${formattedDescription}</p>`;
-                } else if (tabId === 'tab-specs') {
-                    tabSpecsBtn.classList.add('border-cyan-600', 'text-cyan-600', 'font-bold');
-                    const specsList = product.specs.map(spec => `<li class="mb-1">${spec}</li>`).join('');
-                    tabContent.innerHTML = `<ul class="list-disc list-inside space-y-1">${specsList}</ul>`;
+                // Reiniciar estilos de todos los botones
+                tabDescBtn.classList.remove('bg-cyan-600', 'text-white');
+                tabDescBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                tabSpecsBtn.classList.remove('bg-cyan-600', 'text-white');
+                tabSpecsBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+
+
+                if (tabId === 'tab-desc-content') {
+                    tabDescContent.classList.remove('hidden');
+                    tabDescBtn.classList.add('bg-cyan-600', 'text-white');
+                    tabDescBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                } else if (tabId === 'tab-specs-content') {
+                    tabSpecsContent.classList.remove('hidden');
+                    tabSpecsBtn.classList.add('bg-cyan-600', 'text-white');
+                    tabSpecsBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
                 }
             }
 
-            // Añadir listeners para las pestañas
-            tabDescBtn.addEventListener('click', () => showTabContent('tab-desc'));
-            tabSpecsBtn.addEventListener('click', () => showTabContent('tab-specs'));
+            // 3. Añadir listeners para las pestañas
+            tabDescBtn.addEventListener('click', () => showTabContent('tab-desc-content'));
+            tabSpecsBtn.addEventListener('click', () => showTabContent('tab-specs-content'));
 
             // Lógica para cantidad
             const qtyInput = modalContent.querySelector('#qty-input');
@@ -911,7 +930,7 @@
             });
 
             // Mostrar la pestaña de descripción por defecto y actualizar la UI
-            showTabContent('tab-desc');
+            showTabContent('tab-desc-content');
             updateModalUI(); // Llamada inicial para el primer render
             modal.classList.remove('hidden');
         }
@@ -921,14 +940,14 @@
             document.getElementById('info-modal').classList.add('hidden');
         }
 
-        // 5. Función para cambiar de página (FUNCIÓN CENTRAL CORREGIDA)
+        // 5. Función para cambiar de página
         function showPage(pageId) {
             document.querySelectorAll('.content-page').forEach(page => {
                 page.classList.add('hidden');
             });
             document.getElementById(pageId).classList.remove('hidden');
 
-            // **IMPORTANTE:** Cierra el menú móvil al navegar
+            // Cierra el menú móvil al navegar
             const mobileMenu = document.getElementById('mobile-menu');
             if (!mobileMenu.classList.contains('hidden')) {
                 toggleMenu(); // Llama a la función para cerrar el menú si está abierto
@@ -974,7 +993,7 @@
             renderProducts(filteredProducts);
         }
 
-        // 8. Manejadores de eventos (CORREGIDOS Y SIMPLIFICADOS)
+        // 8. Manejadores de eventos
 
         // Manejador del botón hamburguesa
         document.getElementById('menu-toggle').addEventListener('click', toggleMenu);
@@ -989,13 +1008,11 @@
             });
         };
 
-        // Configuración de navegación para Escritorio
+        // Configuración de navegación para Escritorio y Móvil
         setupNavigation('btn-inicio', 'page-inicio');
         setupNavigation('btn-catalogo', 'page-catalogo');
         setupNavigation('btn-nosotros', 'page-nosotros');
         setupNavigation('btn-contacto', 'page-contacto');
-
-        // Configuración de navegación para Móvil
         setupNavigation('mobile-btn-inicio', 'page-inicio');
         setupNavigation('mobile-btn-catalogo', 'page-catalogo');
         setupNavigation('mobile-btn-nosotros', 'page-nosotros');
