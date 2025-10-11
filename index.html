@@ -182,15 +182,47 @@
 
     <script>
         // Array de productos (inicia aquí)
+        // **GUÍA: Usa este objeto para crear los demás productos.**
         const products = [
+            // =========================================================================
+            // 1. PRODUCTO DE EJEMPLO/GUÍA (Infinix Smart 9 HD) - AÑADIDO Y CORREGIDO
+            // =========================================================================
             {
                 name: "Infinix Smart 9 HD",
                 brand: "Infinix",
+                tag: "Oferta", // Etiqueta que aparecerá en la tarjeta
+                shortDescription: "128GB/16GB RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para usos básicos con un diseño moderno.\nHuella trasera y excelente cámara.",
+                // Rutas de imágenes (DEBES tener estos archivos en tu carpeta 'img/')
+                images: ["img/infinixsmart9hd.png", "img/infinixsmart9hd_2.png", "img/infinixsmart9hd_3.png"],
+                specs: [
+                    "Procesador Unisoc T606",
+                    "Sistema operativo Android 14 Go",
+                    "Pantalla 6.6\" HD+",
+                    "Cámara frontal 8 MP",
+                    "Cámara trasera 13 MP",
+                    "Batería 5000mAh",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
+                variants: [
+                    // El precio (price) es el costo SIN IVA. El código lo calcula automáticamente.
+                    // Para que dé $138.86 (con 15% de IVA) el precio base es $120.75
+                    { almacenamiento: "128GB", ram: "16GB", color: "Plata", price: 120.75, stock: 35 },
+                    { almacenamiento: "128GB", ram: "16GB", color: "Verde", price: 120.75, stock: 10 },
+                ],
+            },
+            // =========================================================================
+            // 2. TUS PRODUCTOS (COMIENZAN AQUÍ)
+            // =========================================================================
+            {
+                name: "Tecno Spark 10 Pro",
+                brand: "Tecno",
                 tag: "Oferta",
                 shortDescription: "128GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
                 // Rutas de imágenes
-                images: ["img/infinixsmart9hd.png", "img/tecnospark10prolateral.png", "img/tecnospark10protrasero.png"],
+                images: ["img/tecnospark10pro.png", "img/tecnospark10prolateral.png", "img/tecnospark10protrasero.png"],
                 specs: [
                     "Procesador MediaTek Helio G88",
                     "Sistema operativo Android 13",
@@ -696,7 +728,7 @@
                         </div>
                         
                         <h3 class="text-base font-semibold text-gray-800 mt-2 mb-1 truncate w-full px-1">${product.name}</h3>
-                        <p class="text-gray-500 text-xs mb-3 flex-1">${product.shortDescription}</p>
+                        <p class="text-gray-500 text-xs mb-3 flex-1">${product.shortDescription.replace(/<br>/g, ' ')}</p>
                        <div class="mb-3">
                             <span class="text-xl font-bold text-cyan-600">
                                 $${firstVariantPriceWithTax}
@@ -779,11 +811,24 @@
                     <div class="mb-4">
                         <p class="text-gray-700 font-semibold mb-2">${label}:</p>
                         <div class="flex flex-wrap gap-2" id="options-${key}">
-                            ${uniqueOptions[key].map(option => `
-                                <button class="option-btn px-4 py-2 border rounded-full text-sm font-medium transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-100 data-[selected=true]:bg-cyan-600 data-[selected=true]:text-white data-[selected=true]:border-cyan-600" data-option-type="${key}" data-option-value="${option}" ${option === selectedVariant[key] ? 'data-selected="true"' : ''}>
-                                    ${option}
-                                </button>
-                            `).join('')}
+                            ${uniqueOptions[key].map(option => {
+                                // Determinar si la opción es válida para CUALQUIER variante del producto
+                                const isValidOption = product.variants.some(v => v[key] === option);
+                                const isSelected = option === selectedVariant[key];
+                                return `
+                                    <button 
+                                        class="option-btn px-4 py-2 border rounded-full text-sm font-medium transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-100 
+                                        data-[selected=true]:bg-cyan-600 data-[selected=true]:text-white data-[selected=true]:border-cyan-600 
+                                        ${!isValidOption ? 'opacity-50 cursor-not-allowed' : ''}" 
+                                        data-option-type="${key}" 
+                                        data-option-value="${option}" 
+                                        ${isSelected ? 'data-selected="true"' : ''}
+                                        ${!isValidOption ? 'disabled' : ''}
+                                    >
+                                        ${option}
+                                    </button>
+                                `;
+                            }).join('')}
                         </div>
                     </div>
                 `;
