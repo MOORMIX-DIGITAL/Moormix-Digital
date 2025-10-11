@@ -3,743 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moormix Digital</title>
-    <!-- Incluir Tailwind CSS desde CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Font 'Inter' -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            color: #374151;
-        }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col">
-
-    <!-- Barra Superior de Anuncios -->
-    <div class="bg-cyan-600 text-white text-center py-2 px-4 shadow-md">
-        <p class="text-sm font-medium">Envíos gratis con planes a crédito</p>
-    </div>
-
-    <!-- Encabezado y Navegación -->
-    <header class="bg-white sticky top-0 z-50 shadow-sm">
-        <div class="container mx-auto px-4 py-3 flex justify-around items-center max-w-7xl">
-            <!-- Logo -->
-            <div class="flex items-center">
-                <img src="images/logo.png" alt="Logo de Moormix Digital" class="h-10 w-auto">
-            </div>
-
-            <!-- Botones de Navegación -->
-            <nav class="space-x-4">
-                <button id="btn-inicio" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors">Inicio</button>
-                <button id="btn-catalogo" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors">Catálogo</button>
-                <button id="btn-nosotros" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors">Sobre nosotros</button>
-                <button id="btn-contacto" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors">Contacto</button>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Contenido Principal (Las "páginas" del sitio) -->
-    <main class="container mx-auto px-4 py-8 flex-1 max-w-7xl">
-
-        <!-- Página Principal (Por defecto visible) -->
-        <div id="page-inicio" class="content-page">
-            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg text-center">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 animate-fade-in">Bienvenido a Moormix Digital</h1>
-                <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-8">Tu tienda de confianza para los últimos modelos de celulares. Explora nuestro catálogo y encuentra el dispositivo perfecto para ti.</p>
-                <button id="btn-ir-catalogo" class="bg-cyan-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-cyan-700 transition-colors transform hover:scale-105">Explorar Catálogo</button>
-            </div>
-        </div>
-
-        <!-- Página de Catálogo (Inicialmente oculta) -->
-        <div id="page-catalogo" class="content-page hidden">
-            <h2 class="text-3xl font-bold text-center mb-8">Catálogo de Teléfonos</h2>
-            
-            <!-- Barra de Búsqueda y Ordenamiento -->
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4">
-                <input type="text" id="search-input" placeholder="Buscar por nombre o descripción..." class="w-full sm:w-1/2 rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2">
-                <div class="flex items-center space-x-2">
-                    <label for="sort-order" class="text-sm font-medium text-gray-700">Ordenar por:</label>
-                    <select id="sort-order" class="rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2">
-                        <option value="default">Por defecto</option>
-                        <option value="name">Nombre (A-Z)</option>
-                        <option value="price">Precio (Menor a Mayor)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                <!-- Los productos se insertarán aquí con JavaScript -->
-            </div>
-        </div>
-
-                <!-- Página "Sobre Nosotros" (Inicialmente oculta) -->
-        <div id="page-nosotros" class="content-page hidden">
-            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg">
-                <h2 class="text-3xl font-bold mb-6 text-center">Sobre Nosotros</h2>
-                <p class="text-gray-700 mb-4 text-left">
-                    Moormix Digital es un emprendimiento digital fundado en 2025 con el objetivo de simplificar el acceso a la tecnología móvil en el mercado ecuatoriano. Nos especializamos en la venta de dispositivos de última generación, garantizando una experiencia de compra segura y conveniente.
-                </p>
-                <div class="mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Misión</h3>
-                    <p class="text-gray-700">
-                        Ofrecer a nuestros clientes los mejores y más recientes dispositivos móviles del mercado, a través de una plataforma accesible que prioriza la confianza y la satisfacción.
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Servicios Clave</h3>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>Selección Curada: Disponemos de un catálogo de smartphones y accesorios seleccionados por su calidad y rendimiento.</li>
-                        <li>Planes de Pago Flexibles: Proporcionamos opciones de financiamiento adaptadas a las necesidades del cliente.</li>
-                        <li>Logística Eficiente: Garantizamos envíos rápidos a nivel nacional.</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold text-gray-800">Visión</h3>
-                    <p class="text-gray-700">
-                        Proyectamos ser la primera opción para la compra de tecnología móvil en línea, construyendo una base de clientes leales que valoren nuestro servicio al cliente excepcional y nuestra constante actualización de productos.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Página de Contacto (Inicialmente oculta) -->
-        <div id="page-contacto" class="content-page hidden">
-            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
-                <h2 class="text-3xl font-bold mb-6 text-center">Contacto</h2>
-                <p class="text-gray-700 mb-6 text-center">
-                    Para reclamos o sugerencias, por favor, rellena el siguiente formulario. Nos pondremos en contacto contigo lo antes posible.
-                </p>
-                <form id="contact-form" class="space-y-4">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Tu nombre</label>
-                        <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2" required>
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Tu correo electrónico</label>
-                        <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2" required>
-                    </div>
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700">Mensaje (Reclamo o sugerencia)</label>
-                        <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 p-2" required></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-cyan-600 text-white font-bold py-2 px-4 rounded-md hover:bg-cyan-700 transition-colors">Enviar Reclamo / Sugerencia</button>
-                </form>
-                <div id="form-message" class="mt-4 text-center text-sm font-medium hidden"></div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Modal para más información del producto -->
-    <div id="info-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto relative">
-            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
-                &times;
-            </button>
-            <div id="modal-content" class="text-center">
-                <!-- Contenido del modal se carga dinámicamente -->
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Array de productos de ejemplo con variantes
-        const products = [
-            {
-                name: "Infinix Smart 9",
-                brand: "Infinix",
-                shortDescription: "128GB/3+3RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles",
-                images: ["images/infinixsmart9.png"],
-                specs: [
-                    "Procesador Helio G81",
-                    "Sistema operativo Android 14 Go Edition",
-                    "Pantalla 6.79\" HD +IPS 120GHz",
-                    "Cámara frontal 8 MP",
-                    "Cámara trasera 13 MP",
-                    "Batería 5000mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "128GB", ram: "6GB", color: "Negro Metálico", price: 120, stock: 15 },
-                    { almacenamiento: "128GB", ram: "6GB", color: "Neo Titanio", price: 120, stock: 8 },
-                    { almacenamiento: "128GB", ram: "6GB", color: "Verde Menta", price: 120, stock: 10 },
-                    { almacenamiento: "128GB", ram: "6GB", color: "Dorado", price: 120, stock: 5 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Negro Metálico", price: 110, stock: 15 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Neo Titanio", price: 110, stock: 15 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Verde Menta", price: 110, stock: 15 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Rosa Metálico", price: 110, stock: 15 },
-                ],
-            },
-            {
-                name: "Infinix Smart 9 HD",
-                brand: "Infinix",
-                shortDescription: "64GB/3+3RAM<br>1 Año De Garantía",
-                longDescription: "El iPhone 15 Pro redefine la experiencia móvil con su chip A17 Pro, el más potente jamás visto en un smartphone. Su sistema de cámara Pro de 48MP te permite capturar fotos y videos con una calidad inigualable. Con su diseño de titanio de grado aeroespacial, es sorprendentemente ligero y resistente.",
-                images: ["images/infinixsmart9hd.png", "images/infinixsmart9hdlateral.png", "Images/infinixsmart9hd.png", "images/infinixsmart9hdtrasero.png"],
-                specs: [
-                    "Procesador Helio G81",
-                    "Sistema operativo Android 14 Go Edition",
-                    "Pantalla 6.79\" HD +IPS 90GHz",
-                    "Cámara frontal 8 MP",
-                    "Cámara trasera 13 MP",
-                    "Batería 5000mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "64GB", ram: "6GB", color: "Verde Menta", price: 110, stock: 0 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Negro Metálico", price: 110, stock: 5 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Dorado", price: 110, stock: 0 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Neo Titanio", price: 110, stock: 3 }
-                ],
-                tag: "Pocas Unidades"
-            },
-            {
-                name: "Infinix Smart 10",
-                brand: "Infinix",
-                shortDescription: "64GB/3+3RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos, Estudiantiles, Multitareas y Gamers\nDiseño con acabado metálico\nHuella lateral\nReconocimiento facial",
-                images: ["images/infinixsmart10.png", "images/infinixsmart10lateral.png", "images/infinixsmart10trasero.png"],
-                specs: [
-                    "Procesador Unisoc T7250",
-                    "Sistema operativo Android 15 XOS",
-                    "Pantalla 6.60 a 6.80\" HD +IPS 120GHz",
-                    "Cámara frontal 8 MP",
-                    "Cámara trasera 13 MP",
-                    "Batería 5000mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash LED",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "64GB", ram: "6GB", color: "Negro Elegante", price: 120.75, stock: 20 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Plata Titanio", price: 120.75, stock: 15 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Azul", price: 120.75, stock: 8 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Dorado", price: 120.75, stock: 5 },
-                    { almacenamiento: "128GB", ram: "8GB", color: "Azul", price: 132.25, stock: 8 },
-                    { almacenamiento: "128GB", ram: "8GB", color: "Negro Elegante", price: 132.25, stock: 8 },
-                    { almacenamiento: "128GB", ram: "8GB", color: "Plata Titanio", price: 132.25, stock: 8 },
-                    { almacenamiento: "128GB", ram: "8GB", color: "Dorado", price: 132.25, stock: 8 },
-                ],
-            },
-            {
-                name: "Infinix Note 50",
-                brand: "Infinix",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos, Estudiantiles, Multitareas, Gamers y Creación de contenido\nIncluye cargador inalambrico",
-                images: ["images/infinixnote50.png", "images/infinixnote50lateral.png", "images/infinixnote50trasero.png"],
-                specs: [
-                    "Pantalla 6,78\" AMOLED HD+ 120GHz",
-                    "Cámara principal 50 mp",
-                    "Cámara frontal 13 mp",
-                    "Procesador MediaTek Helio G100",
-                    "Android 15 X0S",
-                    "USB Tipo c",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y a salpicadura de agua con IP64 ",
-                    "Flash LED",
-                    "Dual Sim",
-                    "Batería 5200mAh 3.0 45W",
-                    "Carga inalambrica 30w"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Negro Sombra", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Rojo Ladrillo", price: 120.75, stock: 8 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Verde", price: 120.75, stock: 5 },
-                ],
-            },
-            {
-                name: "Infinix Hot 60i",
-                brand: "Infinix",
-                shortDescription: "256GB/4+4RAM",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantil\nIncluye Botón One-Tap AI\nHuella lateral\nExpandible hasta 1TB",
-                images: ["images/infinixhot60i.png", "images/infinixhot60ilateral.png", "images/infinixhot60itrasero.png"],
-                specs: [
-                    "Pantalla 6,70\" IPS HD+ 120GHz",
-                    "Cámara principal 50 mp",
-                    "Cámara frontal 8 mp",
-                    "Procesador MediaTek Helio G81 Ultimate",
-                    "Android 15 XOS",
-                    "USB Tipo c",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y a salpicadura de agua con IP64 ",
-                    "Flash LED",
-                    "Dual Sim",
-                    "Batería 5160mAh"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "8GB", color: "Gris", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "8GB", color: "Negro", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "8GB", color: "Rosa", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "8GB", color: "Lila", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Rosa", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Lila", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Negro", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Verde", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
-                ],
-            },
-            {
-                name: "Infinix Hot 60 Pro+",
-                brand: "Infinix",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Multitareas y Gamers\nDiseño delgado y elegante\nHuella lateral o en pantalla",
-                images: ["images/infinixhot60pro+.png", "images/infinixhot60pro+lateral.png", "images/infinixhot60pro+trasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G200",
-                    "Sistema operativo Android 15 XOS",
-                    "Pantalla 6.78\" AMOLED FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5160mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash LED",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Rosa Matizado", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 15 },
-                ],
-            },
-            {
-                name: "Tecno Spark Go 1",
-                brand: "Tecno",
-                shortDescription: "64GB/3+3RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
-                images: ["images/tecnosparkgo1.png", "images/tecnosparkgo1lateral.png", "images/tecnosparkgo1trasero.png"],
-                specs: [
-                    "Procesador Unisoc Tiger T615",
-                    "Sistema operativo Android 14",
-                    "Pantalla 6.67\" HD+ +IPS 120GHz",
-                    "Cámara frontal 8 MP",
-                    "Cámara trasera 13 MP",
-                    "Batería 5000mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash 360°",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "64GB", ram: "6GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Titanium Gold", price: 120.75, stock: 15 },
-                    { almacenamiento: "128GB", ram: "8GB", color: "Gris Oscuro", price: 120.75, stock: 8 },
-                    { almacenamiento: "128GB", ram: "8GB", color: "Titanium Gold", price: 120.75, stock: 5 },
-                ],
-            },
-            {
-                name: "Tecno Spark Go 2",
-                brand: "Tecno",
-                shortDescription: "64GB/3+3RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
-                images: ["images/tecnosparkgo2.png", "images/tecnosparkgo2lateral.png", "images/tecnosparkgo2trasero.png"],
-                specs: [
-                    "Procesador Unisoc Tiger T615",
-                    "Sistema operativo Android 14",
-                    "Pantalla 6.67\" HD+ +IPS 120GHz",
-                    "Cámara frontal 8 MP",
-                    "Cámara trasera 13 MP",
-                    "Batería 5000mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash 360°",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "64GB", ram: "6GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "64GB", ram: "6GB", color: "Titanium Gold", price: 120.75, stock: 15 },
-                ],
-            },
-            {
-                name: "Tecno Spark 30",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos, Multitareas, Estudiantil y Gamers\nHuella lacteral",
-                images: ["images/tecnospark30.png", "images/tecnospark30lateral.png", "images/tecnospark30trasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G91",
-                    "Sistema operativo Android 14",
-                    "Pantalla 6.78\" FHD +IPS 90GHz",
-                    "Cámara frontal 16 MP",
-                    "Cámara trasera 64 MP",
-                    "Batería 5000mAh",
-                    "Tarjeta de memoria",
-                    "Flash doble trasera",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Negro Tinta", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Hielo Astral", price: 120.75, stock: 15 },
-                ],
-            },
-            {
-                name: "Tecno Spark 30 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
-                images: ["images/tecnospark30pro.png", "images/tecnospark30prolateral.png", "images/tecnospark30protrasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 14",
-                    "Pantalla 6.78\" AMOLED FHD IPS 120GHz",
-                    "Cámara frontal 13 MP",
-                    "Cámara trasera 108 MP",
-                    "Batería 5000mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Titanium Gold", price: 120.75, stock: 15 },
-                ],
-            },
-            {
-                name: "Tecno Spark 30 C",
-                brand: "Tecno",
-                shortDescription: "256GB/4+4RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
-                images: ["images/tecnospark30c.png", "images/tecnospark30clateral.png", "images/tecnospark30ctrasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G81",
-                    "Sistema operativo Android 14",
-                    "Pantalla 6.67\" HD +IPS 120GHz",
-                    "Cámara frontal 8 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5000mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "8GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "8GB", color: "Titanium Gold", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 8 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Titanium Gold", price: 120.75, stock: 5 },
-                ],
-            },
-            {
-                name: "Tecno Spark 40 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
-                images: ["images/tecnospark40pro.png", "images/tecnospark40prolateral.png", "images/tecnospark40protrasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
-                    ],
-            },
-            {
-                name: "Tecno Spark 40 Pro+",
-                brand: "Tecno",
-                shortDescription: "64GB/3+3RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
-                images: ["images/tecnospark40pro+.png", "images/tecnospark40pro+lateral.png", "images/tecnospark40pro+trasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Blanco", price: 120.75, stock: 15 },
-                ],
-            },
-            {
-                name: "Tecno Camon 30",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla\nIncluye auriculares inalambricos",
-                images: ["images/tecnocamon30.png", "images/tecnocamon30lateral.png", "images/tecnocamon30trasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G99 Ultimate",
-                    "Sistema operativo Android 14 HIOS",
-                    "Pantalla 6.78\" AMOLED FHD+ +IPS 120GHz",
-                    "Cámara frontal 50 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5000mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Blanco", price: 120.75, stock: 15 },
-                ]
-            },
-            {
-                name: "Tecno Camon 40",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
-                images: ["images/tecnocamon40.png", "images/tecnocamon40lateral.png", "images/tecnocamon40trasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G100 Ultimate",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" AMOLED FHD+ +IPS 120GHz",
-                    "Cámara frontal 32 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Celeste", price: 120.75, stock: 20 },
-                ],
-            },
-            {
-                name: "Honor x5b Plus",
-                brand: "Honor",
-                shortDescription: "256GB/4+4RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
-                images: ["images/honorx5bplus.png", "images/honorx5bpluslateral.png", "images/honorx5bplustrasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G36",
-                    "Sistema operativo Android 13",
-                    "Pantalla 6.56\" FHD+ +IPS 90GHz",
-                    "Cámara frontal 5 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
-                    "Tarjeta de memoria",
-                    "Flash",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "8GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "8GB", color: "Lila", price: 120.75, stock: 15 },
-                    ]
-            },
-            {
-                name: "Honor x6c",
-                brand: "Honor",
-                shortDescription: "256GB/6+6RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella lateral",
-                images: ["images/honorx6c.png", "images/honorx6clateral.png", "images/honorx6ctrasero.png"],
-                specs: [
-                    "Procesador MediaTek Helio G81 Ultra",
-                    "Sistema operativo Android 15 MagicOS",
-                    "Pantalla 6.61\" HD+ +IPS 120GHz",
-                    "Cámara frontal 5 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5300mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash LED",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "12GB", color: "Celeste", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "12GB", color: "Blanco", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Celeste", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Blanco", price: 120.75, stock: 15 },
-                    ],
-            },
-            {
-                name: "Honor x7c",
-                brand: "Honor",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nReconocimiento facial\nHuella en pantalla",
-                images: ["images/honorx7c.png", "images/honorx7clateral.png", "images/honorx7ctrasero.png"],
-                specs: [
-                    "Procesador Qualcomm Snapdragon 685",
-                    "Sistema operativo Android 14 MagicOS",
-                    "Pantalla 6.78\" TFTLCD FHD+ +IPS 120GHz",
-                    "Cámara frontal 8 MP",
-                    "Cámara trasera 108 MP",
-                    "Batería 5200mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Blanco", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Negro", price: 120.75, stock: 15 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "verde", price: 120.75, stock: 15 },
-                ],
-            },
-            {
-                name: "Honor x8c",
-                brand: "Honor",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
-                images: ["images/honorx8c.png", "images/honorx8clateral.png", "images/honorx8ctrasero.png"],
-                specs: [
-                    "Procesador Snapdragon 685",
-                    "Sistema operativo Android 15 MagicOS",
-                    "Pantalla 6.78\" AMOLED HD+ +IPS 120GHz",
-                    "Cámara frontal 8 MP",
-                    "Cámara trasera 108 MP",
-                    "Batería 5150mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Cian", price: 120.75, stock: 20 },
-                    { almacenamiento: "512GB", ram: "16GB", color: "Cian", price: 120.75, stock: 15 },
-                    ],
-            },
-            {
-                                                name: "Tecno Spark 40 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
-                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
-                specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual°",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
-                    ],
-            },
-            {
-                                                name: "Tecno Spark 40 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
-                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
-                specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual°",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
-                    ],
-            },
-            {
-                                                name: "Tecno Spark 40 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
-                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
-                specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual°",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
-                    ],
-            },
-            {
-                                                name: "Tecno Spark 40 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
-                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
-                specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
-                    "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual°",
-                    "Dual Sim",
-                    "USB tipo C"
-                ],
-                variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoormixDigital - Tecnología Móvil</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Estilo personalizado para las opciones seleccionadas en el modal */
         [data-selected="true"] {
             border-width: 2px;
-            /* Tailwind data-[selected=true] styles are used in JS, this is a fallback/extra */
         }
         /* Ocultar las flechas de número en input type="number" */
         /* Chrome, Safari, Edge, Opera */
@@ -883,7 +152,7 @@
                 name: "Tecno Spark 10 Pro",
                 brand: "Tecno",
                 tag: "Oferta",
-                shortDescription: "128GB/8+8RAM<br>1 Año de Garantía",
+                shortDescription: "128GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
                 images: ["images/tecnospark10pro.png", "images/tecnospark10prolateral.png", "images/tecnospark10protrasero.png"],
                 specs: [
@@ -909,7 +178,7 @@
                 name: "Tecno Spark 20 Pro",
                 brand: "Tecno",
                 tag: "Nuevo",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos, Multitareas y Estudiantiles\nHuella lateral",
                 images: ["images/tecnospark20pro.png", "images/tecnospark20prolateral.png", "images/tecnospark20protrasero.png"],
                 specs: [
@@ -934,7 +203,7 @@
                 name: "Tecno Spark 20",
                 brand: "Tecno",
                 tag: "Pocas Unidades",
-                shortDescription: "128GB/4+4RAM<br>1 Año de Garantía",
+                shortDescription: "128GB/8GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella lateral",
                 images: ["images/tecnospark20.png", "images/tecnospark20lateral.png", "images/tecnospark20trasero.png"],
                 specs: [
@@ -958,7 +227,7 @@
             {
                 name: "Tecno Spark 30",
                 brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos, Multitareas, Estudiantil y Gamers\nHuella lacteral",
                 images: ["images/tecnospark30.png", "images/tecnospark30lateral.png", "images/tecnospark30trasero.png"],
                 specs: [
@@ -981,7 +250,7 @@
             {
                 name: "Tecno Spark 30 Pro",
                 brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
                 images: ["images/tecnospark30pro.png", "images/tecnospark30prolateral.png", "images/tecnospark30protrasero.png"],
                 specs: [
@@ -1005,7 +274,7 @@
             {
                 name: "Tecno Spark 30 C",
                 brand: "Tecno",
-                shortDescription: "256GB/4+4RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/8GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
                 images: ["images/tecnospark30c.png", "images/tecnospark30clateral.png", "images/tecnospark30ctrasero.png"],
                 specs: [
@@ -1031,7 +300,7 @@
             {
                 name: "Tecno Spark 40 Pro",
                 brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
                 images: ["images/tecnospark40pro.png", "images/tecnospark40prolateral.png", "images/tecnospark40protrasero.png"],
                 specs: [
@@ -1055,7 +324,7 @@
             {
                 name: "Tecno Spark 40 Pro+",
                 brand: "Tecno",
-                shortDescription: "64GB/3+3RAM<br>1 Año de Garantía",
+                shortDescription: "64GB/6GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
                 images: ["images/tecnospark40pro+.png", "images/tecnospark40pro+lateral.png", "images/tecnospark40pro+trasero.png"],
                 specs: [
@@ -1079,7 +348,7 @@
             {
                 name: "Tecno Camon 30",
                 brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla\nIncluye auriculares inalambricos",
                 images: ["images/tecnocamon30.png", "images/tecnocamon30lateral.png", "images/tecnocamon30trasero.png"],
                 specs: [
@@ -1103,7 +372,7 @@
             {
                 name: "Tecno Camon 40",
                 brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
                 images: ["images/tecnocamon40.png", "images/tecnocamon40lateral.png", "images/tecnocamon40trasero.png"],
                 specs: [
@@ -1126,7 +395,7 @@
             {
                 name: "Honor x5b Plus",
                 brand: "Honor",
-                shortDescription: "256GB/4+4RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/8GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla",
                 images: ["images/honorx5bplus.png", "images/honorx5bpluslateral.png", "images/honorx5bplustrasero.png"],
                 specs: [
@@ -1149,7 +418,7 @@
             {
                 name: "Honor x6c",
                 brand: "Honor",
-                shortDescription: "256GB/6+6RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/12GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella lateral",
                 images: ["images/honorx6c.png", "images/honorx6clateral.png", "images/honorx6ctrasero.png"],
                 specs: [
@@ -1175,7 +444,7 @@
             {
                 name: "Honor x7c",
                 brand: "Honor",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nReconocimiento facial\nHuella en pantalla",
                 images: ["images/honorx7c.png", "images/honorx7clateral.png", "images/honorx7ctrasero.png"],
                 specs: [
@@ -1200,7 +469,7 @@
             {
                 name: "Honor x8c",
                 brand: "Honor",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
                 images: ["images/honorx8c.png", "images/honorx8clateral.png", "images/honorx8ctrasero.png"],
                 specs: [
@@ -1222,93 +491,90 @@
                     ],
             },
             {
-                name: "Tecno Spark 40 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                name: "Honor x9b",
+                brand: "Honor",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
                 images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
                 specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
+                    "Procesador Snapdragon 695 5G",
+                    "Sistema operativo Android 13 MagicOS",
+                    "Pantalla 6.78\" AMOLED FHD+ 120GHz",
+                    "Cámara frontal 16 MP",
+                    "Cámara trasera 108 MP",
+                    "Batería 5800mAh",
                     "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual°",
+                    "Resistencia al polvo y salpicadura de agua IP53",
+                    "Flash dual",
                     "Dual Sim",
                     "USB tipo C"
                 ],
                 variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Plata", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Negro", price: 120.75, stock: 15 },
                     ],
             },
             {
-                name: "Tecno Spark 40 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                name: "Samsung A25",
+                brand: "Samsung",
+                shortDescription: "128GB/8GB RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nSistema Operativo Samsung ONE UI",
                 images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
                 specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
+                    "Procesador Exynos 1280",
+                    "Sistema operativo Android 14 One UI 6",
+                    "Pantalla 6.5\" Super AMOLED FHD+ 120GHz",
                     "Cámara frontal 13 MP",
                     "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
+                    "Batería 5000mAh",
                     "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual°",
+                    "Flash",
                     "Dual Sim",
                     "USB tipo C"
                 ],
                 variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
-                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
+                    { almacenamiento: "128GB", ram: "8GB", color: "Azul", price: 120.75, stock: 20 },
+                    { almacenamiento: "128GB", ram: "8GB", color: "Negro", price: 120.75, stock: 15 },
                     ],
             },
             {
-                name: "Tecno Spark 40 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                name: "Xiaomi Redmi 13C",
+                brand: "Xiaomi",
+                shortDescription: "256GB/16GB RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla\nSistema Operativo Xiaomi HyperOS",
                 images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
                 specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
+                    "Procesador MediaTek Helio G85",
+                    "Sistema operativo Android 13",
+                    "Pantalla 6.74\" IPS LCD 90GHz",
+                    "Cámara frontal 8 MP",
                     "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
+                    "Batería 5000mAh",
                     "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual°",
+                    "Flash",
                     "Dual Sim",
                     "USB tipo C"
                 ],
                 variants: [
-                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Negro", price: 120.75, stock: 20 },
                     { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
                     ],
             },
             {
-                name: "Tecno Spark 40 Pro",
-                brand: "Tecno",
-                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                name: "Motorola G54",
+                brand: "Motorola",
+                shortDescription: "256GB/12GB RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella en pantalla\nSistema Operativo Motorola",
                 images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
                 specs: [
-                    "Procesador MediaTek Helio G100",
-                    "Sistema operativo Android 15 HIOS",
-                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
-                    "Cámara frontal 13 MP",
+                    "Procesador MediaTek Dimensity 7020",
+                    "Sistema operativo Android 13",
+                    "Pantalla 6.5\" IPS LCD 120GHz",
+                    "Cámara frontal 16 MP",
                     "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
+                    "Batería 6000mAh",
                     "Tarjeta de memoria",
-                    "Resistencia al polvo y salpicadura de agua IP54",
-                    "Flash dual°",
+                    "Flash",
                     "Dual Sim",
                     "USB tipo C"
                 ],
@@ -1335,17 +601,18 @@
                 return;
             }
             productsToRender.forEach((product, index) => {
+                // Selecciona el color del tag. Por defecto usa cyan-600
                 const tagColor = product.tag === "Oferta" ? "bg-red-500" : (product.tag === "Nuevo" ? "bg-green-500" : (product.tag === "Pocas Unidades" ? "bg-yellow-500" : (product.tag ? "bg-pink-500" : "bg-cyan-600")));
                 const tagHtml = product.tag ? `<span class="absolute top-2 right-2 ${tagColor} text-white text-xs font-semibold px-2 py-1 rounded-full uppercase shadow-md">${product.tag}</span>` : '';
                 
-                // Usar el precio base para la tarjeta del catálogo
+                // Usar el precio de la primera variante para la tarjeta del catálogo
                 const firstVariantPrice = product.variants[0].price.toFixed(2);
                 const firstVariantPriceWithTax = product.variants[0].priceWithTax.toFixed(2);
                 
                 const productCard = `
                     <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full relative">
                         ${tagHtml}
-                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-40 object-contain rounded-lg mb-4">
+                        <img src="https://placehold.co/800x800/ffffff/000000?text=${product.name.replace(/\s/g, '+')}" alt="${product.name}" class="w-full h-40 object-contain rounded-lg mb-4">
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">${product.name}</h3>
                         <p class="text-gray-500 text-sm mb-4 flex-1">${product.shortDescription}</p>
                        <div class="mb-4">
@@ -1369,6 +636,7 @@
             });
             // Añadir listeners a los nuevos botones
             document.querySelectorAll('.info-btn').forEach(button => {
+                // Se usa el índice del producto en el array original para referenciarlo en el modal
                 button.addEventListener('click', showModal);
             });
         }
@@ -1387,7 +655,7 @@
                 color: [...new Set(product.variants.map(v => v.color))].sort()
             };
             
-            // Establecer la variante inicial como la que tiene más stock por defecto (o la primera si no hay stock)
+            // Establecer la variante inicial (la que tiene más stock o la primera)
             let selectedVariant = product.variants.find(v => v.stock > 0) || product.variants[0];
 
             // Generar las opciones dinámicamente
@@ -1409,13 +677,17 @@
             }
 
             const whatsappMessage = `Hola, me interesa comprar el ${product.name} con ${selectedVariant.almacenamiento} de almacenamiento, ${selectedVariant.ram} de RAM y color ${selectedVariant.color}.`;
+            
+            // Generar placeholders si las imágenes no existen
+            const getImageSrc = (path) => path.startsWith('http') ? path : `https://placehold.co/800x800/ffffff/000000?text=${product.name.replace(/\s/g, '+')}+Imagen`;
+            
             modalContent.innerHTML = `
                 <div class="flex flex-col lg:flex-row items-center lg:items-start text-left space-y-8 lg:space-y-0 lg:space-x-8 p-4">
                     <div class="flex flex-col items-center w-full lg:w-1/2">
-                        <img id="main-product-image" src="${product.images[0]}" alt="${product.name}" class="w-full h-auto max-h-96 object-contain rounded-lg shadow-lg mb-4">
+                        <img id="main-product-image" src="${getImageSrc(product.images[0])}" alt="${product.name}" class="w-full h-auto max-h-96 object-contain rounded-lg shadow-lg mb-4">
                         <div class="flex space-x-2 overflow-x-auto w-full justify-center">
                             ${product.images.map(image => `
-                                <img src="${image}" alt="${product.name}" class="thumbnail w-16 h-16 rounded-md cursor-pointer border-2 border-transparent hover:border-cyan-600 transition-colors" onclick="document.getElementById('main-product-image').src='${image}'">
+                                <img src="${getImageSrc(image)}" alt="${product.name}" class="thumbnail w-16 h-16 rounded-md cursor-pointer border-2 border-transparent hover:border-cyan-600 transition-colors" onclick="document.getElementById('main-product-image').src='${getImageSrc(image)}'">
                             `).join('')}
                         </div>
                     </div>
@@ -1463,12 +735,14 @@
             
             // Función para actualizar el precio y stock en el modal
             function updateModalUI() {
+                // Obtener las selecciones actuales
                 const currentSelection = {
-                    almacenamiento: document.querySelector('#options-almacenamiento .option-btn[data-selected="true"]').getAttribute('data-option-value'),
-                    ram: document.querySelector('#options-ram .option-btn[data-selected="true"]').getAttribute('data-option-value'),
-                    color: document.querySelector('#options-color .option-btn[data-selected="true"]').getAttribute('data-option-value')
+                    almacenamiento: modalContent.querySelector('#options-almacenamiento .option-btn[data-selected="true"]').getAttribute('data-option-value'),
+                    ram: modalContent.querySelector('#options-ram .option-btn[data-selected="true"]').getAttribute('data-option-value'),
+                    color: modalContent.querySelector('#options-color .option-btn[data-selected="true"]').getAttribute('data-option-value')
                 };
 
+                // Buscar la variante que coincide
                 const matchedVariant = product.variants.find(v => 
                     v.almacenamiento === currentSelection.almacenamiento &&
                     v.ram === currentSelection.ram &&
@@ -1489,26 +763,30 @@
                     stockEl.textContent = matchedVariant.stock;
                     
                     qtyInput.max = matchedVariant.stock;
-                    if (parseInt(qtyInput.value) > matchedVariant.stock || parseInt(qtyInput.value) === 0) {
-                        qtyInput.value = matchedVariant.stock > 0 ? 1 : 0; // Reset cantidad o a 0 si no hay stock
+                    if (parseInt(qtyInput.value) > matchedVariant.stock || parseInt(qtyInput.value) < 1) {
+                        qtyInput.value = matchedVariant.stock > 0 ? 1 : 0; 
                     }
                     
-                    // Habilitar/Deshabilitar botones de cantidad
-                    qtyPlusBtn.disabled = matchedVariant.stock <= 1;
+                    const hasStock = matchedVariant.stock > 0;
+                    
+                    // Actualizar estado de los botones +/- y del enlace de WhatsApp
+                    qtyPlusBtn.disabled = matchedVariant.stock <= parseInt(qtyInput.value);
                     qtyMinusBtn.disabled = parseInt(qtyInput.value) <= 1;
 
-                    const whatsappMessage = `Hola, me interesa comprar el ${product.name} con ${matchedVariant.almacenamiento} de almacenamiento, ${matchedVariant.ram} de RAM y color ${matchedVariant.color}. Me gustaría llevar ${qtyInput.value} unidad(es).`;
-                    whatsappLink.href = `https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}`;
-                    whatsappLink.disabled = matchedVariant.stock === 0;
-                    if (matchedVariant.stock === 0) {
-                        whatsappLink.textContent = 'Sin Stock';
-                        whatsappLink.classList.remove('bg-green-500', 'hover:bg-green-600');
-                        whatsappLink.classList.add('bg-gray-400', 'cursor-not-allowed');
-                    } else {
+                    whatsappLink.disabled = !hasStock;
+                    if (hasStock) {
                         whatsappLink.textContent = 'COMPRAR POR WHATSAPP';
                         whatsappLink.classList.add('bg-green-500', 'hover:bg-green-600');
                         whatsappLink.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    } else {
+                        whatsappLink.textContent = 'Sin Stock';
+                        whatsappLink.classList.remove('bg-green-500', 'hover:bg-green-600');
+                        whatsappLink.classList.add('bg-gray-400', 'cursor-not-allowed');
                     }
+
+                    // Forzar la actualización del enlace de WhatsApp después de cambiar el stock/variante
+                    updateWhatsappLink(); 
+
                 } else {
                     originalPriceEl.textContent = 'No disponible';
                     priceEl.textContent = 'No disponible';
@@ -1530,10 +808,11 @@
             const tabContent = modalContent.querySelector('#tab-content');
             
             function showTabContent(tabId) {
-                tabDescBtn.classList.remove('border-cyan-600', 'text-cyan-600', 'font-bold');
-                tabDescBtn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
-                tabSpecsBtn.classList.remove('border-cyan-600', 'text-cyan-600', 'font-bold');
-                tabSpecsBtn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                // Reiniciar estilos de todas las pestañas
+                modalContent.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('border-cyan-600', 'text-cyan-600', 'font-bold');
+                    btn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                });
                 
                 if (tabId === 'tab-desc') {
                     tabDescBtn.classList.add('border-cyan-600', 'text-cyan-600', 'font-bold');
@@ -1550,7 +829,7 @@
             tabDescBtn.addEventListener('click', () => showTabContent('tab-desc'));
             tabSpecsBtn.addEventListener('click', () => showTabContent('tab-specs'));
 
-            // Lógica para cantidad (debe estar dentro del modal)
+            // Lógica para cantidad 
             const qtyInput = modalContent.querySelector('#qty-input');
             const qtyPlusBtn = modalContent.querySelector('#qty-plus');
             const qtyMinusBtn = modalContent.querySelector('#qty-minus');
@@ -1567,7 +846,7 @@
                 whatsappLink.href = `https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}`;
                 
                 // Actualizar estado de los botones +/-
-                qtyMinusBtn.disabled = parseInt(qtyInput.value) <= 1;
+                qtyMinusBtn.disabled = parseInt(qtyInput.value) <= 1 || parseInt(qtyInput.max) === 0;
                 qtyPlusBtn.disabled = parseInt(qtyInput.value) >= parseInt(qtyInput.max) || parseInt(qtyInput.max) === 0;
             };
 
@@ -1607,14 +886,12 @@
                     e.target.setAttribute('data-selected', 'true');
                     
                     updateModalUI();
-                    updateWhatsappLink(); // Actualizar el enlace después de cambiar de variante
                 });
             });
 
             // Mostrar la pestaña de descripción por defecto y actualizar la UI
             showTabContent('tab-desc');
             updateModalUI(); // Llamada inicial para el primer render
-            updateWhatsappLink(); // Llamada inicial para el enlace de WhatsApp
             modal.classList.remove('hidden');
         }
 
@@ -1635,7 +912,7 @@
         function updateCatalog() {
             const searchInput = document.getElementById('search-input');
             const sortSelect = document.getElementById('sort-order');
-            if (!searchInput || !sortSelect) return; // Salir si no estamos en la página de catálogo
+            if (!searchInput || !sortSelect) return; 
 
             const searchTerm = searchInput.value.toLowerCase();
             const sortOrder = sortSelect.value;
@@ -1644,13 +921,16 @@
                 const name = product.name.toLowerCase();
                 const shortDescription = product.shortDescription.toLowerCase();
                 const longDescription = product.longDescription.toLowerCase();
-                return name.includes(searchTerm) || shortDescription.includes(searchTerm) || longDescription.includes(searchTerm);
+                // Busca también en las marcas
+                const brand = product.brand.toLowerCase();
+                return name.includes(searchTerm) || shortDescription.includes(searchTerm) || longDescription.includes(searchTerm) || brand.includes(searchTerm);
             });
 
             if (sortOrder === 'name') {
                 filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
             } else if (sortOrder === 'price') {
-                filteredProducts.sort((a, b) => a.variants[0].price - b.variants[0].price);
+                // Ordena por el precio con impuestos de la primera variante
+                filteredProducts.sort((a, b) => a.variants[0].priceWithTax - b.variants[0].priceWithTax);
             }
 
             renderProducts(filteredProducts);
@@ -1684,7 +964,6 @@
         // Manejador de evento para cerrar el modal
         document.getElementById('close-modal').addEventListener('click', hideModal);
         document.getElementById('info-modal').addEventListener('click', (event) => {
-            // Cierra el modal solo si se hace click en el fondo (no en el contenido)
             if (event.target === event.currentTarget) {
                 hideModal();
             }
@@ -1692,7 +971,7 @@
 
         // Manejador de evento para el formulario de contacto
         document.getElementById('contact-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+            event.preventDefault(); 
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
@@ -1700,16 +979,13 @@
             const body = `Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`;
             const mailtoLink = `mailto:moormixdigital@outloo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             
-            // Simular el envío del correo abriendo la aplicación de email del usuario
             window.location.href = mailtoLink;
 
-            // Mostrar un mensaje de confirmación
             const formMessage = document.getElementById('form-message');
             formMessage.textContent = "Tu mensaje ha sido enviado a tu cliente de correo para su confirmación.";
             formMessage.classList.remove('hidden');
             formMessage.classList.add('text-green-600');
             
-            // Limpiar el formulario después de un breve retraso
             setTimeout(() => {
                 document.getElementById('contact-form').reset();
                 formMessage.classList.add('hidden');
@@ -1718,9 +994,7 @@
 
         // 8. Inicialización de la aplicación
         document.addEventListener('DOMContentLoaded', () => {
-            // Inicializar la página de inicio al cargar
             showPage('page-inicio');
-            // Inicializar el catálogo (aunque esté oculto, prepara los datos)
             updateCatalog();
         });
 
