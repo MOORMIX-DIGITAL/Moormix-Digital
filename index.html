@@ -471,8 +471,7 @@
                 ],
             },
             // =========================================================================
-            // 3. HONOR X5B PLUS - ÍNDICE [11] (Dependiendo de la lista)
-            // ESTE DEBE SER EL PRODUCTO QUE FALLABA AL TOMAR EL ÍNDICE 0 (Infinix)
+            // 3. HONOR X5B PLUS - ÍNDICE [11] (Ajuste de precio base para que el precio final coincida con la imagen)
             // =========================================================================
             {
                 name: "Honor x5b Plus",
@@ -494,8 +493,8 @@
                     "USB tipo C"
                 ],
                 variants: [
-                    // ¡Esta es la variante por defecto de la tarjeta!
-                    { almacenamiento: "256GB", ram: "8GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
+                    // El precio base es 120.75, con IVA da 138.86 (igual que el Infinix)
+                    { almacenamiento: "256GB", ram: "8GB", color: "Gris Oscuro", price: 120.75, stock: 20 }, 
                     { almacenamiento: "256GB", ram: "8GB", color: "Lila", price: 120.75, stock: 15 },
                     ]
             },
@@ -711,7 +710,7 @@
 
 
         // =========================================================================
-        // FUNCIÓN MEJORADA: RENDERIZADO DE PRODUCTOS (SOLUCIÓN AL ERROR DE ÍNDICE)
+        // FUNCIÓN CORREGIDA: RENDERIZADO DE PRODUCTOS (SOLUCIÓN FINAL AL ERROR DE ÍNDICE)
         // =========================================================================
         function renderProducts(productsToRender) {
             const catalogoGrid = document.getElementById('catalogo-grid');
@@ -725,8 +724,11 @@
             }
             
             // 2. GENERAR EL HTML de las tarjetas
-            productsToRender.forEach((product, index) => { // <-- [CLAVE] Usamos el índice correcto
+            productsToRender.forEach((product) => { 
                 
+                // *** [CLAVE] En lugar de usar el índice del bucle, usamos el índice del producto en el array ORIGINAL ***
+                const productIndexInOriginalArray = products.indexOf(product);
+
                 const tagColor = product.tag === "Oferta" ? "bg-red-500" : (product.tag === "Nuevo" ? "bg-green-500" : (product.tag === "Pocas Unidades" ? "bg-yellow-500" : (product.tag ? "bg-pink-500" : "bg-cyan-600")));
                 const tagHtml = product.tag ? `<span class="absolute top-2 right-2 ${tagColor} text-white text-xs font-semibold px-2 py-1 rounded-full uppercase shadow-md">${product.tag}</span>` : '';
 
@@ -750,7 +752,7 @@
                                 (+IVA)
                             </span>
                         </div>
-                        <button class="info-btn w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors" data-product-index="${index}">
+                        <button class="info-btn w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors" data-product-index="${productIndexInOriginalArray}">
                             Más Info
                         </button>
                     </div>
@@ -820,7 +822,11 @@
                  return;
             }
 
-            const product = products[index];
+            // Convertir el índice a número
+            const productIndex = parseInt(index);
+            const product = products[productIndex];
+
+
             const modal = document.getElementById('info-modal');
             const modalContent = document.getElementById('modal-content');
 
@@ -1322,6 +1328,7 @@
                 filteredProducts.sort((a, b) => a.variants[0].priceWithTax - b.variants[0].priceWithTax);
             }
 
+            // [CLAVE] LLAMAMOS A RENDER PRODUCTS CON LA LISTA FILTRADA/ORDENADA
             renderProducts(filteredProducts);
         }
 
@@ -1335,6 +1342,7 @@
             document.getElementById(btnId).addEventListener('click', () => {
                 showPage(pageId);
                 if (pageId === 'page-catalogo') {
+                    // Al ir a catálogo, refresca el catálogo.
                     updateCatalog();
                 }
             });
@@ -1395,7 +1403,7 @@
         // 9. Inicialización de la aplicación
         document.addEventListener('DOMContentLoaded', () => {
             showPage('page-inicio');
-            // La función updateCatalog se llamará desde showPage si es necesario, pero la cargamos por si acaso
+            // Si la página de inicio no está visible por alguna razón, recargar el catálogo
             if (document.getElementById('page-catalogo').classList.contains('hidden') === false) {
                  updateCatalog();
             }
