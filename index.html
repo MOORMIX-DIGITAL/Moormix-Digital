@@ -679,7 +679,7 @@
         // Función para calcular el pago a plazos
         function calculateInstallment(totalPrice, months, frequency) {
             if (totalPrice <= 0 || months <= 0 || !FREQUENCY_DAYS[frequency]) {
-                return { totalFinanced: 0, installment: 0, frequencyLabel: "N/A" };
+                return { totalFinanced: 0, installment: 0, numPayments: 0, frequencyLabel: "N/A" };
             }
 
             // 1. Aplicar recargo de financiamiento
@@ -687,7 +687,7 @@
             const totalFinanced = totalPrice * (1 + fee);
 
             // 2. Determinar el número total de pagos
-            const totalDays = months * 30; // Meses a días
+            const totalDays = months * 30; // Meses a días (estimación)
             const daysPerPayment = FREQUENCY_DAYS[frequency];
             const numPayments = Math.floor(totalDays / daysPerPayment);
 
@@ -782,29 +782,31 @@
                         </div>
 
                         <div id="finance-options" class="mb-6 p-4 bg-gray-100 rounded-lg">
-                            <p class="text-gray-700 font-bold mb-3">Pagar a Plazos:</p>
+                            <p class="text-gray-700 font-bold mb-3 text-center border-b pb-2 border-gray-300">Pagar a Plazos:</p>
                             
-                            <div class="mb-3">
-                                <label class="block text-sm font-medium text-gray-600 mb-1">Selecciona el Plazo (Meses):</label>
-                                <div class="flex gap-2">
-                                    <button class="finance-term-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200 data-[selected=true]:bg-pink-600 data-[selected=true]:text-white data-[selected=true]:border-pink-600" data-months="3" data-selected="true">3 Meses</button>
-                                    <button class="finance-term-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="6">6 Meses</button>
-                                    <button class="finance-term-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="9">9 Meses</button>
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                
+                                <div class="mb-3 w-full sm:w-1/2">
+                                    <label class="block text-sm font-medium text-gray-600 mb-1">Plazo (Meses):</label>
+                                    <div class="flex gap-2 justify-start">
+                                        <button class="finance-term-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200 data-[selected=true]:bg-pink-600 data-[selected=true]:text-white data-[selected=true]:border-pink-600" data-months="3" data-selected="true">3 Meses</button>
+                                        <button class="finance-term-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="6">6 Meses</button>
+                                        <button class="finance-term-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="9">9 Meses</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 w-full sm:w-1/2">
+                                    <label class="block text-sm font-medium text-gray-600 mb-1">Frecuencia de Pago:</label>
+                                    <div class="flex gap-2 justify-start">
+                                        <button class="finance-freq-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="semanal">Semanal</button>
+                                        <button class="finance-freq-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="quincenal">Quincenal</button>
+                                        <button class="finance-freq-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="mensual" data-selected="true">Mensual</button>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="mb-3">
-                                <label class="block text-sm font-medium text-gray-600 mb-1">Frecuencia de Pago:</label>
-                                <div class="flex gap-2">
-                                    <button class="finance-freq-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="semanal">Semanal</button>
-                                    <button class="finance-freq-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="quincenal">Quincenal</button>
-                                    <button class="finance-freq-btn px-3 py-1 border rounded-full text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="mensual" data-selected="true">Mensual</button>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 text-center p-3 bg-white rounded-md shadow-inner">
-                                <p class="text-sm text-gray-600 mb-1">Tu ${initialInstallment.frequencyLabel} sería de:</p>
-                                <span id="installment-amount" class="text-2xl font-extrabold text-pink-600">
+                            <div class="mt-4 text-center p-3 bg-white rounded-md shadow-inner border-t pt-3">
+                                <p class="text-sm text-gray-600 mb-1">Tu <span id="payment-label">${initialInstallment.frequencyLabel}</span> sería de:</p>
+                                <span id="installment-amount" class="text-3xl font-extrabold text-pink-600">
                                     $${initialInstallment.installment.toFixed(2)}
                                 </span>
                                 <p class="text-xs text-gray-500 mt-1">
@@ -857,7 +859,7 @@
                 modalContent.querySelector('#installment-amount').textContent = `$${result.installment.toFixed(2)}`;
                 modalContent.querySelector('#total-financed').textContent = result.totalFinanced.toFixed(2);
                 modalContent.querySelector('#num-payments').textContent = result.numPayments;
-                modalContent.querySelector('#installment-amount').previousElementSibling.textContent = `Tu ${result.frequencyLabel} sería de:`;
+                modalContent.querySelector('#payment-label').textContent = result.frequencyLabel;
             }
 
             // Manejador de botones de Plazo (Meses)
@@ -868,6 +870,7 @@
                     // Seleccionar el botón clickeado
                     e.target.setAttribute('data-selected', 'true');
                     updateInstallmentUI();
+                    updateWhatsappLink();
                 });
             });
 
@@ -879,6 +882,7 @@
                     // Seleccionar el botón clickeado
                     e.target.setAttribute('data-selected', 'true');
                     updateInstallmentUI();
+                    updateWhatsappLink();
                 });
             });
 
