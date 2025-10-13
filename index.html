@@ -9,13 +9,13 @@
     <style>
         /* Variables de color */
         :root {
-            --primary-color: #008c9e; /* Color principal (azul verdoso) */
-            --secondary-color: #022b3a; /* Azul marino oscuro para el footer */
-            --notice-bg: #219ebc; /* Color de la franja superior */
+            --primary-color: #008c9e; 
+            --secondary-color: #022b3a; 
+            --notice-bg: #219ebc; 
             --text-light: #ffffff;
             --text-dark: #333;
             --card-bg: #ffffff; 
-            --body-bg: #f0f0f0; /* Fondo general de la página */
+            --body-bg: #f0f0f0; 
             --border-radius: 10px;
         }
 
@@ -61,33 +61,38 @@
 
         /* 2. Barra de Navegación */
         .navbar {
-            background-color: var(--card-bg); /* Fondo blanco */
+            background-color: var(--card-bg); 
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             padding: 10px 0;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            margin-right: auto; /* Empuja los enlaces a la derecha */
-            padding-left: 20px; /* Pequeño ajuste para el logo en la esquina */
+        .navbar-inner {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            width: 95%; 
+            max-width: 1200px; 
+            margin: 0 auto;
         }
-        
-        /* Simulación del logo abstracto (círculo con colores) */
-        .logo-placeholder {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            position: relative;
-            /* Degradado y sombra sutil para replicar el efecto de la imagen */
-            background: linear-gradient(135deg, #4a90e2 0%, #ff5757 100%);
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+
+        .logo a {
+            display: block;
+            /* El logo ocupa el espacio que antes tenía el placeholder */
+            width: 40px; 
+            height: 40px; 
+        }
+
+        .logo img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+            /* Aplicar un borde redondeado sutil si el logo no es perfectamente circular */
+            border-radius: 50%; 
         }
         
         .nav-links {
             list-style: none;
             display: flex;
-            /* Ajustar al extremo derecho, como en la imagen */
             padding-right: 20px; 
         }
 
@@ -102,6 +107,11 @@
             padding: 5px 0;
             transition: color 0.3s;
         }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
 
         /* 3. Contenido Principal / Recuadro de Bienvenida */
         .main-content {
@@ -115,7 +125,7 @@
 
         .welcome-box {
             background-color: var(--card-bg);
-            padding: 80px 40px; /* Más padding para que sea grande como en la imagen */
+            padding: 80px 40px; 
             border-radius: var(--border-radius);
             max-width: 900px; 
             width: 90%;
@@ -124,7 +134,7 @@
 
         .welcome-box h1 {
             color: var(--primary-color);
-            font-size: 3em; /* Tamaño grande para el título */
+            font-size: 3em; 
             margin-bottom: 20px;
             font-weight: 700;
         }
@@ -166,6 +176,28 @@
             color: #ff5757;
             margin: 0 5px;
         }
+        
+        /* Media Query para responsividad */
+        @media (max-width: 768px) {
+            .navbar-inner {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding-right: 0;
+            }
+
+            .nav-links li {
+                margin: 5px 10px;
+            }
+
+            .welcome-box h1 {
+                font-size: 2em;
+            }
+        }
     </style>
     </head>
 <body>
@@ -175,16 +207,18 @@
     </header>
 
     <nav class="navbar">
-        <div style="display: flex; justify-content: space-between; align-items: center; width: 95%; max-width: 1200px; margin: 0 auto;">
+        <div class="navbar-inner">
             <div class="logo">
-                <div class="logo-placeholder"></div>
+                <a href="index.html">
+                    <img src="img/logomoormix.png" alt="Logo de Moormix Digital">
+                </a>
             </div>
 
             <ul class="nav-links">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Catálogo</a></li>
-                <li><a href="#">Sobre nosotros</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="index.html">Inicio</a></li> 
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
             </ul>
         </div>
     </nav>
@@ -193,7 +227,7 @@
         <div class="welcome-box">
             <h1>Bienvenido a Moormix Digital</h1>
             <p>Tu destino para la última tecnología en smartphones. Calidad, garantía y los mejores precios.</p>
-            <a href="#" class="btn-primary">Explorar Catálogo</a>
+            <a href="catalogo.html" class="btn-primary">Explorar Catálogo</a>
         </div>
     </main>
 
