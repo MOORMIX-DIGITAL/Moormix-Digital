@@ -7,18 +7,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Variables de color para fácil mantenimiento */
+        /* Variables de color */
         :root {
-            --primary-color: #008c9e; /* Color del botón y algunos textos */
-            --secondary-color: #022b3a; /* Color del pie de página y texto oscuro */
-            --notice-bg: #219ebc; /* Fondo de la franja superior */
+            --primary-color: #008c9e; /* Color principal (azul verdoso) */
+            --secondary-color: #022b3a; /* Azul marino oscuro para el footer */
+            --notice-bg: #219ebc; /* Color de la franja superior */
             --text-light: #ffffff;
             --text-dark: #333;
-            --card-bg: #ffffff; /* Fondo del recuadro de bienvenida */
+            --card-bg: #ffffff; 
+            --body-bg: #f0f0f0; /* Fondo general de la página */
             --border-radius: 10px;
         }
 
-        /* Base y Reset */
+        /* Reset y Base */
         * {
             margin: 0;
             padding: 0;
@@ -28,7 +29,7 @@
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
-            background-color: #f0f0f0; /* Fondo gris claro */
+            background-color: var(--body-bg);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -60,7 +61,7 @@
 
         /* 2. Barra de Navegación */
         .navbar {
-            background-color: var(--text-light);
+            background-color: var(--card-bg); /* Fondo blanco */
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             padding: 10px 0;
         }
@@ -68,37 +69,30 @@
         .logo {
             display: flex;
             align-items: center;
+            margin-right: auto; /* Empuja los enlaces a la derecha */
+            padding-left: 20px; /* Pequeño ajuste para el logo en la esquina */
         }
-
-        /* Simulación del logo abstracto */
+        
+        /* Simulación del logo abstracto (círculo con colores) */
         .logo-placeholder {
             width: 35px;
             height: 35px;
             border-radius: 50%;
             position: relative;
-        }
-
-        .logo-placeholder::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Simula el degradado y la luz del logo de la imagen */
-            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%), 
-                        linear-gradient(135deg, #4a90e2 0%, #ff5757 100%);
-            border-radius: 50%;
+            /* Degradado y sombra sutil para replicar el efecto de la imagen */
+            background: linear-gradient(135deg, #4a90e2 0%, #ff5757 100%);
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
         }
         
         .nav-links {
             list-style: none;
             display: flex;
+            /* Ajustar al extremo derecho, como en la imagen */
+            padding-right: 20px; 
         }
 
         .nav-links li {
-            margin-left: 25px;
+            margin-left: 30px;
         }
 
         .nav-links a {
@@ -107,10 +101,6 @@
             font-size: 1em;
             padding: 5px 0;
             transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
         }
 
         /* 3. Contenido Principal / Recuadro de Bienvenida */
@@ -125,9 +115,95 @@
 
         .welcome-box {
             background-color: var(--card-bg);
-            padding: 60px 40px;
+            padding: 80px 40px; /* Más padding para que sea grande como en la imagen */
             border-radius: var(--border-radius);
-            max-width: 800px;
+            max-width: 900px; 
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+        }
+
+        .welcome-box h1 {
+            color: var(--primary-color);
+            font-size: 3em; /* Tamaño grande para el título */
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .welcome-box p {
+            color: #666;
+            font-size: 1.25em;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        /* Botón Primario */
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 15px 40px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #007a8a;
+        }
+
+        /* 4. Pie de Página */
+        .footer {
+            background-color: var(--secondary-color);
+            color: #a0a0a0;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9em;
             width: 100%;
-            box-shadow: 0 4px
-        
+        }
+
+        .footer .heart {
+            color: #ff5757;
+            margin: 0 5px;
+        }
+    </style>
+    </head>
+<body>
+
+    <header class="top-notice">
+        <p>Envíos gratis con planes a crédito</p>
+    </header>
+
+    <nav class="navbar">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 95%; max-width: 1200px; margin: 0 auto;">
+            <div class="logo">
+                <div class="logo-placeholder"></div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Catálogo</a></li>
+                <li><a href="#">Sobre nosotros</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="welcome-box">
+            <h1>Bienvenido a Moormix Digital</h1>
+            <p>Tu destino para la última tecnología en smartphones. Calidad, garantía y los mejores precios.</p>
+            <a href="#" class="btn-primary">Explorar Catálogo</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>
+            © 2024 Moormix Digital. Todos los derechos reservados. | Desarrollado con 
+            <span class="heart">❤</span> 
+            y JavaScript.
+        </p>
+    </footer>
+
+</body>
+</html>
