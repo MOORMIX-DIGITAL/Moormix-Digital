@@ -24,6 +24,17 @@
         input[type='number'] {
             -moz-appearance: textfield;
         }
+        
+        /* CORRECCIÓN: Asegura que la clase hidden funcione correctamente al inicio */
+        .content-page {
+            /* Mantiene todas las páginas ocultas por defecto hasta que JS las manipule */
+            display: none; 
+        }
+        /* Tailwind define .hidden como display: none, pero lo forzamos al inicio en el HTML */
+        .content-page.hidden {
+            display: none !important;
+        }
+        
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -302,15 +313,17 @@
         }
 
         function showPage(pageId) {
+            // Oculta todas las páginas
             document.querySelectorAll('.content-page').forEach(page => {
                 page.classList.add('hidden');
             });
+            // Muestra la página objetivo
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.remove('hidden');
             }
             
-            // Cerrar el menú si estamos en móvil después de navegar
+            // Cierra el menú móvil si está abierto
             if (mobileSidebar && !mobileSidebar.classList.contains('-translate-x-full')) {
                 toggleSidebar();
             }
@@ -651,7 +664,6 @@
             // Asignar listeners a TODOS los botones de navegación (móvil y escritorio)
             document.querySelectorAll('.nav-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    // Usar currentTarget para asegurar que el evento se lea correctamente si el clic es en un hijo
                     const pageId = e.currentTarget.getAttribute('data-page'); 
                     showPage(pageId);
                     if (pageId === 'page-catalogo') {
@@ -660,7 +672,7 @@
                 });
             });
 
-            // Iniciar la aplicación mostrando la página de inicio
+            // CORRECCIÓN FINAL: Muestra la página de inicio y actualiza catálogo
             showPage('page-inicio');
             updateCatalog();
         });
