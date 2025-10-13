@@ -37,10 +37,10 @@
             </button>
 
             <nav class="hidden lg:flex space-x-6 font-semibold">
-                <button class="nav-btn text-gray-700 hover:text-cyan-600 transition-colors" data-page="page-inicio" id="btn-inicio-lg">Inicio</button>
-                <button class="nav-btn text-gray-700 hover:text-cyan-600 transition-colors" data-page="page-catalogo" id="btn-catalogo-lg">Catálogo</button>
-                <button class="nav-btn text-gray-700 hover:text-cyan-600 transition-colors" data-page="page-nosotros" id="btn-nosotros-lg">Nosotros</button>
-                <button class="nav-btn text-gray-700 hover:text-cyan-600 transition-colors" data-page="page-contacto" id="btn-contacto-lg">Contacto</button>
+                <button class="nav-btn text-gray-700 hover:text-cyan-600 transition-colors" data-page="page-inicio">Inicio</button>
+                <button class="nav-btn text-gray-700 hover:text-cyan-600 transition-colors" data-page="page-catalogo">Catálogo</button>
+                <button class="nav-btn text-gray-700 hover:text-cyan-600 transition-colors" data-page="page-nosotros">Nosotros</button>
+                <button class="nav-btn text-gray-700 hover:text-cyan-600 transition-colors" data-page="page-contacto">Contacto</button>
             </nav>
         </div>
     </header>
@@ -49,10 +49,10 @@
         <div class="p-5">
             <div class="text-2xl font-bold text-cyan-600 mb-6 border-b pb-4">Menú</div>
             <nav class="flex flex-col space-y-4 font-semibold">
-                <button class="nav-btn text-lg text-gray-700 hover:text-cyan-600 transition-colors text-left" data-page="page-inicio" id="btn-inicio">Inicio</button>
-                <button class="nav-btn text-lg text-gray-700 hover:text-cyan-600 transition-colors text-left" data-page="page-catalogo" id="btn-catalogo">Catálogo</button>
-                <button class="nav-btn text-lg text-gray-700 hover:text-cyan-600 transition-colors text-left" data-page="page-nosotros" id="btn-nosotros">Nosotros</button>
-                <button class="nav-btn text-lg text-gray-700 hover:text-cyan-600 transition-colors text-left" data-page="page-contacto" id="btn-contacto">Contacto</button>
+                <button class="nav-btn text-lg text-gray-700 hover:text-cyan-600 transition-colors text-left" data-page="page-inicio">Inicio</button>
+                <button class="nav-btn text-lg text-gray-700 hover:text-cyan-600 transition-colors text-left" data-page="page-catalogo">Catálogo</button>
+                <button class="nav-btn text-lg text-gray-700 hover:text-cyan-600 transition-colors text-left" data-page="page-nosotros">Nosotros</button>
+                <button class="nav-btn text-lg text-gray-700 hover:text-cyan-600 transition-colors text-left" data-page="page-contacto">Contacto</button>
             </nav>
         </div>
     </aside>
@@ -142,13 +142,12 @@
 
 
     <script>
-        // COMIENZA EL CÓDIGO JAVASCRIPT ORIGINAL Y OPTIMIZADO
+        // COMIENZA EL CÓDIGO JAVASCRIPT
         
         const products = [
             {
                 name: "Xiaomi Note 13 Pro 5G",
                 brand: "Xiaomi",
-                // Añado un tag de ejemplo para que se muestre en el catálogo
                 tag: "Nuevo",
                 shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nReconocimiento facial\nHuella en pantalla",
@@ -271,16 +270,15 @@
                     { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 95.00, stock: 15 },
                 ],
             },
-             // Duplicados para más productos de ejemplo
+            // Duplicados para más productos de ejemplo
             {...products[0], name: "Xiaomi Note 13 Pro 5G (Red)", variants: [{ almacenamiento: "256GB", ram: "8GB", color: "Rojo", price: 125.00, stock: 5 }]},
             {...products[1], name: "Honor x6c (Green Edition)", variants: [{ almacenamiento: "256GB", ram: "12GB", color: "Verde", price: 102.00, stock: 10 }]},
             {...products[2], name: "Honor x7c (Blue)", variants: [{ almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 135.00, stock: 8 }]},
         ];
 
-        // 1. CÁLCULO DE IMPUESTOS (Mismo código)
+        // 1. CÁLCULO DE IMPUESTOS
         products.forEach(product => {
             product.variants.forEach(variant => {
-                // Cálculo del 15% de IVA
                 variant.priceWithTax = variant.price * 1.15;
             });
         });
@@ -290,7 +288,6 @@
         const mobileSidebar = document.getElementById('mobile-sidebar');
         const menuToggle = document.getElementById('menu-toggle');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
-        const navButtons = document.querySelectorAll('.nav-btn');
         const catalogButton = document.getElementById('btn-ir-catalogo');
 
         function toggleSidebar() {
@@ -319,19 +316,11 @@
             }
         }
 
+        // Asignación de eventos para el menú hamburguesa
         if(menuToggle) menuToggle.addEventListener('click', toggleSidebar);
         if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
 
-        navButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const pageId = e.target.getAttribute('data-page');
-                showPage(pageId);
-                if (pageId === 'page-catalogo') {
-                    updateCatalog();
-                }
-            });
-        });
-
+        // Asignación de evento para el botón "Ver Catálogo Ahora" en la página de Inicio
         if (catalogButton) {
             catalogButton.addEventListener('click', () => {
                 showPage('page-catalogo');
@@ -339,12 +328,10 @@
             });
         }
         
-        // Asignación de listeners de escritorio se movió a DOMContentLoaded
-
-        // 3. FUNCIÓN PARA RENDERIZAR LOS PRODUCTOS (OPTIMIZADO PARA IMAGEN MÓVIL)
+        // 3. FUNCIÓN PARA RENDERIZAR LOS PRODUCTOS
         function renderProducts(productsToRender) {
             const catalogoGrid = document.getElementById('catalogo-grid');
-            if (!catalogoGrid) return; // Salir si el contenedor no existe
+            if (!catalogoGrid) return; 
 
             catalogoGrid.innerHTML = '';
             
@@ -411,7 +398,6 @@
             if (sortOrder === 'name') {
                 filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
             } else if (sortOrder === 'price') {
-                // Ordena por el precio con IVA del primer variante como referencia
                 filteredProducts.sort((a, b) => a.variants[0].priceWithTax - b.variants[0].priceWithTax);
             }
 
@@ -425,7 +411,6 @@
             const modal = document.getElementById('info-modal');
             const modalContent = document.getElementById('modal-content');
             
-            // Lógica para obtener opciones únicas (Almacenamiento, RAM, Color)
             const uniqueOptions = {
                 almacenamiento: [...new Set(product.variants.map(v => v.almacenamiento))].sort(),
                 ram: [...new Set(product.variants.map(v => v.ram))].sort(),
@@ -453,7 +438,6 @@
 
             const whatsappMessage = `Hola, me interesa comprar el ${product.name} con ${selectedVariant.almacenamiento} de almacenamiento, ${selectedVariant.ram} de RAM y color ${selectedVariant.color}.`;
             
-            // Estructura del modal con layout responsivo (flex-col en móvil, lg:flex-row en desktop)
             modalContent.innerHTML = `
                 <div class="flex flex-col lg:flex-row items-start text-left space-y-6 lg:space-y-0 lg:space-x-8">
                     <div class="flex flex-col items-center w-full lg:w-1/2">
@@ -561,13 +545,11 @@
             const tabContent = document.getElementById('tab-content');
             
             function showTabContent(tabId) {
-                // Remover clases de todos los botones de pestaña
                 document.querySelectorAll('.tab-btn').forEach(btn => {
                     btn.classList.remove('border-cyan-600', 'text-cyan-600', 'font-bold');
                     btn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
                 });
                 
-                // Aplicar clases al botón activo
                 const activeBtn = document.getElementById(tabId);
                 activeBtn.classList.add('border-cyan-600', 'text-cyan-600', 'font-bold');
                 activeBtn.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
@@ -626,7 +608,7 @@
             if (modal) modal.classList.add('hidden');
         }
 
-        // 7. MANEJADORES DE EVENTOS GLOBALES (Revisados y reasignados)
+        // 7. MANEJADORES DE EVENTOS GLOBALES
         const searchInput = document.getElementById('search-input');
         const sortOrderEl = document.getElementById('sort-order');
         const closeModalBtn = document.getElementById('close-modal');
@@ -664,16 +646,21 @@
             }, 5000);
         });
 
-        // 9. INICIALIZACIÓN - CORRECCIÓN DE DOMContentLoaded
+        // 9. INICIALIZACIÓN - CORRECCIÓN CLAVE DENTRO DE DOMContentLoaded
         document.addEventListener('DOMContentLoaded', (event) => {
-            // Asignar listeners a botones de navegación de escritorio (lg)
-            // Se usa document.getElementById(id) && para evitar errores si no encuentra el elemento.
-            document.getElementById('btn-inicio-lg')?.addEventListener('click', () => showPage('page-inicio'));
-            document.getElementById('btn-catalogo-lg')?.addEventListener('click', () => { showPage('page-catalogo'); updateCatalog(); });
-            document.getElementById('btn-nosotros-lg')?.addEventListener('click', () => showPage('page-nosotros'));
-            document.getElementById('btn-contacto-lg')?.addEventListener('click', () => showPage('page-contacto'));
+            // Asignar listeners a TODOS los botones de navegación (móvil y escritorio)
+            document.querySelectorAll('.nav-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    // Usar currentTarget para asegurar que el evento se lea correctamente si el clic es en un hijo
+                    const pageId = e.currentTarget.getAttribute('data-page'); 
+                    showPage(pageId);
+                    if (pageId === 'page-catalogo') {
+                        updateCatalog();
+                    }
+                });
+            });
 
-            // Iniciar la aplicación
+            // Iniciar la aplicación mostrando la página de inicio
             showPage('page-inicio');
             updateCatalog();
         });
