@@ -3,808 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moormix Digital - Catálogo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>MoorMix Digital - SmartPhones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* * =======================================================
-         * CÓDIGO CSS (Incluye tus estilos de Tailwind personalizados o base)
-         * =======================================================
-         */
-        
-        .content-page {
-            /* Estilo base para las páginas de contenido */
-            padding: 20px;
+        /* Variables de color para fácil mantenimiento */
+        :root {
+            --primary-color: #008c9e; /* Color del botón y algunos textos */
+            --secondary-color: #022b3a; /* Color del pie de página y texto oscuro */
+            --notice-bg: #219ebc; /* Fondo de la franja superior */
+            --text-light: #ffffff;
+            --text-dark: #333;
+            --card-bg: #ffffff; /* Fondo del recuadro de bienvenida */
+            --border-radius: 10px;
         }
 
-        .hidden {
-            display: none !important;
+        /* Base y Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Estilos específicos para el modal */
-        .finance-content-hidden {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-in-out;
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0; /* Fondo gris claro */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .finance-content-visible {
-            /* Ajusta este valor para que sea mayor que el contenido máximo esperado */
-            max-height: 500px; 
-            transition: max-height 0.3s ease-in-out;
-            padding: 1rem;
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Estilos para botones de opción/variantes */
-        .option-btn:not([data-selected="true"]) {
-            border-color: #d1d5db; /* gray-300 */
-            background-color: #ffffff; /* white */
-            color: #4b5563; /* gray-700 */
-        }
-        .option-btn[data-selected="true"] {
-            border-color: #06b6d4; /* cyan-600 */
-            background-color: #06b6d4; /* cyan-600 */
-            color: #ffffff; /* white */
-        }
-    </style>
-</head>
-<body class="bg-gray-50">
-
-    <header class="bg-white shadow-md sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a id="logo-link" data-page-id="page-inicio" class="text-2xl font-bold text-cyan-600 cursor-pointer">Moormix Digital</a>
-                
-                <nav class="hidden md:flex space-x-8">
-                    <a data-page-id="page-inicio" class="text-gray-600 hover:text-cyan-600 transition-colors cursor-pointer">Inicio</a>
-                    <a data-page-id="page-catalogo" class="text-gray-600 hover:text-cyan-600 transition-colors cursor-pointer">Catálogo</a>
-                    <a data-page-id="page-nosotros" class="text-gray-600 hover:text-cyan-600 transition-colors cursor-pointer">Nosotros</a>
-                    <a data-page-id="page-contacto" class="text-gray-600 hover:text-cyan-600 transition-colors cursor-pointer">Contacto</a>
-                </nav>
-
-                <button id="menu-toggle" class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none">
-                    <svg id="menu-icon-open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                    <svg id="menu-icon-close" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-        
-        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg border-t border-gray-200">
-            <nav class="px-2 pt-2 pb-3 space-y-1">
-                <a data-page-id="page-inicio" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-cyan-600 cursor-pointer">Inicio</a>
-                <a data-page-id="page-catalogo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-cyan-600 cursor-pointer">Catálogo</a>
-                <a data-page-id="page-nosotros" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-cyan-600 cursor-pointer">Nosotros</a>
-                <a data-page-id="page-contacto" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-cyan-600 cursor-pointer">Contacto</a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto mt-8">
-        
-        <div id="page-inicio" class="content-page">
-            <h2 class="text-4xl font-extrabold text-gray-900 mb-6">Bienvenido a Moormix Digital</h2>
-            <p class="text-lg text-gray-600 mb-8">La mejor tecnología a tu alcance, con opciones de pago flexibles.</p>
-            
-            <button id="btn-ir-catalogo" data-page-id="page-catalogo" class="bg-cyan-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-cyan-700 transition-colors shadow-lg">
-                Explorar Catálogo Ahora
-            </button>
-            </div>
-
-        <div id="page-catalogo" class="content-page hidden">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">Catálogo de Productos</h2>
-            
-            <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                <input id="search-input" type="text" placeholder="Buscar por nombre, marca o descripción..." class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
-                <select id="sort-order" class="p-3 border border-gray-300 rounded-lg">
-                    <option value="name">Ordenar por Nombre</option>
-                    <option value="price">Ordenar por Precio</option>
-                </select>
-            </div>
-
-            <div id="products-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                </div>
-        </div>
-
-        <div id="page-nosotros" class="content-page hidden">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">Sobre Nosotros</h2>
-            <p class="text-gray-700">Aquí va la historia de tu empresa, misión, visión, etc.</p>
-        </div>
-
-        <div id="page-contacto" class="content-page hidden">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">Contáctanos</h2>
-            <form id="contact-form" class="space-y-4">
-                <input type="text" id="name" placeholder="Tu Nombre" required class="w-full p-3 border border-gray-300 rounded-lg">
-                <input type="email" id="email" placeholder="Tu Correo Electrónico" required class="w-full p-3 border border-gray-300 rounded-lg">
-                <textarea id="message" rows="4" placeholder="Tu Mensaje, Reclamo o Sugerencia" required class="w-full p-3 border border-gray-300 rounded-lg"></textarea>
-                <button type="submit" class="w-full bg-cyan-600 text-white font-bold py-3 rounded-lg hover:bg-cyan-700 transition-colors">Enviar Mensaje</button>
-                <p id="form-message" class="hidden mt-2 text-sm"></p>
-            </form>
-        </div>
-
-    </main>
-
-    <div id="info-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative p-6">
-            <button id="close-modal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition-colors">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div id="modal-content" class="pt-6">
-                </div>
-        </div>
-    </div>
-
-
-    <script>
-        
-        // -------------------------------------------------------------
-        // ⚠️ 1. VARIABLES Y FUNCIONES GLOBALES (REEMPLAZAR CON TU CÓDIGO)
-        // -------------------------------------------------------------
-
-        // ** REEMPLAZA ESTO ** con tu array de productos real
-        const products = [
-             /* Ejemplo:
-            {
-                id: 1, name: "Smartphone X", brand: "TechCo", 
-                shortDescription: "Potente móvil con gran cámara.", 
-                longDescription: "Detalle completo del Smartphone...",
-                images: ["x1.jpg", "x2.jpg"],
-                specs: ["Pantalla 6.5", "Batería 5000mAh"],
-                variants: [
-                    {almacenamiento: "128GB", ram: "8GB", color: "Negro", priceWithTax: 350.00, stock: 5},
-                    {almacenamiento: "256GB", ram: "12GB", color: "Negro", priceWithTax: 450.00, stock: 2},
-                ]
-            }
-            */
-        ]; 
-        
-        // ** REEMPLAZA ESTO ** con tu lógica para calcular la cuota
-        function calculateInstallment(price, months, frequency) {
-            // Lógica de cálculo (ejemplo básico sin interés real, solo para simulación)
-            const totalFinanced = price * 1.15; // 15% de "interés" simulado
-            let numPayments;
-            let frequencyLabel;
-            
-            if (frequency === 'mensual') {
-                numPayments = months;
-                frequencyLabel = 'cuota mensual';
-            } else if (frequency === 'quincenal') {
-                numPayments = months * 2;
-                frequencyLabel = 'cuota quincenal';
-            } else { // semanal
-                numPayments = months * 4;
-                frequencyLabel = 'cuota semanal';
-            }
-
-            const installment = totalFinanced / numPayments;
-            
-            return {
-                installment: installment, 
-                totalFinanced: totalFinanced, 
-                numPayments: numPayments, 
-                frequencyLabel: frequencyLabel
-            };
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
-        // ** REEMPLAZA ESTO ** con tu función para obtener la URL de la imagen
-        function getImageSrc(image, productName) {
-            // Ejemplo: asumo que las imágenes están en una carpeta 'img/'
-            return `img/${image}`; 
+        /* 1. Franja Superior de Aviso */
+        .top-notice {
+            background-color: var(--notice-bg);
+            color: var(--text-light);
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.9em;
+            font-weight: 400;
         }
 
-        // ** REEMPLAZA ESTO ** con tu lógica para pintar las tarjetas de producto
-        function renderProducts(productList) {
-            const grid = document.getElementById('products-grid-container');
-            if (!grid) return;
-            
-            let html = '';
-            
-            if (productList.length === 0) {
-                grid.innerHTML = '<p class="text-xl text-gray-500 col-span-full">No se encontraron productos que coincidan con la búsqueda.</p>';
-                return;
-            }
+        /* 2. Barra de Navegación */
+        .navbar {
+            background-color: var(--text-light);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 10px 0;
+        }
 
-            // Aquí se generaría el HTML de las tarjetas
-            // Ejemplo de tarjeta:
-            /*
-            productList.forEach(p => {
-                html += `<div class="bg-white rounded-lg shadow-lg p-4 cursor-pointer" onclick="showModal(${p.id})">
-                            <img src="${getImageSrc(p.images[0], p.name)}" alt="${p.name}" class="w-full h-48 object-contain mb-4">
-                            <h3 class="font-bold text-lg">${p.name}</h3>
-                            <p class="text-cyan-600 font-extrabold text-xl mt-2">$${p.variants[0].priceWithTax.toFixed(2)}</p>
-                            <button class="mt-4 w-full bg-pink-500 text-white py-2 rounded-lg">Ver Detalles</button>
-                         </div>`;
-            });
-            */
-            
-            // 🛑 La clave es que esta función SOLO modifique el innerHTML del grid 🛑
-            grid.innerHTML = html; 
-            
-            // Si tus tarjetas tienen un botón que abre el modal, debes añadir el listener aquí 
-            // SI ESTÁS USANDO EVENT DELEGATION PARA LAS TARJETAS (recomendado), no necesitas listeners.
-            // Si usas onclick="showModal(id)", ya está bien.
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Simulación del logo abstracto */
+        .logo-placeholder {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .logo-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Simula el degradado y la luz del logo de la imagen */
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%), 
+                        linear-gradient(135deg, #4a90e2 0%, #ff5757 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
         }
         
-        // ** REEMPLAZA ESTO ** con tu función para mostrar el modal con el producto correcto
-        function showModal(productId) {
-            // Esta función debería:
-            // 1. Encontrar el producto por ID.
-            // 2. Definir 'product' y 'selectedVariant' (la primera por defecto).
-            // 3. Definir 'optionsHtml' (el HTML de los selectores de variantes).
-            // 4. Llamar al código de inyección del modal (el HTML que sigue).
-            
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            // Suponiendo que la primera variante es la seleccionada por defecto
-            const selectedVariant = product.variants[0]; 
-
-            // Simulación de optionsHtml (Deberías generarlo dinámicamente según las variantes del producto)
-            const almacenamientoOptions = [...new Set(product.variants.map(v => v.almacenamiento))].map(val => 
-                `<button class="option-btn px-4 py-2 border rounded-lg transition-colors" data-option-type="almacenamiento" data-option-value="${val}" ${val === selectedVariant.almacenamiento ? 'data-selected="true"' : ''}>${val}</button>`
-            ).join('');
-
-            const ramOptions = [...new Set(product.variants.map(v => v.ram))].map(val => 
-                `<button class="option-btn px-4 py-2 border rounded-lg transition-colors" data-option-type="ram" data-option-value="${val}" ${val === selectedVariant.ram ? 'data-selected="true"' : ''}>${val}</button>`
-            ).join('');
-
-            const colorOptions = [...new Set(product.variants.map(v => v.color))].map(val => 
-                `<button class="option-btn px-4 py-2 border rounded-lg transition-colors" data-option-type="color" data-option-value="${val}" ${val === selectedVariant.color ? 'data-selected="true"' : ''}>${val}</button>`
-            ).join('');
-
-            const optionsHtml = `
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Almacenamiento:</label>
-                    <div id="options-almacenamiento" class="flex gap-2 flex-wrap">${almacenamientoOptions}</div>
-                </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">RAM:</label>
-                    <div id="options-ram" class="flex gap-2 flex-wrap">${ramOptions}</div>
-                </div>
-                <div class="mt-4 mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Color:</label>
-                    <div id="options-color" class="flex gap-2 flex-wrap">${colorOptions}</div>
-                </div>
-            `;
-            
-            const modal = document.getElementById('info-modal');
-            const modalContent = document.getElementById('modal-content');
-            const initialInstallment = calculateInstallment(selectedVariant.priceWithTax, 3, 'mensual');
-
-
-            // ===================================================================================================
-            // ⚠️ CÓDIGO DE INYECCIÓN DEL MODAL (COPIA DESDE AQUÍ)
-            // Es la primera parte del código que me enviaste. He limpiado las variables globales para el contexto.
-            // ===================================================================================================
-            modalContent.innerHTML = `
-                <div class="flex flex-col lg:flex-row items-center lg:items-start text-left space-y-8 lg:space-y-0 lg:space-x-8 p-4">
-                    <div class="flex flex-col items-center w-full lg:w-1/2">
-                        <img id="main-product-image" src="${getImageSrc(product.images[0], product.name)}" alt="${product.name}" class="w-full h-auto max-h-96 object-contain rounded-lg shadow-lg mb-4">
-                        
-                        <div class="flex space-x-2 overflow-x-auto w-full justify-center">
-                            ${product.images.map(image => `
-                                <img src="${getImageSrc(image, product.name)}" alt="${product.name}" class="thumbnail w-16 h-16 rounded-md cursor-pointer border-2 border-transparent hover:border-cyan-600 transition-colors" onclick="document.getElementById('main-product-image').src='${getImageSrc(image, product.name)}'">
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <div class="w-full lg:w-1/2">
-                        <span class="bg-pink-500 text-white text-xs font-semibold px-2 py-1 rounded-full uppercase">${product.brand}</span>
-                        <h3 class="text-3xl font-bold text-gray-900 mt-2">${product.name}</h3>
-                        <p class="text-sm text-gray-500 mt-2">Disponibles: <span id="modal-stock">${selectedVariant.stock}</span>!</p>
-                        
-                        <div class="my-4 pb-4 border-b border-gray-200">
-                            <p class="text-gray-700 font-semibold mb-1">Precio de Contado:</p>
-                            <span id="modal-price" class="text-4xl font-extrabold text-cyan-600 block">
-                                $${selectedVariant.priceWithTax.toFixed(2)}
-                            </span>
-                            <span class="text-sm font-semibold text-gray-500">
-                                (Precio final con IVA)
-                            </span>
-                        </div>
-
-                        <div id="finance-accordion" class="mb-6 bg-gray-100 rounded-lg overflow-hidden">
-                            <button id="finance-toggle" class="w-full text-left p-4 flex justify-between items-center text-gray-700 font-bold hover:bg-gray-200 transition-colors border-b border-gray-300">
-                                <span>Pagar a Plazos (Ver Opciones)</span>
-                                <svg id="finance-icon" class="w-5 h-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-
-                            <div id="finance-content" class="finance-content-hidden">
-                                
-                                <div class="flex flex-col sm:flex-row gap-4">
-                                    
-                                    <div class="mb-3 w-full sm:w-1/2">
-                                        <label class="block text-sm font-medium text-gray-600 mb-1">Plazo (Meses):</label>
-                                        <div class="flex flex-col gap-2 justify-start">
-                                            <button class="finance-term-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200 data-[selected=true]:bg-pink-600 data-[selected=true]:text-white data-[selected=true]:border-pink-600" data-months="3" data-selected="true">3 Meses</button>
-                                            <button class="finance-term-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="6">6 Meses</button>
-                                            <button class="finance-term-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-months="9">9 Meses</button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="mb-3 w-full sm:w-1/2">
-                                        <label class="block text-sm font-medium text-gray-600 mb-1">Frecuencia de Pago:</label>
-                                        <div class="flex flex-col gap-2 justify-start">
-                                            <button class="finance-freq-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="semanal">Semanal</button>
-                                            <button class="finance-freq-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="quincenal">Quincenal</button>
-                                            <button class="finance-freq-btn px-4 py-2 border rounded-lg text-sm transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-200" data-frequency="mensual" data-selected="true">Mensual</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-4 text-center p-3 bg-white rounded-md shadow-inner border-t pt-3">
-                                    <p class="text-sm text-gray-600 mb-1">Tu <span id="payment-label">${initialInstallment.frequencyLabel}</span> sería de:</p>
-                                    <span id="installment-amount" class="text-3xl font-extrabold text-pink-600">
-                                        $${initialInstallment.installment.toFixed(2)}
-                                    </span>
-                                    <p class="text-xs text-gray-500 mt-1">
-                                        (Total Financiado: $<span id="total-financed">${initialInstallment.totalFinanced.toFixed(2)}</span> en <span id="num-payments">${initialInstallment.numPayments}</span> cuotas)
-                                    </p>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        ${optionsHtml}
-
-                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
-                            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden w-full sm:w-auto">
-                                <button id="qty-minus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50" disabled>-</button>
-                                <input id="qty-input" type="number" value="1" min="1" max="${selectedVariant.stock}" class="w-full sm:w-12 text-center border-none focus:outline-none p-2">
-                                <button id="qty-plus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors ${selectedVariant.stock <= 1 ? 'disabled:opacity-50' : ''}" ${selectedVariant.stock <= 1 ? 'disabled' : ''}>+</button>
-                            </div>
-                            <a id="modal-whatsapp-link" href="#" target="_blank" class="flex-1 text-center bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition-colors">
-                                COMPRAR POR WHATSAPP
-                            </a>
-                        </div>
-
-                        <div class="mt-6 space-y-3">
-                            <button id="tab-desc-btn" class="w-full text-left p-3 rounded-lg bg-cyan-600 text-white font-bold shadow-md transition-colors duration-200">
-                                DESCRIPCIÓN
-                            </button>
-                            <div id="tab-desc-content" class="tab-content pt-2 pb-4 text-gray-700 text-sm">
-                                </div>
-
-                            <button id="tab-specs-btn" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 font-bold hover:bg-gray-300 shadow-md transition-colors duration-200">
-                                ESPECIFICACIÓN
-                            </button>
-                            <div id="tab-specs-content" class="tab-content hidden pt-2 pb-4 text-gray-700 text-sm">
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            // FIN DE CÓDIGO DE INYECCIÓN DEL MODAL
-
-
-            // -------------------------------------------------------------
-            // CÓDIGO DEL MODAL: LÓGICA DE INTERACCIÓN Y CÁLCULOS (COPIA DESDE AQUÍ)
-            // -------------------------------------------------------------
-            
-            // Lógica de Pagos a Plazos
-            function updateInstallmentUI() {
-                const currentPrice = parseFloat(modalContent.querySelector('#modal-price').textContent.replace('$', ''));
-                const selectedMonths = modalContent.querySelector('.finance-term-btn[data-selected="true"]').getAttribute('data-months');
-                const selectedFrequency = modalContent.querySelector('.finance-freq-btn[data-selected="true"]').getAttribute('data-frequency');
-                const quantity = parseInt(modalContent.querySelector('#qty-input').value) || 1;
-
-                const priceToCalculate = currentPrice * quantity;
-
-                const result = calculateInstallment(priceToCalculate, parseInt(selectedMonths), selectedFrequency);
-
-                modalContent.querySelector('#installment-amount').textContent = `$${result.installment.toFixed(2)}`;
-                modalContent.querySelector('#total-financed').textContent = result.totalFinanced.toFixed(2);
-                modalContent.querySelector('#num-payments').textContent = result.numPayments;
-                modalContent.querySelector('#payment-label').textContent = result.frequencyLabel;
-            }
-
-            // ACORDEÓN: Función para manejar el despliegue
-            const financeContent = modalContent.querySelector('#finance-content');
-            const financeToggle = modalContent.querySelector('#finance-toggle');
-            const financeIcon = modalContent.querySelector('#finance-icon');
-
-            financeContent.classList.remove('finance-content-visible');
-            financeContent.classList.add('finance-content-hidden');
-            financeIcon.style.transform = 'rotate(0deg)';
-
-
-            financeToggle.addEventListener('click', () => {
-                const isHidden = financeContent.classList.contains('finance-content-hidden');
-
-                if (isHidden) {
-                    financeContent.classList.remove('finance-content-hidden');
-                    financeContent.classList.add('finance-content-visible');
-                    financeIcon.style.transform = 'rotate(180deg)';
-                } else {
-                    financeContent.classList.remove('finance-content-visible');
-                    financeContent.classList.add('finance-content-hidden');
-                    financeIcon.style.transform = 'rotate(0deg)';
-                }
-                updateWhatsappLink();
-            });
-
-            // Manejador de botones de Plazo (Meses)
-            modalContent.querySelectorAll('.finance-term-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    modalContent.querySelectorAll('.finance-term-btn').forEach(btn => btn.removeAttribute('data-selected'));
-                    e.target.setAttribute('data-selected', 'true');
-                    updateInstallmentUI();
-                    updateWhatsappLink();
-                });
-            });
-
-            // Manejador de botones de Frecuencia
-            modalContent.querySelectorAll('.finance-freq-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    modalContent.querySelectorAll('.finance-freq-btn').forEach(btn => btn.removeAttribute('data-selected'));
-                    e.target.setAttribute('data-selected', 'true');
-                    updateInstallmentUI();
-                    updateWhatsappLink();
-                });
-            });
-
-
-            // Función para actualizar el precio y stock en el modal (y actualizar Plazos)
-            function updateModalUI() {
-                const selectedAlmacenamientoBtn = modalContent.querySelector('#options-almacenamiento .option-btn[data-selected="true"]');
-                const selectedRamBtn = modalContent.querySelector('#options-ram .option-btn[data-selected="true"]');
-                const selectedColorBtn = modalContent.querySelector('#options-color .option-btn[data-selected="true"]');
-
-                if (!selectedAlmacenamientoBtn || !selectedRamBtn || !selectedColorBtn) {
-                        return;
-                }
-
-                const currentSelection = {
-                    almacenamiento: selectedAlmacenamientoBtn.getAttribute('data-option-value'),
-                    ram: selectedRamBtn.getAttribute('data-option-value'),
-                    color: selectedColorBtn.getAttribute('data-option-value')
-                };
-
-                const matchedVariant = product.variants.find(v =>
-                    v.almacenamiento === currentSelection.almacenamiento &&
-                    v.ram === currentSelection.ram &&
-                    v.color === currentSelection.color
-                );
-
-                const priceEl = modalContent.querySelector('#modal-price');
-                const stockEl = modalContent.querySelector('#modal-stock');
-                const qtyInput = modalContent.querySelector('#qty-input');
-                const qtyPlusBtn = modalContent.querySelector('#qty-plus');
-                const qtyMinusBtn = modalContent.querySelector('#qty-minus');
-                const whatsappLink = modalContent.querySelector('#modal-whatsapp-link');
-
-
-                if (matchedVariant) {
-                    priceEl.textContent = `$${matchedVariant.priceWithTax.toFixed(2)}`;
-                    stockEl.textContent = matchedVariant.stock;
-
-                    qtyInput.max = matchedVariant.stock;
-                    if (parseInt(qtyInput.value) > matchedVariant.stock || parseInt(qtyInput.value) < 1) {
-                        qtyInput.value = matchedVariant.stock > 0 ? 1 : 0;
-                    }
-
-                    const hasStock = matchedVariant.stock > 0;
-
-                    qtyPlusBtn.disabled = matchedVariant.stock <= parseInt(qtyInput.value);
-                    qtyMinusBtn.disabled = parseInt(qtyInput.value) <= 1;
-
-                    if (hasStock) {
-                        whatsappLink.disabled = false;
-                        whatsappLink.textContent = 'COMPRAR POR WHATSAPP';
-                        whatsappLink.classList.add('bg-green-500', 'hover:bg-green-600');
-                        whatsappLink.classList.remove('bg-gray-400', 'cursor-not-allowed');
-                    } else {
-                        whatsappLink.disabled = true;
-                        whatsappLink.textContent = 'Sin Stock';
-                        whatsappLink.classList.remove('bg-green-500', 'hover:bg-green-600');
-                        whatsappLink.classList.add('bg-gray-400', 'cursor-not-allowed');
-                    }
-
-                    updateWhatsappLink();
-                    updateInstallmentUI(); 
-                } else {
-                    priceEl.textContent = 'No disponible';
-                    stockEl.textContent = '0';
-                    qtyInput.max = 0;
-                    qtyInput.value = 0;
-                    qtyPlusBtn.disabled = true;
-                    qtyMinusBtn.disabled = true;
-                    whatsappLink.href = '#';
-                    whatsappLink.disabled = true;
-                    whatsappLink.textContent = 'Combinación No Disponible';
-                    whatsappLink.classList.remove('bg-green-500', 'hover:bg-green-600');
-                    whatsappLink.classList.add('bg-gray-400', 'cursor-not-allowed');
-                }
-            }
-
-            // Lógica para PESTAÑAS VERTICALES
-            const tabDescBtn = modalContent.querySelector('#tab-desc-btn');
-            const tabSpecsBtn = modalContent.querySelector('#tab-specs-btn');
-            const tabDescContent = modalContent.querySelector('#tab-desc-content');
-            const tabSpecsContent = modalContent.querySelector('#tab-specs-content');
-
-            // 1. Inyectar el contenido
-            const formattedDescription = product.longDescription.replace(/\n/g, '<br>');
-            tabDescContent.innerHTML = `<p>${formattedDescription}</p>`;
-            const specsList = product.specs.map(spec => `<li class="mb-1">${spec}</li>`).join('');
-            tabSpecsContent.innerHTML = `<ul class="list-disc list-inside space-y-1">${specsList}</ul>`;
-
-            // 2. Función para mostrar/ocultar el contenido
-            function showTabContent(tabId) {
-                modalContent.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
-
-                tabDescBtn.classList.remove('bg-cyan-600', 'text-white');
-                tabDescBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-                tabSpecsBtn.classList.remove('bg-cyan-600', 'text-white');
-                tabSpecsBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-
-
-                if (tabId === 'tab-desc-content') {
-                    tabDescContent.classList.remove('hidden');
-                    tabDescBtn.classList.add('bg-cyan-600', 'text-white');
-                    tabDescBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-                } else if (tabId === 'tab-specs-content') {
-                    tabSpecsContent.classList.remove('hidden');
-                    tabSpecsBtn.classList.add('bg-cyan-600', 'text-white');
-                    tabSpecsBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-                }
-            }
-
-            // 3. Añadir listeners para las pestañas
-            tabDescBtn.addEventListener('click', () => showTabContent('tab-desc-content'));
-            tabSpecsBtn.addEventListener('click', () => showTabContent('tab-specs-content'));
-
-            // Lógica para cantidad
-            const qtyInput = modalContent.querySelector('#qty-input');
-            const qtyPlusBtn = modalContent.querySelector('#qty-plus');
-            const qtyMinusBtn = modalContent.querySelector('#qty-minus');
-
-            // Función para actualizar el enlace de WhatsApp con la cantidad y el método de pago
-            const updateWhatsappLink = () => {
-                const selectedAlmacenamientoBtn = modalContent.querySelector('#options-almacenamiento .option-btn[data-selected="true"]');
-                const selectedRamBtn = modalContent.querySelector('#options-ram .option-btn[data-selected="true"]');
-                const selectedColorBtn = modalContent.querySelector('#options-color .option-btn[data-selected="true"]');
-
-                if (!selectedAlmacenamientoBtn || !selectedRamBtn || !selectedColorBtn) {
-                        return;
-                }
-
-                const currentSelection = {
-                    almacenamiento: selectedAlmacenamientoBtn.getAttribute('data-option-value'),
-                    ram: selectedRamBtn.getAttribute('data-option-value'),
-                    color: selectedColorBtn.getAttribute('data-option-value')
-                };
-
-                const currentPriceEl = modalContent.querySelector('#modal-price');
-                if (!currentPriceEl) return;
-                
-                const currentPrice = parseFloat(currentPriceEl.textContent.replace('$', '')) || 0;
-                const quantity = parseInt(qtyInput.value) || 1;
-                const totalPrice = (currentPrice * quantity).toFixed(2);
-                
-                const isFinanceVisible = financeContent.classList.contains('finance-content-visible');
-                
-                let paymentDetail = "";
-
-                if (isFinanceVisible) {
-                    const selectedMonths = modalContent.querySelector('.finance-term-btn[data-selected="true"]').getAttribute('data-months');
-                    const selectedFrequency = modalContent.querySelector('.finance-freq-btn[data-selected="true"]').getAttribute('data-frequency');
-                    const installmentAmount = modalContent.querySelector('#installment-amount').textContent;
-                    
-                    paymentDetail = `Pago a Plazos:\nCuota: ${installmentAmount}\nFrecuencia: ${selectedFrequency}\nPlazo: ${selectedMonths} meses.`;
-                } else {
-                    paymentDetail = `Precio de Contado: $${totalPrice}.`;
-                }
-
-
-                const whatsappMessage = `Hola, me interesa comprar ${quantity} unidad(es) del ${product.name} con ${currentSelection.almacenamiento} de almacenamiento, ${currentSelection.ram} de RAM y color ${currentSelection.color}. \n\nDetalle de Pago:\n${paymentDetail}`;
-
-                const whatsappLink = modalContent.querySelector('#modal-whatsapp-link');
-                whatsappLink.href = `https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}`;
-
-                qtyMinusBtn.disabled = parseInt(qtyInput.value) <= 1 || parseInt(qtyInput.max) === 0;
-                qtyPlusBtn.disabled = parseInt(qtyInput.value) >= parseInt(qtyInput.max) || parseInt(qtyInput.max) === 0;
-            };
-
-            qtyPlusBtn.addEventListener('click', () => {
-                let currentVal = parseInt(qtyInput.value);
-                if (currentVal < parseInt(qtyInput.max)) {
-                    qtyInput.value = currentVal + 1;
-                }
-                updateWhatsappLink();
-                updateInstallmentUI();
-            });
-
-            qtyMinusBtn.addEventListener('click', () => {
-                let currentVal = parseInt(qtyInput.value);
-                if (currentVal > 1) {
-                    qtyInput.value = currentVal - 1;
-                }
-                updateWhatsappLink();
-                updateInstallmentUI();
-            });
-
-            qtyInput.addEventListener('change', () => {
-                let currentVal = parseInt(qtyInput.value);
-                const maxVal = parseInt(qtyInput.max);
-                if (isNaN(currentVal) || currentVal < 1) currentVal = 1;
-                if (currentVal > maxVal) currentVal = maxVal;
-                qtyInput.value = currentVal;
-
-                updateWhatsappLink();
-                updateInstallmentUI();
-            });
-
-            // Lógica para las opciones de selección
-            modalContent.querySelectorAll('.option-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const optionType = e.target.getAttribute('data-option-type');
-                    modalContent.querySelectorAll(`.option-btn[data-option-type="${optionType}"]`).forEach(btn => {
-                        btn.removeAttribute('data-selected');
-                    });
-                    e.target.setAttribute('data-selected', 'true');
-
-                    updateModalUI();
-                });
-            });
-
-            showTabContent('tab-desc-content');
-            updateModalUI();
-            modal.classList.remove('hidden');
-
-            // Manejador de evento para cerrar el modal
-            document.getElementById('close-modal').addEventListener('click', hideModal);
-            document.getElementById('info-modal').addEventListener('click', (event) => {
-                if (event.target === event.currentTarget) {
-                    hideModal();
-                }
-            });
-
-        } // Cierre de la función showModal
-
-
-        // -------------------------------------------------------------
-        // CÓDIGO CORE: NAVEGACIÓN Y CATÁLOGO (CORREGIDO)
-        // -------------------------------------------------------------
-
-        // 4. Función para ocultar el modal
-        function hideModal() {
-            document.getElementById('info-modal').classList.add('hidden');
+        .nav-links {
+            list-style: none;
+            display: flex;
         }
 
-        // 5. Función para cambiar de página
-        function showPage(pageId) {
-            document.querySelectorAll('.content-page').forEach(page => {
-                page.classList.add('hidden');
-            });
-            document.getElementById(pageId).classList.remove('hidden');
-
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (!mobileMenu.classList.contains('hidden')) {
-                toggleMenu();
-            }
+        .nav-links li {
+            margin-left: 25px;
         }
 
-        // 6. Función para el menú hamburguesa
-        function toggleMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuOpenIcon = document.getElementById('menu-icon-open');
-            const menuCloseIcon = document.getElementById('menu-icon-close');
-
-            mobileMenu.classList.toggle('hidden');
-            menuOpenIcon.classList.toggle('hidden');
-            menuCloseIcon.classList.toggle('hidden');
+        .nav-links a {
+            color: var(--text-dark);
+            font-weight: 400;
+            font-size: 1em;
+            padding: 5px 0;
+            transition: color 0.3s;
         }
 
-        // 7. Función para actualizar el catálogo con búsqueda y ordenamiento
-        function updateCatalog() {
-            const searchInput = document.getElementById('search-input');
-            const sortSelect = document.getElementById('sort-order');
-            if (!searchInput || !sortSelect) return;
-
-            const searchTerm = searchInput.value.toLowerCase();
-            const sortOrder = sortSelect.value;
-
-            let filteredProducts = products.filter(product => {
-                const name = product.name.toLowerCase();
-                const shortDescription = product.shortDescription.toLowerCase();
-                const longDescription = product.longDescription.toLowerCase();
-                const brand = product.brand.toLowerCase();
-                return name.includes(searchTerm) || shortDescription.includes(searchTerm) || longDescription.includes(searchTerm) || brand.includes(searchTerm);
-            });
-
-            if (sortOrder === 'name') {
-                filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
-            } else if (sortOrder === 'price') {
-                filteredProducts.sort((a, b) => a.variants[0].priceWithTax - b.variants[0].priceWithTax);
-            }
-
-            renderProducts(filteredProducts);
+        .nav-links a:hover {
+            color: var(--primary-color);
         }
 
-        // 8. Manejadores de eventos
+        /* 3. Contenido Principal / Recuadro de Bienvenida */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            text-align: center;
+        }
 
-        // 🛑 SOLUCIÓN AL PROBLEMA DE PÉRDIDA DE LISTENERS (DELEGACIÓN DE EVENTOS) 🛑
-        document.addEventListener('click', function(e) {
-            let target = e.target;
-            
-            while (target && target !== document.body) {
-                const pageId = target.getAttribute('data-page-id');
-                
-                if (pageId) {
-                    e.preventDefault();
-                    
-                    if (['page-inicio', 'page-catalogo', 'page-nosotros', 'page-contacto'].includes(pageId)) {
-                        showPage(pageId);
-                        if (pageId === 'page-catalogo') {
-                            updateCatalog();
-                        }
-                    }
-                    
-                    if (target.id === 'btn-ir-catalogo') {
-                        showPage('page-catalogo');
-                        updateCatalog();
-                    }
-                    
-                    if (target.id === 'logo-link') {
-                        showPage('page-inicio');
-                    }
-                    
-                    const mobileMenu = document.getElementById('mobile-menu');
-                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                        toggleMenu();
-                    }
-                    return; 
-                }
-                
-                if (target.id === 'menu-toggle') {
-                    toggleMenu();
-                    return;
-                }
-
-                target = target.parentElement;
-            }
-        });
-
-
-        // Manejadores de eventos para búsqueda y ordenamiento
-        document.getElementById('search-input').addEventListener('input', updateCatalog);
-        document.getElementById('sort-order').addEventListener('change', updateCatalog);
-
-        // Manejador de evento para el formulario de contacto
-        document.getElementById('contact-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            const subject = "Reclamo o sugerencia de " + name;
-            const body = `Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`;
-            const mailtoLink = `mailto:moormixdigital@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-            window.location.href = mailtoLink;
-
-            const formMessage = document.getElementById('form-message');
-            formMessage.textContent = "Tu mensaje ha sido enviado a tu cliente de correo para su confirmación.";
-            formMessage.classList.remove('hidden');
-            formMessage.classList.add('text-green-600');
-
-            setTimeout(() => {
-                document.getElementById('contact-form').reset();
-                formMessage.classList.add('hidden');
-            }, 5000);
-        });
-
-        // 9. Inicialización de la aplicación
-        document.addEventListener('DOMContentLoaded', () => {
-            showPage('page-inicio');
-            if (document.getElementById('page-catalogo').classList.contains('hidden') === false) {
-                updateCatalog();
-            }
-        });
-
-    </script>
-</body>
-</html>
+        .welcome-box {
+            background-color: var(--card-bg);
+            padding: 60px 40px;
+            border-radius: var(--border-radius);
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 4px
+        
