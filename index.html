@@ -280,6 +280,7 @@
         // 1. CÁLCULO DE IMPUESTOS (Mismo código)
         products.forEach(product => {
             product.variants.forEach(variant => {
+                // Cálculo del 15% de IVA
                 variant.priceWithTax = variant.price * 1.15;
             });
         });
@@ -307,16 +308,19 @@
             document.querySelectorAll('.content-page').forEach(page => {
                 page.classList.add('hidden');
             });
-            document.getElementById(pageId).classList.remove('hidden');
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
             
             // Cerrar el menú si estamos en móvil después de navegar
-            if (!mobileSidebar.classList.contains('-translate-x-full')) {
+            if (mobileSidebar && !mobileSidebar.classList.contains('-translate-x-full')) {
                 toggleSidebar();
             }
         }
 
-        menuToggle.addEventListener('click', toggleSidebar);
-        sidebarOverlay.addEventListener('click', toggleSidebar);
+        if(menuToggle) menuToggle.addEventListener('click', toggleSidebar);
+        if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
 
         navButtons.forEach(button => {
             button.addEventListener('click', (e) => {
@@ -335,16 +339,13 @@
             });
         }
         
-        // Asignar listeners a botones de navegación de escritorio (lg)
-        document.getElementById('btn-inicio-lg').addEventListener('click', () => showPage('page-inicio'));
-        document.getElementById('btn-catalogo-lg').addEventListener('click', () => { showPage('page-catalogo'); updateCatalog(); });
-        document.getElementById('btn-nosotros-lg').addEventListener('click', () => showPage('page-nosotros'));
-        document.getElementById('btn-contacto-lg').addEventListener('click', () => showPage('page-contacto'));
-
+        // Asignación de listeners de escritorio se movió a DOMContentLoaded
 
         // 3. FUNCIÓN PARA RENDERIZAR LOS PRODUCTOS (OPTIMIZADO PARA IMAGEN MÓVIL)
         function renderProducts(productsToRender) {
             const catalogoGrid = document.getElementById('catalogo-grid');
+            if (!catalogoGrid) return; // Salir si el contenedor no existe
+
             catalogoGrid.innerHTML = '';
             
             if (productsToRender.length === 0) {
@@ -360,7 +361,7 @@
                     <div class="bg-white p-3 sm:p-4 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full relative">
                         ${tagHtml}
                         <div class="w-full flex justify-center mb-4">
-                             <img src="${product.images[0]}" alt="${product.name}" class="w-32 h-32 object-contain rounded-lg">
+                             <img src="${product.images[0]}" alt="${product.name}" class="w-28 h-28 sm:w-32 sm:h-32 object-contain rounded-lg">
                         </div>
                         
                         <h3 class="text-lg font-semibold text-gray-800 mb-1">${product.name}</h3>
@@ -391,10 +392,15 @@
             });
         }
 
-        // 4. FUNCIÓN PARA ACTUALIZAR EL CATÁLOGO (Mismo código, renombrado de variables)
+        // 4. FUNCIÓN PARA ACTUALIZAR EL CATÁLOGO
         function updateCatalog() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const sortOrder = document.getElementById('sort-order').value;
+            const searchInput = document.getElementById('search-input');
+            const sortOrderEl = document.getElementById('sort-order');
+            
+            if (!searchInput || !sortOrderEl) return;
+
+            const searchTerm = searchInput.value.toLowerCase();
+            const sortOrder = sortOrderEl.value;
 
             let filteredProducts = products.filter(product => {
                 const name = product.name.toLowerCase();
@@ -405,20 +411,21 @@
             if (sortOrder === 'name') {
                 filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
             } else if (sortOrder === 'price') {
-                filteredProducts.sort((a, b) => a.variants[0].price - b.variants[0].price);
+                // Ordena por el precio con IVA del primer variante como referencia
+                filteredProducts.sort((a, b) => a.variants[0].priceWithTax - b.variants[0].priceWithTax);
             }
 
             renderProducts(filteredProducts);
         }
 
-        // 5. FUNCIÓN PARA MOSTRAR EL MODAL (Ajustado para mejor layout responsivo)
+        // 5. FUNCIÓN PARA MOSTRAR EL MODAL
         function showModal(event) {
-            // ... (Toda la lógica de showModal se mantiene, con ajustes mínimos de clases)
             const index = event.target.getAttribute('data-product-index');
             const product = products[index];
             const modal = document.getElementById('info-modal');
             const modalContent = document.getElementById('modal-content');
             
+            // Lógica para obtener opciones únicas (Almacenamiento, RAM, Color)
             const uniqueOptions = {
                 almacenamiento: [...new Set(product.variants.map(v => v.almacenamiento))].sort(),
                 ram: [...new Set(product.variants.map(v => v.ram))].sort(),
@@ -446,15 +453,14 @@
 
             const whatsappMessage = `Hola, me interesa comprar el ${product.name} con ${selectedVariant.almacenamiento} de almacenamiento, ${selectedVariant.ram} de RAM y color ${selectedVariant.color}.`;
             
-            // CLASES RESPONSIVAS APLICADAS AL MODAL:
-            // flex-col (mobile) | lg:flex-row (desktop)
+            // Estructura del modal con layout responsivo (flex-col en móvil, lg:flex-row en desktop)
             modalContent.innerHTML = `
                 <div class="flex flex-col lg:flex-row items-start text-left space-y-6 lg:space-y-0 lg:space-x-8">
                     <div class="flex flex-col items-center w-full lg:w-1/2">
                         <img id="main-product-image" src="${product.images[0]}" alt="${product.name}" class="w-full max-h-80 object-contain rounded-lg shadow-lg mb-4">
                         <div class="flex space-x-2 overflow-x-auto w-full justify-center">
                             ${product.images.map(image => `
-                                <img src="${image}" alt="${product.name}" class="thumbnail w-16 h-16 sm:w-20 sm:h-20 rounded-md cursor-pointer border-2 border-transparent hover:border-cyan-600 transition-colors" onclick="document.getElementById('main-product-image').src='${image}'">
+                                <img src="${image}" alt="${product.name}" class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-md cursor-pointer border-2 border-transparent hover:border-cyan-600 transition-colors" onclick="document.getElementById('main-product-image').src='${image}'">
                             `).join('')}
                         </div>
                     </div>
@@ -500,12 +506,18 @@
                 </div>
             `;
             
-            // Función para actualizar el precio y stock en el modal (Misma lógica)
+            // Función para actualizar el precio y stock en el modal
             function updateModalUI() {
+                const selectedAlmacenamiento = document.querySelector('.option-btn[data-option-type="almacenamiento"][data-selected="true"]');
+                const selectedRam = document.querySelector('.option-btn[data-option-type="ram"][data-selected="true"]');
+                const selectedColor = document.querySelector('.option-btn[data-option-type="color"][data-selected="true"]');
+
+                if (!selectedAlmacenamiento || !selectedRam || !selectedColor) return;
+                
                 const currentSelection = {
-                    almacenamiento: document.querySelector('.option-btn[data-option-type="almacenamiento"][data-selected="true"]').getAttribute('data-option-value'),
-                    ram: document.querySelector('.option-btn[data-option-type="ram"][data-selected="true"]').getAttribute('data-option-value'),
-                    color: document.querySelector('.option-btn[data-option-type="color"][data-selected="true"]').getAttribute('data-option-value')
+                    almacenamiento: selectedAlmacenamiento.getAttribute('data-option-value'),
+                    ram: selectedRam.getAttribute('data-option-value'),
+                    color: selectedColor.getAttribute('data-option-value')
                 };
 
                 const matchedVariant = product.variants.find(v => 
@@ -518,9 +530,11 @@
                 const stockEl = document.getElementById('modal-stock');
                 const qtyInput = document.getElementById('qty-input');
                 const whatsappLink = document.getElementById('modal-whatsapp-link');
+                const priceWithoutTaxEl = document.querySelector('.line-through');
                 
                 if (matchedVariant) {
                     priceEl.textContent = `$${matchedVariant.priceWithTax.toFixed(2)}`;
+                    priceWithoutTaxEl.textContent = `$${matchedVariant.price.toFixed(2)}`;
                     stockEl.textContent = matchedVariant.stock;
                     qtyInput.max = matchedVariant.stock;
                     qtyInput.value = 1;
@@ -528,13 +542,16 @@
                     const whatsappMessage = `Hola, me interesa comprar el ${product.name} con ${matchedVariant.almacenamiento} de almacenamiento, ${matchedVariant.ram} de RAM y color ${matchedVariant.color}.`;
                     whatsappLink.href = `https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}`;
                     whatsappLink.target = '_blank';
+                    whatsappLink.classList.remove('opacity-50', 'pointer-events-none');
                 } else {
                     priceEl.textContent = 'No disponible';
+                    priceWithoutTaxEl.textContent = '---';
                     stockEl.textContent = '0';
                     qtyInput.max = 0;
                     qtyInput.value = 0;
                     whatsappLink.href = '#';
                     whatsappLink.target = '';
+                    whatsappLink.classList.add('opacity-50', 'pointer-events-none');
                 }
             }
             
@@ -564,18 +581,21 @@
                 }
             }
 
-            tabDescBtn.addEventListener('click', () => showTabContent('tab-desc'));
-            tabSpecsBtn.addEventListener('click', () => showTabContent('tab-specs'));
+            if(tabDescBtn) tabDescBtn.addEventListener('click', () => showTabContent('tab-desc'));
+            if(tabSpecsBtn) tabSpecsBtn.addEventListener('click', () => showTabContent('tab-specs'));
 
             // Lógica para cantidad
             const qtyInput = document.getElementById('qty-input');
-            document.getElementById('qty-plus').addEventListener('click', () => {
+            const qtyPlus = document.getElementById('qty-plus');
+            const qtyMinus = document.getElementById('qty-minus');
+            
+            if(qtyPlus) qtyPlus.addEventListener('click', () => {
                 let currentVal = parseInt(qtyInput.value);
                 if (currentVal < parseInt(qtyInput.max)) {
                     qtyInput.value = currentVal + 1;
                 }
             });
-            document.getElementById('qty-minus').addEventListener('click', () => {
+            if(qtyMinus) qtyMinus.addEventListener('click', () => {
                 let currentVal = parseInt(qtyInput.value);
                 if (currentVal > 1) {
                     qtyInput.value = currentVal - 1;
@@ -602,21 +622,27 @@
 
         // 6. FUNCIÓN PARA OCULTAR EL MODAL
         function hideModal() {
-            document.getElementById('info-modal').classList.add('hidden');
+            const modal = document.getElementById('info-modal');
+            if (modal) modal.classList.add('hidden');
         }
 
         // 7. MANEJADORES DE EVENTOS GLOBALES (Revisados y reasignados)
-        document.getElementById('search-input').addEventListener('input', updateCatalog);
-        document.getElementById('sort-order').addEventListener('change', updateCatalog);
-        document.getElementById('close-modal').addEventListener('click', hideModal);
-        document.getElementById('info-modal').addEventListener('click', (event) => {
+        const searchInput = document.getElementById('search-input');
+        const sortOrderEl = document.getElementById('sort-order');
+        const closeModalBtn = document.getElementById('close-modal');
+        const infoModal = document.getElementById('info-modal');
+        
+        if(searchInput) searchInput.addEventListener('input', updateCatalog);
+        if(sortOrderEl) sortOrderEl.addEventListener('change', updateCatalog);
+        if(closeModalBtn) closeModalBtn.addEventListener('click', hideModal);
+        if(infoModal) infoModal.addEventListener('click', (event) => {
             if (event.target === event.currentTarget) {
                 hideModal();
             }
         });
 
-        // 8. MANEJADOR DEL FORMULARIO DE CONTACTO (Mismo código)
-        document.getElementById('contact-form').addEventListener('submit', function(event) {
+        // 8. MANEJADOR DEL FORMULARIO DE CONTACTO
+        document.getElementById('contact-form')?.addEventListener('submit', function(event) {
             event.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -633,14 +659,24 @@
             formMessage.classList.add('text-green-600');
             
             setTimeout(() => {
-                document.getElementById('contact-form').reset();
+                document.getElementById('contact-form')?.reset();
                 formMessage.classList.add('hidden');
             }, 5000);
         });
 
-        // 9. INICIALIZACIÓN
-        showPage('page-inicio');
-        updateCatalog();
+        // 9. INICIALIZACIÓN - CORRECCIÓN DE DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Asignar listeners a botones de navegación de escritorio (lg)
+            // Se usa document.getElementById(id) && para evitar errores si no encuentra el elemento.
+            document.getElementById('btn-inicio-lg')?.addEventListener('click', () => showPage('page-inicio'));
+            document.getElementById('btn-catalogo-lg')?.addEventListener('click', () => { showPage('page-catalogo'); updateCatalog(); });
+            document.getElementById('btn-nosotros-lg')?.addEventListener('click', () => showPage('page-nosotros'));
+            document.getElementById('btn-contacto-lg')?.addEventListener('click', () => showPage('page-contacto'));
+
+            // Iniciar la aplicación
+            showPage('page-inicio');
+            updateCatalog();
+        });
 
     </script>
 </body>
