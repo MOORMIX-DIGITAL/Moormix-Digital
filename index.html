@@ -3,168 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoorMix Digital - Catálogo de Móviles</title>
+    <title>Moormix Digital - Tecnología y Accesorios</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cyan-600': '#00BCD4',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* Estilos personalizados para el scrollbar del modal */
-        .modal-body::-webkit-scrollbar {
-            width: 8px;
+        /* Estilos básicos para asegurar que el modal y las páginas funcionan */
+        .content-page {
+            min-height: calc(100vh - 4rem); /* Altura mínima restando el header */
         }
-        .modal-body::-webkit-scrollbar-thumb {
-            background-color: #06b6d4;
-            border-radius: 4px;
-        }
-        .modal-body::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
-
-        /* Ocultar flechas de input number */
-        input[type=number]::-webkit-outer-spin-button,
-        input[type=number]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-
-        /* Estilo para los botones de opción seleccionados */
-        .option-btn[data-selected="true"] {
-            background-color: #06b6d4 !important;
-            color: white !important;
-            border-color: #06b6d4 !important;
+        /* Ajuste para que el scroll del body no afecte el modal */
+        .modal-open {
+            overflow: hidden;
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="bg-gray-50">
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#" class="text-xl font-extrabold text-cyan-600 sm:text-2xl">
-                MoorMix <span class="text-pink-500">Digital</span>
-            </a>
-            <nav class="hidden md:flex space-x-4">
-                <button id="btn-inicio" class="nav-link text-gray-700 hover:text-cyan-600 font-medium transition-colors">Inicio</button>
-                <button id="btn-catalogo" class="nav-link text-gray-700 hover:text-cyan-600 font-medium transition-colors">Catálogo</button>
-                <button id="btn-nosotros" class="nav-link text-gray-700 hover:text-cyan-600 font-medium transition-colors">Nosotros</button>
-                <button id="btn-contacto" class="nav-link text-gray-700 hover:text-cyan-600 font-medium transition-colors">Contacto</button>
-            </nav>
-            <button id="menu-toggle" class="md:hidden text-gray-700 hover:text-cyan-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-3xl font-extrabold text-cyan-600">Moormix</span>
+                    <span class="text-3xl font-light text-gray-800">Digital</span>
+                </div>
+
+                <nav class="hidden md:flex md:space-x-4">
+                    <button id="btn-inicio" class="text-gray-600 hover:text-cyan-600 px-3 py-2 rounded-md text-lg font-medium transition-colors">Inicio</button>
+                    <button id="btn-catalogo" class="text-gray-600 hover:text-cyan-600 px-3 py-2 rounded-md text-lg font-medium transition-colors">Catálogo</button>
+                    <button id="btn-nosotros" class="text-gray-600 hover:text-cyan-600 px-3 py-2 rounded-md text-lg font-medium transition-colors">Nosotros</button>
+                    <button id="btn-contacto" class="text-gray-600 hover:text-cyan-600 px-3 py-2 rounded-md text-lg font-medium transition-colors">Contacto</button>
+                </nav>
+
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="p-2 text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-600 rounded-md">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-inner">
-            <button id="mobile-btn-inicio" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Inicio</button>
-            <button id="mobile-btn-catalogo" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Catálogo</button>
-            <button id="mobile-btn-nosotros" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Nosotros</button>
-            <button id="mobile-btn-contacto" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Contacto</button>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg py-2">
+            <button id="mobile-btn-inicio" class="block w-full text-left text-gray-700 hover:bg-gray-100 px-4 py-2 text-base font-medium transition-colors" onclick="showPage('page-inicio')">Inicio</button>
+            <button id="mobile-btn-catalogo" class="block w-full text-left text-gray-700 hover:bg-gray-100 px-4 py-2 text-base font-medium transition-colors" onclick="showPage('page-catalogo'); updateCatalog();">Catálogo</button>
+            <button id="mobile-btn-nosotros" class="block w-full text-left text-gray-700 hover:bg-gray-100 px-4 py-2 text-base font-medium transition-colors" onclick="showPage('page-nosotros')">Nosotros</button>
+            <button id="mobile-btn-contacto" class="block w-full text-left text-gray-700 hover:bg-gray-100 px-4 py-2 text-base font-medium transition-colors" onclick="showPage('page-contacto')">Contacto</button>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-6">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <section id="page-inicio" class="content-page">
-             <div class="text-center py-10 bg-white rounded-xl shadow-lg">
-                <h1 class="text-3xl font-extrabold text-gray-800 mb-2 sm:text-4xl">La Mejor Tecnología Móvil</h1>
-                <p class="text-sm text-gray-600 mb-6 px-4">Encuentra los últimos modelos con las mejores especificaciones.</p>
-                <button id="btn-ir-catalogo" class="bg-cyan-600 text-white font-bold py-2 px-6 rounded-full text-base hover:bg-cyan-700 transition-transform transform hover:scale-105 shadow-md">
+        <section id="page-inicio" class="content-page hidden">
+            <div class="text-center py-20 bg-cyan-50 rounded-xl shadow-inner">
+                <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Bienvenidos a <span class="text-cyan-600">Moormix Digital</span></h1>
+                <p class="text-xl text-gray-600 mb-8">La mejor tecnología móvil y accesorios con la mejor garantía.</p>
+                <button id="btn-ir-catalogo" class="bg-cyan-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-cyan-700 transition duration-300">
                     Ver Catálogo Ahora
                 </button>
             </div>
-             <div class="mt-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-pink-500 pb-1">Novedades</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-white p-4 rounded-xl shadow-md">
-                        <h3 class="text-lg font-semibold text-gray-800">Honor x7c</h3>
-                        <p class="text-gray-500 text-xs mt-1">108MP de Cámara</p>
+
+            <div class="mt-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Nuestros Valores</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="p-6 bg-white rounded-xl shadow-lg">
+                        <svg class="w-12 h-12 text-cyan-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.001 12.001 0 0012 21.001a12.001 12.001 0 008.618-14.016z"></path></svg>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Garantía Total</h3>
+                        <p class="text-gray-500">Ofrecemos un año de garantía en todos nuestros dispositivos.</p>
                     </div>
-                     <div class="bg-white p-4 rounded-xl shadow-md">
-                        <h3 class="text-lg font-semibold text-gray-800">Tecno Spark</h3>
-                        <p class="text-gray-500 text-xs mt-1">Pantalla FHD+ 144Hz</p>
+                    <div class="p-6 bg-white rounded-xl shadow-lg">
+                        <svg class="w-12 h-12 text-cyan-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Mejores Precios</h3>
+                        <p class="text-gray-500">Precios competitivos que incluyen el IVA para tu total tranquilidad.</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-xl shadow-lg">
+                        <svg class="w-12 h-12 text-cyan-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Última Tecnología</h3>
+                        <p class="text-gray-500">Siempre a la vanguardia con los modelos más recientes del mercado.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="page-catalogo" class="content-page hidden">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-cyan-600 pb-1 sm:text-3xl">Catálogo de Productos</h2>
-            <div class="flex flex-col gap-3 mb-6 sm:flex-row">
-                <input type="text" id="search-input" placeholder="Buscar..." class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-cyan-500">
-                <select id="sort-order" class="w-full p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-cyan-500">
-                    <option value="name">Ordenar por Nombre</option>
-                    <option value="price">Ordenar por Precio</option>
+            <h1 class="text-4xl font-bold text-gray-800 mb-6 border-b pb-2">Catálogo de Productos</h1>
+
+            <div class="mb-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <input type="text" id="search-input" placeholder="Buscar por nombre o descripción..." class="w-full sm:w-2/3 p-3 border border-gray-300 rounded-lg focus:ring-cyan-600 focus:border-cyan-600">
+                <select id="sort-order" class="w-full sm:w-1/3 p-3 border border-gray-300 rounded-lg focus:ring-cyan-600 focus:border-cyan-600 bg-white">
+                    <option value="default">Ordenar por...</option>
+                    <option value="name">Nombre (A-Z)</option>
+                    <option value="price">Precio (Menor a Mayor)</option>
                 </select>
             </div>
 
-            <div id="catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            <div id="catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 </div>
         </section>
 
         <section id="page-nosotros" class="content-page hidden">
-            <div class="bg-white p-6 rounded-xl shadow-lg">
-                <h2 class="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-cyan-600 pb-1">Sobre Nosotros</h2>
-                <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                    Somos tu proveedor de confianza para la última tecnología móvil. Nos enfocamos en ofrecer precios competitivos, incluyendo el IVA, y una garantía de 1 año.
+            <h1 class="text-4xl font-bold text-gray-800 mb-6 border-b pb-2">Quiénes Somos</h1>
+            <div class="bg-white p-8 rounded-xl shadow-lg space-y-6">
+                <p class="text-lg text-gray-700">
+                    <strong class="font-bold text-cyan-600">Moormix Digital</strong> nace de la pasión por la tecnología y el compromiso con nuestros clientes. Somos una empresa dedicada a ofrecer la última generación de dispositivos móviles y accesorios, priorizando siempre la calidad y el servicio postventa.
                 </p>
-                <p class="text-sm text-gray-700 font-semibold">¡Tu satisfacción es nuestra prioridad!</p>
+                <p class="text-gray-600">
+                    Nuestra misión es simple: conectar a las personas con la tecnología que necesitan, de forma transparente y accesible. Por eso, todos nuestros precios incluyen el IVA y respaldamos cada venta con una garantía sólida de un año. Creemos en la confianza y en construir relaciones duraderas con cada cliente.
+                </p>
+                <h2 class="text-2xl font-semibold text-gray-800 pt-4">Nuestra Promesa</h2>
+                <ul class="list-disc list-inside space-y-2 text-gray-600 pl-4">
+                    <li>**Transparencia:** Precios claros y honestos, sin sorpresas.</li>
+                    <li>**Calidad:** Solo vendemos productos nuevos y originales.</li>
+                    <li>**Soporte:** Un equipo listo para asistirte en todo momento.</li>
+                    <li>**Garantía:** El respaldo que necesitas por un año completo.</li>
+                </ul>
             </div>
         </section>
 
         <section id="page-contacto" class="content-page hidden">
-            <div class="bg-white p-6 rounded-xl shadow-lg max-w-xl mx-auto">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-pink-500 pb-1">Contáctanos</h2>
-                <form id="contact-form" class="space-y-4">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
-                        <input type="text" id="name" name="name" required class="mt-1 block w-full p-2 text-sm border border-gray-300 rounded-lg">
+            <h1 class="text-4xl font-bold text-gray-800 mb-6 border-b pb-2">Contáctanos</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Envíanos un mensaje</h2>
+                    <form id="contact-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
+                            <input type="text" id="name" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-600 focus:border-cyan-600">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                            <input type="email" id="email" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-600 focus:border-cyan-600">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700">Mensaje, Reclamo o Sugerencia</label>
+                            <textarea id="message" rows="4" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-600 focus:border-cyan-600"></textarea>
+                        </div>
+                        <p id="form-message" class="text-sm hidden"></p>
+                        <button type="submit" class="w-full bg-cyan-600 text-white font-bold py-3 rounded-lg hover:bg-cyan-700 transition duration-300">
+                            Enviar Mensaje (Abre tu App de Email)
+                        </button>
+                    </form>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">WhatsApp Directo</h3>
+                        <a href="https://wa.me/593967427594" target="_blank" class="text-green-600 hover:text-green-700 font-medium flex items-center">
+                            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 14.5c-.24 0-.46-.08-.65-.21l-3.26-2.04c-.39-.24-.65-.68-.65-1.16V7.5c0-.55.45-1 1-1s1 .45 1 1v5.18l2.97 1.86c.49.31.65.94.34 1.43-.16.25-.43.39-.71.39z"/></svg>
+                            +593 96 742 7594
+                        </a>
+                        <p class="text-gray-500 text-sm mt-2">Atención inmediata para compras y consultas.</p>
                     </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Correo</label>
-                        <input type="email" id="email" name="email" required class="mt-1 block w-full p-2 text-sm border border-gray-300 rounded-lg">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Correo de Soporte</h3>
+                        <p class="text-cyan-600 font-medium">moormixdigital@outloo.com</p>
+                        <p class="text-gray-500 text-sm mt-2">Para soporte técnico, garantías y reclamos.</p>
                     </div>
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700">Mensaje</label>
-                        <textarea id="message" name="message" rows="3" required class="mt-1 block w-full p-2 text-sm border border-gray-300 rounded-lg"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-pink-500 text-white font-bold py-2 rounded-lg hover:bg-pink-600 transition-colors shadow-md">
-                        Enviar
-                    </button>
-                    <p id="form-message" class="mt-3 text-center text-sm hidden"></p>
-                </form>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <div id="info-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 z-50 flex items-center justify-center p-2 sm:p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg lg:max-w-4xl max-h-[95vh] overflow-hidden">
-            <div class="flex justify-end p-2 pb-0 sm:p-4 sm:pb-0">
-                <button id="close-modal" class="text-gray-400 hover:text-gray-600">
-                    <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <div id="modal-content" class="modal-body overflow-y-auto p-3 sm:p-6">
+    <div id="info-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-5xl w-full max-h-screen overflow-y-auto relative p-6">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div id="modal-content" class="mt-4">
                 </div>
         </div>
     </div>
 
+
     <script>
-        // Array de productos (TU CÓDIGO INTACTO)
+        // Array de productos con variantes y precios
         const products = [
-            // ... (Tus datos de productos)
             {
-                name: "Honor x5c",
+                name: "Honor 90 Lite",
                 brand: "Honor",
-                shortDescription: "256GB/8RAM<br>1 Año de Garantía",
-                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella lateral\nReconocimiento facial",
-                images: ["images/infinixsmart9hd.png", "images/honorx5clateral.png", "images/honorx5ctrasero.png"],
+                shortDescription: "256GB/8+5RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella lateral\nFlash",
+                images: ["images/honor90lite.png", "images/honor90litelateral.png", "images/honor90litetrasero.png"],
                 specs: [
-                    "Procesador MediaTek Helio G81 Ultra",
-                    "Sistema operativo Android 14 MagicOS",
-                    "Pantalla 6.6\" HD+ +IPS 120GHz",
-                    "Cámara frontal 5 MP",
-                    "Cámara trasera 50 MP",
-                    "Batería 5200mAh",
+                    "Procesador MediaTek Dimensity 6020",
+                    "Sistema operativo Android 13 MagicOS",
+                    "Pantalla 6.7\" LTPSLCD FHD+ 90GHz",
+                    "Cámara frontal 16 MP",
+                    "Cámara trasera 100 MP",
+                    "Batería 4500mAh",
                     "Tarjeta de memoria",
                     "Flash",
                     "Dual Sim",
@@ -274,10 +313,56 @@
                     { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
                 ],
             },
-            // Se asume que los siguientes son solo ejemplos duplicados que deberían ser únicos o eliminados para un catálogo real
-            // Se dejan solo 4 en el JSON original para evitar repetición excesiva
             {
-                name: "Otro Tecno Spark",
+                name: "Tecno Spark 40 Pro",
+                brand: "Tecno",
+                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
+                specs: [
+                    "Procesador MediaTek Helio G100",
+                    "Sistema operativo Android 15 HIOS",
+                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
+                    "Cámara frontal 13 MP",
+                    "Cámara trasera 50 MP",
+                    "Batería 5200mAh",
+                    "Tarjeta de memoria",
+                    "Resistencia al polvo y salpicadura de agua IP54",
+                    "Flash dual°",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
+                ],
+            },
+            {
+                name: "Tecno Spark 40 Pro",
+                brand: "Tecno",
+                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
+                specs: [
+                    "Procesador MediaTek Helio G100",
+                    "Sistema operativo Android 15 HIOS",
+                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
+                    "Cámara frontal 13 MP",
+                    "Cámara trasera 50 MP",
+                    "Batería 5200mAh",
+                    "Tarjeta de memoria",
+                    "Resistencia al polvo y salpicadura de agua IP54",
+                    "Flash dual°",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
+                ],
+            },
+            {
+                name: "Tecno Spark 40 Pro",
                 brand: "Tecno",
                 shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
@@ -302,99 +387,48 @@
             }
         ];
 
-        // 💡 OPTIMIZACIÓN: Pre-cálculo de IVA y variante base
+        // Calcular el precio con IVA para todas las variantes
         products.forEach(product => {
             product.variants.forEach(variant => {
-                variant.priceWithTax = variant.price * 1.15;
+                variant.priceWithTax = variant.price * 1.15; // 15% de IVA
             });
-            // Variante más barata para mostrar en la tarjeta de catálogo
-            product.baseVariant = product.variants.sort((a, b) => a.priceWithTax - b.priceWithTax)[0];
         });
-
-        // ------------------------------------------
-        // LÓGICA DE NAVEGACIÓN Y MENU MÓVIL
-        // ------------------------------------------
-
-        function showPage(pageId) {
-            document.querySelectorAll('.content-page').forEach(page => {
-                page.classList.add('hidden');
-            });
-            document.getElementById(pageId).classList.remove('hidden');
-            document.getElementById('mobile-menu').classList.add('hidden'); // Cierra el menú móvil al navegar
-        }
-
-        // Toggle del menú móvil
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
-        // Manejadores de eventos para la navegación (incluye el menú móvil)
-        const navButtons = [
-            'btn-inicio', 'mobile-btn-inicio',
-            'btn-catalogo', 'mobile-btn-catalogo',
-            'btn-nosotros', 'mobile-btn-nosotros',
-            'btn-contacto', 'mobile-btn-contacto',
-            'btn-ir-catalogo'
-        ];
-
-        navButtons.forEach(id => {
-            const btn = document.getElementById(id);
-            if (btn) {
-                btn.addEventListener('click', () => {
-                    let pageId = id.includes('catalogo') ? 'page-catalogo' : id.replace('btn-', 'page-').replace('mobile-', 'page-').replace('page-page-', 'page-');
-                    
-                    showPage(pageId);
-                    if (pageId === 'page-catalogo') {
-                        updateCatalog();
-                    }
-                });
-            }
-        });
-
-        // ------------------------------------------
-        // LÓGICA DEL CATÁLOGO
-        // ------------------------------------------
-
+            
         // Función para renderizar los productos en el catálogo
         function renderProducts(productsToRender) {
             const catalogoGrid = document.getElementById('catalogo-grid');
-            catalogoGrid.innerHTML = ''; 
-
+            catalogoGrid.innerHTML = ''; // Limpiar el contenedor
             if (productsToRender.length === 0) {
-                catalogoGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-6">No se encontraron productos.</p>`;
+                catalogoGrid.innerHTML = `<p class="col-span-full text-center text-gray-500">No se encontraron productos.</p>`;
                 return;
             }
-
             productsToRender.forEach((product, index) => {
-                const variant = product.baseVariant; // Usar la variante base
-                
                 const tagColor = product.tag === "Oferta" ? "bg-red-500" : (product.tag === "Nuevo" ? "bg-green-500" : (product.tag === "Pocas Unidades" ? "bg-yellow-500" : "bg-cyan-600"));
-                const tagHtml = product.tag ? `<span class="absolute top-2 right-2 ${tagColor} text-white text-xs font-semibold px-2 py-0.5 rounded-full uppercase shadow-md">${product.tag}</span>` : '';
+                const tagHtml = product.tag ? `<span class="absolute top-2 right-2 ${tagColor} text-white text-xs font-semibold px-2 py-1 rounded-full uppercase shadow-md">${product.tag}</span>` : '';
                 
-                // **Ajuste para móviles:** p-3, texto más pequeño, h-36 para imagen
+                const priceHtml = `
+                    <div class="mb-4">
+                        <span class="text-sm text-gray-400 line-through">
+                            $${product.variants[0].price.toFixed(2)}
+                        </span>
+                        <br>
+                        <span class="text-2xl font-bold text-cyan-600">
+                            $${product.variants[0].priceWithTax.toFixed(2)}
+                        </span>
+                        <span class="text-xs font-semibold text-gray-500">
+                            (Precio con IVA)
+                        </span>
+                    </div>
+                `;
+                
                 const productCard = `
-                    <div class="bg-white p-3 rounded-xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full relative border border-gray-100">
+                    <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full relative">
                         ${tagHtml}
-                        <div class="w-full flex-shrink-0 h-36 overflow-hidden mb-3">
-                            <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-contain rounded-lg">
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1 flex-shrink-0">${product.name}</h3>
-                        <p class="text-gray-500 text-xs mb-3 flex-1">${product.shortDescription}</p>
-                        
-                        <div class="mt-auto mb-3 flex-shrink-0">
-                            <span class="text-xs text-gray-400 line-through">
-                                $${variant.price.toFixed(2)}
-                            </span>
-                            <br>
-                            <span class="text-xl font-bold text-cyan-600">
-                                $${variant.priceWithTax.toFixed(2)}
-                            </span>
-                            <span class="text-xxs font-semibold text-gray-500 block">
-                                (Precio c/IVA)
-                            </span>
-                        </div>
-                        
-                        <button class="info-btn w-full bg-cyan-600 text-white text-sm font-bold py-1.5 rounded-lg hover:bg-cyan-700 transition-colors flex-shrink-0" data-product-index="${index}">
+                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">${product.name}</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex-1">${product.shortDescription}</p>
+                        ${priceHtml}
+                        <button class="info-btn w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg hover:bg-gray-300 transition-colors" data-product-index="${index}">
                             Más Info
                         </button>
                     </div>
@@ -406,67 +440,34 @@
                 button.addEventListener('click', showModal);
             });
         }
-
-        // Función para actualizar el catálogo con búsqueda y ordenamiento
-        function updateCatalog() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const sortOrder = document.getElementById('sort-order').value;
-
-            let filteredProducts = products.filter(product => {
-                const name = product.name.toLowerCase();
-                const brand = product.brand.toLowerCase();
-                const shortDescription = product.shortDescription.toLowerCase();
-                return name.includes(searchTerm) || brand.includes(searchTerm) || shortDescription.includes(searchTerm);
-            });
-
-            if (sortOrder === 'name') {
-                filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
-            } else if (sortOrder === 'price') {
-                filteredProducts.sort((a, b) => a.baseVariant.priceWithTax - b.baseVariant.priceWithTax);
-            }
-
-            renderProducts(filteredProducts);
-        }
-
-        // Manejadores de eventos para búsqueda y ordenamiento
-        document.getElementById('search-input').addEventListener('input', updateCatalog);
-        document.getElementById('sort-order').addEventListener('change', updateCatalog);
-
-        // ------------------------------------------
-        // LÓGICA DEL MODAL (Ajustada para móvil)
-        // ------------------------------------------
-
-        let currentProduct = null;
-        let selectedOptions = {};
-
+            
+        // Función para mostrar el modal con la información del producto
         function showModal(event) {
             const index = event.target.getAttribute('data-product-index');
-            currentProduct = products[index];
+            const product = products[index];
             const modal = document.getElementById('info-modal');
             const modalContent = document.getElementById('modal-content');
-
+            
+            // Recolectar opciones únicas para cada categoría
             const uniqueOptions = {
-                almacenamiento: [...new Set(currentProduct.variants.map(v => v.almacenamiento))].sort(),
-                ram: [...new Set(currentProduct.variants.map(v => v.ram))].sort(),
-                color: [...new Set(currentProduct.variants.map(v => v.color))].sort()
+                almacenamiento: [...new Set(product.variants.map(v => v.almacenamiento))].sort(),
+                ram: [...new Set(product.variants.map(v => v.ram))].sort(),
+                color: [...new Set(product.variants.map(v => v.color))].sort()
             };
+            
+            // Establecer la variante inicial como la primera
+            let selectedVariant = product.variants[0];
 
-            const initialVariant = currentProduct.baseVariant;
-            selectedOptions = {
-                almacenamiento: initialVariant.almacenamiento,
-                ram: initialVariant.ram,
-                color: initialVariant.color
-            };
-
+            // Generar las opciones dinámicamente
             let optionsHtml = '';
             for (const key in uniqueOptions) {
                 const label = key.charAt(0).toUpperCase() + key.slice(1);
                 optionsHtml += `
-                    <div class="mb-3">
-                        <p class="text-gray-700 font-semibold mb-1 text-sm">${label}:</p>
-                        <div class="flex flex-wrap gap-1.5">
+                    <div class="mb-4">
+                        <p class="text-gray-700 font-semibold mb-2">${label}:</p>
+                        <div class="flex flex-wrap gap-2">
                             ${uniqueOptions[key].map(option => `
-                                <button class="option-btn px-3 py-1 border rounded-full text-xs font-medium transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-100" data-option-type="${key}" data-option-value="${option}" data-selected="${option === initialVariant[key] ? 'true' : 'false'}">
+                                <button class="option-btn px-4 py-2 border rounded-full text-sm font-medium transition-colors border-gray-300 bg-white text-gray-700 hover:bg-gray-100 data-[selected=true]:bg-cyan-600 data-[selected=true]:text-white data-[selected=true]:border-cyan-600" data-option-type="${key}" data-option-value="${option}" ${option === selectedVariant[key] ? 'data-selected="true"' : ''}>
                                     ${option}
                                 </button>
                             `).join('')}
@@ -475,239 +476,302 @@
                 `;
             }
 
-            // **Ajuste para móviles:** Diseño vertical por defecto (flex-col)
+            const initialWhatsappMessage = `Hola, me interesa comprar el ${product.name} con ${selectedVariant.almacenamiento} de almacenamiento, ${selectedVariant.ram} de RAM y color ${selectedVariant.color}. Cantidad: 1.`;
+            
+            // Contenido completo del modal
             modalContent.innerHTML = `
-                <div class="flex flex-col lg:flex-row items-start text-left space-y-6 lg:space-y-0 lg:space-x-6">
+                <div class="flex flex-col lg:flex-row items-center lg:items-start text-left space-y-8 lg:space-y-0 lg:space-x-8 p-4">
                     <div class="flex flex-col items-center w-full lg:w-1/2">
-                        <img id="main-product-image" src="${currentProduct.images[0]}" alt="${currentProduct.name}" class="w-full rounded-lg shadow-xl mb-3 max-h-60 object-contain sm:max-h-96">
-                        <div class="flex space-x-1.5 overflow-x-auto w-full justify-center">
-                            ${currentProduct.images.map((image, i) => `
-                                <img src="${image}" alt="${currentProduct.name} vista ${i+1}" class="thumbnail w-12 h-12 sm:w-16 sm:h-16 rounded-md cursor-pointer border-2 border-gray-200 hover:border-cyan-600 transition-colors object-cover" data-image-url="${image}">
+                        <img id="main-product-image" src="${product.images[0]}" alt="${product.name}" class="w-full h-auto rounded-lg shadow-lg mb-4">
+                        <div class="flex space-x-2 overflow-x-auto w-full justify-center">
+                            ${product.images.map(image => `
+                                <img src="${image}" alt="${product.name}" class="thumbnail w-20 h-20 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-cyan-600 transition-colors" onclick="document.getElementById('main-product-image').src='${image}'">
                             `).join('')}
                         </div>
                     </div>
                     
                     <div class="w-full lg:w-1/2">
-                        <span class="bg-pink-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full uppercase">${currentProduct.brand}</span>
-                        <h3 class="text-2xl font-extrabold text-gray-900 mt-1 sm:text-3xl">${currentProduct.name}</h3>
-                        <p class="text-xs text-gray-500 mt-1">Disponibles: <span id="modal-stock" class="font-bold">${initialVariant.stock}</span>!</p>
-                        
-                        <div class="my-3">
-                            <span class="text-sm text-gray-400 line-through block">
-                                $${initialVariant.price.toFixed(2)}
+                        <span class="bg-pink-500 text-white text-xs font-semibold px-2 py-1 rounded-full uppercase">${product.brand}</span>
+                        <h3 class="text-3xl font-bold text-gray-900 mt-2">${product.name}</h3>
+                        <p class="text-sm text-gray-500 mt-2">Disponibles: <span id="modal-stock">${selectedVariant.stock}</span>!</p>
+                        <div class="my-4">
+                            <span class="text-lg text-gray-400 line-through block" id="modal-price-tachado">
+                                $${selectedVariant.price.toFixed(2)}
                             </span>
-                            <span id="modal-price" class="text-3xl font-extrabold text-cyan-600 block sm:text-4xl">
-                                $${initialVariant.priceWithTax.toFixed(2)}
+                            <span id="modal-price" class="text-4xl font-extrabold text-cyan-600 block">
+                                $${selectedVariant.priceWithTax.toFixed(2)}
                             </span>
                         </div>
                         
                         ${optionsHtml}
                         
-                        <div class="flex flex-col space-y-3 pt-3 border-t border-gray-100">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-semibold text-gray-700">Cantidad:</span>
-                                <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-                                    <button id="qty-minus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors font-bold">-</button>
-                                    <input id="qty-input" type="number" value="1" min="1" max="${initialVariant.stock}" class="w-8 text-center text-sm border-none focus:outline-none">
-                                    <button id="qty-plus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors font-bold">+</button>
-                                </div>
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                                <button id="qty-minus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors">-</button>
+                                <input id="qty-input" type="number" value="1" min="1" max="${selectedVariant.stock}" class="w-12 text-center border-none focus:outline-none p-2">
+                                <button id="qty-plus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors">+</button>
                             </div>
-                            <a id="modal-whatsapp-link" href="#" target="_blank" class="text-center bg-green-500 text-white font-bold py-2 rounded-lg text-sm hover:bg-green-600 transition-colors shadow-md">
+                            <a id="modal-whatsapp-link" href="https://wa.me/593967427594?text=${encodeURIComponent(initialWhatsappMessage)}" class="flex-1 text-center bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition-colors">
                                 COMPRAR POR WHATSAPP
                             </a>
                         </div>
                         
-                        <div class="border-b border-gray-200 mt-4">
-                            <nav class="-mb-px flex space-x-4 sm:space-x-8" aria-label="Tabs">
-                                <button id="tab-desc" class="tab-btn border-b-2 border-cyan-600 text-cyan-600 font-bold py-2 px-1 text-sm transition-colors duration-200">DESCRIPCIÓN</button>
-                                <button id="tab-specs" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm transition-colors duration-200">ESPECIFICACIÓN</button>
+                        <div class="border-b border-gray-200 mt-6">
+                            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                                <button id="tab-desc" class="tab-btn border-b-2 border-cyan-600 text-cyan-600 font-bold py-2 px-4 transition-colors duration-200">DESCRIPCIÓN</button>
+                                <button id="tab-specs" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-4 transition-colors duration-200">ESPECIFICACIÓN</button>
                             </nav>
                         </div>
-                        <div id="tab-content" class="pt-3 text-gray-700 text-xs sm:text-sm">
+                        <div id="tab-content" class="pt-4 text-gray-700 text-sm">
                             </div>
                     </div>
                 </div>
             `;
+            
+            // Función para actualizar el precio, stock y mensaje de WhatsApp en el modal
+            function updateModalUI() {
+                // Obtener la selección actual, si no hay, usa la primera opción disponible
+                const currentSelection = {
+                    almacenamiento: document.querySelector('.option-btn[data-option-type="almacenamiento"][data-selected="true"]')?.getAttribute('data-option-value') || uniqueOptions.almacenamiento[0],
+                    ram: document.querySelector('.option-btn[data-option-type="ram"][data-selected="true"]')?.getAttribute('data-option-value') || uniqueOptions.ram[0],
+                    color: document.querySelector('.option-btn[data-option-type="color"][data-selected="true"]')?.getAttribute('data-option-value') || uniqueOptions.color[0]
+                };
 
-            attachModalListeners(currentProduct);
-            modal.classList.remove('hidden');
-        }
+                const matchedVariant = product.variants.find(v => 
+                    v.almacenamiento === currentSelection.almacenamiento &&
+                    v.ram === currentSelection.ram &&
+                    v.color === currentSelection.color
+                );
 
-        // --- Lógica del Modal (sin cambios importantes, solo reestructurada para claridad) ---
-        function attachModalListeners(product) {
-            // Lógica de Pestañas
+                const modalPriceElement = document.getElementById('modal-price');
+                const modalStockElement = document.getElementById('modal-stock');
+                const qtyInputElement = document.getElementById('qty-input');
+                const whatsappLinkElement = document.getElementById('modal-whatsapp-link');
+
+                if (matchedVariant) {
+                    modalPriceElement.textContent = `$${matchedVariant.priceWithTax.toFixed(2)}`;
+                    document.getElementById('modal-price-tachado').textContent = `$${matchedVariant.price.toFixed(2)}`;
+                    modalStockElement.textContent = matchedVariant.stock;
+                    qtyInputElement.max = matchedVariant.stock;
+                    
+                    // Ajustar la cantidad si excede el stock
+                    if (parseInt(qtyInputElement.value) > matchedVariant.stock) {
+                        qtyInputElement.value = matchedVariant.stock > 0 ? 1 : 0;
+                    } else if (parseInt(qtyInputElement.value) === 0 && matchedVariant.stock > 0) {
+                        qtyInputElement.value = 1;
+                    }
+                    
+                    const whatsappMessage = `Hola, me interesa comprar el ${product.name} con ${matchedVariant.almacenamiento} de almacenamiento, ${matchedVariant.ram} de RAM y color ${matchedVariant.color}. Cantidad: ${qtyInputElement.value}.`;
+                    whatsappLinkElement.href = `https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}`;
+                } else {
+                    modalPriceElement.textContent = 'No disponible';
+                    document.getElementById('modal-price-tachado').textContent = '$0.00';
+                    modalStockElement.textContent = '0';
+                    qtyInputElement.max = 0;
+                    qtyInputElement.value = 0;
+                    whatsappLinkElement.href = '#';
+                }
+            }
+            
+            // Lógica para pestañas
             const tabDescBtn = document.getElementById('tab-desc');
             const tabSpecsBtn = document.getElementById('tab-specs');
             const tabContent = document.getElementById('tab-content');
-
+            
             function showTabContent(tabId) {
+                // Limpiar clases de ambos botones
                 document.querySelectorAll('.tab-btn').forEach(btn => {
                     btn.classList.remove('border-cyan-600', 'text-cyan-600', 'font-bold');
                     btn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
                 });
                 
-                const activeBtn = document.getElementById(tabId);
-                activeBtn.classList.add('border-cyan-600', 'text-cyan-600', 'font-bold');
+                // Aplicar clases al botón seleccionado
+                const selectedBtn = document.getElementById(tabId);
+                selectedBtn.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                selectedBtn.classList.add('border-cyan-600', 'text-cyan-600', 'font-bold');
                 
                 if (tabId === 'tab-desc') {
+                    // Reemplazar saltos de línea con <br>
                     const formattedDescription = product.longDescription.replace(/\n/g, '<br>');
-                    tabContent.innerHTML = `<p class="leading-relaxed">${formattedDescription}</p>`;
+                    tabContent.innerHTML = `<p>${formattedDescription}</p>`;
                 } else if (tabId === 'tab-specs') {
                     const specsList = product.specs.map(spec => `<li class="mb-1">${spec}</li>`).join('');
-                    tabContent.innerHTML = `<ul class="list-disc list-inside space-y-1 pl-4">${specsList}</ul>`;
+                    tabContent.innerHTML = `<ul class="list-disc list-inside space-y-1">${specsList}</ul>`;
                 }
             }
 
             tabDescBtn.addEventListener('click', () => showTabContent('tab-desc'));
             tabSpecsBtn.addEventListener('click', () => showTabContent('tab-specs'));
+
+            // Lógica para cantidad
+            const qtyInput = document.getElementById('qty-input');
             
-            // Lógica para imágenes en miniatura
-            document.querySelectorAll('.thumbnail').forEach(thumbnail => {
-                thumbnail.addEventListener('click', (e) => {
-                    document.getElementById('main-product-image').src = e.target.getAttribute('data-image-url');
-                });
+            const updateWhatsappLink = () => {
+                updateModalUI(); // Asegura que se actualice la variante y el stock
+            };
+
+            document.getElementById('qty-plus').addEventListener('click', () => {
+                let currentVal = parseInt(qtyInput.value);
+                if (currentVal < parseInt(qtyInput.max)) {
+                    qtyInput.value = currentVal + 1;
+                    updateWhatsappLink();
+                }
+            });
+            document.getElementById('qty-minus').addEventListener('click', () => {
+                let currentVal = parseInt(qtyInput.value);
+                if (currentVal > 1) {
+                    qtyInput.value = currentVal - 1;
+                    updateWhatsappLink();
+                }
+            });
+            qtyInput.addEventListener('change', updateWhatsappLink); 
+            qtyInput.addEventListener('input', () => { // Manejar el input directo
+                if (parseInt(qtyInput.value) > parseInt(qtyInput.max)) {
+                    qtyInput.value = qtyInput.max;
+                }
+                updateWhatsappLink();
             });
 
             // Lógica para las opciones de selección
             document.querySelectorAll('.option-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const optionType = e.target.getAttribute('data-option-type');
-                    const optionValue = e.target.getAttribute('data-option-value');
                     
                     document.querySelectorAll(`.option-btn[data-option-type="${optionType}"]`).forEach(btn => {
-                        btn.setAttribute('data-selected', 'false');
+                        btn.removeAttribute('data-selected');
                     });
+                    
                     e.target.setAttribute('data-selected', 'true');
                     
-                    selectedOptions[optionType] = optionValue;
                     updateModalUI();
+                    updateWhatsappLink();
                 });
             });
 
-            // Lógica para cantidad
-            const qtyInput = document.getElementById('qty-input');
-            const updateQuantity = (change) => {
-                let currentVal = parseInt(qtyInput.value) || 1;
-                let maxVal = parseInt(qtyInput.max);
-                let newVal = currentVal + change;
-                
-                if (newVal < 1) newVal = 1;
-                if (newVal > maxVal) newVal = maxVal;
-                
-                qtyInput.value = newVal;
-                updateModalUI(); // Actualizar WhatsApp al cambiar cantidad
-            };
-
-            document.getElementById('qty-plus').addEventListener('click', () => updateQuantity(1));
-            document.getElementById('qty-minus').addEventListener('click', () => updateQuantity(-1));
-            qtyInput.addEventListener('input', updateModalUI); // Asegurar actualización al escribir
-            
+            // Mostrar la pestaña de descripción por defecto y actualizar la UI
             showTabContent('tab-desc');
             updateModalUI(); 
+            modal.classList.remove('hidden');
         }
 
-        function updateModalUI() {
-            const matchedVariant = currentProduct.variants.find(v => 
-                v.almacenamiento === selectedOptions.almacenamiento &&
-                v.ram === selectedOptions.ram &&
-                v.color === selectedOptions.color
-            );
-
-            // Inhabilitar opciones no disponibles
-            document.querySelectorAll('.option-btn[data-option-type]').forEach(btn => {
-                const type = btn.getAttribute('data-option-type');
-                const value = btn.getAttribute('data-option-value');
-                const testOptions = { ...selectedOptions, [type]: value };
-
-                const isAvailable = currentProduct.variants.some(v =>
-                    v.almacenamiento === testOptions.almacenamiento &&
-                    v.ram === testOptions.ram &&
-                    v.color === testOptions.color
-                );
-
-                btn.disabled = !isAvailable;
-                btn.classList.toggle('opacity-50', !isAvailable);
-                btn.classList.toggle('cursor-not-allowed', !isAvailable);
-            });
-
-            const modalPrice = document.getElementById('modal-price');
-            const modalStock = document.getElementById('modal-stock');
-            const qtyInput = document.getElementById('qty-input');
-            const whatsappLink = document.getElementById('modal-whatsapp-link');
-            
-            if (matchedVariant) {
-                modalPrice.textContent = `$${matchedVariant.priceWithTax.toFixed(2)}`;
-                modalStock.textContent = matchedVariant.stock;
-                qtyInput.max = matchedVariant.stock;
-                
-                if (parseInt(qtyInput.value) > matchedVariant.stock) {
-                    qtyInput.value = matchedVariant.stock > 0 ? 1 : 0;
-                } else if (parseInt(qtyInput.value) < 1 && matchedVariant.stock > 0) {
-                    qtyInput.value = 1;
-                }
-
-                const quantity = parseInt(qtyInput.value) || 1;
-                const whatsappMessage = `Hola, me interesa comprar ${quantity} unidad(es) del ${currentProduct.name} (${matchedVariant.almacenamiento}/${matchedVariant.ram}, Color: ${matchedVariant.color}). Precio unitario: $${matchedVariant.priceWithTax.toFixed(2)}.`;
-                whatsappLink.href = `https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}`;
-                whatsappLink.classList.remove('bg-gray-400', 'pointer-events-none');
-                whatsappLink.classList.add('bg-green-500', 'hover:bg-green-600');
-            } else {
-                modalPrice.textContent = 'No disponible';
-                modalStock.textContent = '0';
-                qtyInput.max = 0;
-                qtyInput.value = 0;
-                whatsappLink.href = '#';
-                whatsappLink.classList.remove('bg-green-500', 'hover:bg-green-600');
-                whatsappLink.classList.add('bg-gray-400', 'pointer-events-none');
-            }
-        }
-
+        // Función para ocultar el modal
         function hideModal() {
             document.getElementById('info-modal').classList.add('hidden');
         }
 
+        // Lógica para el menú de navegación móvil 
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Cierra el menú móvil al hacer clic en un enlace de navegación
+            document.querySelectorAll('#mobile-menu button, #mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // Función para cambiar de página
+        function showPage(pageId) {
+            document.querySelectorAll('.content-page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        // Manejadores de eventos para la navegación
+        document.getElementById('btn-inicio').addEventListener('click', () => {
+            showPage('page-inicio');
+        });
+        document.getElementById('btn-catalogo').addEventListener('click', () => {
+            showPage('page-catalogo');
+            updateCatalog();
+        });
+        document.getElementById('btn-nosotros').addEventListener('click', () => {
+            showPage('page-nosotros');
+        });
+        document.getElementById('btn-contacto').addEventListener('click', () => {
+            showPage('page-contacto');
+        });
+        document.getElementById('btn-ir-catalogo').addEventListener('click', () => {
+            showPage('page-catalogo');
+            updateCatalog();
+        });
+
+        // Manejador de evento para cerrar el modal
         document.getElementById('close-modal').addEventListener('click', hideModal);
         document.getElementById('info-modal').addEventListener('click', (event) => {
+            // Cerrar si se hace click fuera del contenido del modal
             if (event.target === event.currentTarget) {
                 hideModal();
             }
         });
 
-        // ------------------------------------------
-        // LÓGICA DEL FORMULARIO DE CONTACTO
-        // ------------------------------------------
+        // Función para actualizar el catálogo con búsqueda y ordenamiento
+        function updateCatalog() {
+            const searchInput = document.getElementById('search-input');
+            const sortOrderSelect = document.getElementById('sort-order');
+            
+            if (!searchInput || !sortOrderSelect) return; // Asegurar que los elementos existan
 
+            const searchTerm = searchInput.value.toLowerCase();
+            const sortOrder = sortOrderSelect.value;
+
+            let filteredProducts = products.filter(product => {
+                const name = product.name.toLowerCase();
+                const shortDescription = product.shortDescription.toLowerCase();
+                return name.includes(searchTerm) || shortDescription.includes(searchTerm);
+            });
+
+            if (sortOrder === 'name') {
+                filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortOrder === 'price') {
+                filteredProducts.sort((a, b) => a.variants[0].priceWithTax - b.variants[0].priceWithTax);
+            }
+
+            renderProducts(filteredProducts);
+        }
+
+        // Manejadores de eventos para búsqueda y ordenamiento
+        document.getElementById('search-input').addEventListener('input', updateCatalog);
+        document.getElementById('sort-order').addEventListener('change', updateCatalog);
+            
+        // Manejador de evento para el formulario de contacto
         document.getElementById('contact-form').addEventListener('submit', function(event) {
             event.preventDefault(); 
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
-            
-            const subject = "Mensaje de Contacto - MoorMix Digital"; 
-            const body = `Hola MoorMix Digital,\n\n${message}\n\n---\nDetalles del remitente:\nNombre: ${name}\nCorreo: ${email}`;
-            
+            const subject = "Reclamo o sugerencia de " + name;
+            const body = `Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`;
             const mailtoLink = `mailto:moormixdigital@outloo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             
+            // Abrir la aplicación de email del usuario
             window.location.href = mailtoLink;
 
+            // Mostrar un mensaje de confirmación
             const formMessage = document.getElementById('form-message');
-            formMessage.textContent = "Se abrirá tu cliente de correo para enviar el mensaje. ¡Gracias por contactarnos!";
-            formMessage.classList.remove('hidden', 'text-red-600');
+            formMessage.textContent = "Tu mensaje ha sido enviado a tu cliente de correo para su confirmación.";
+            formMessage.classList.remove('hidden');
             formMessage.classList.add('text-green-600');
             
+            // Limpiar el formulario después de un breve retraso
             setTimeout(() => {
                 document.getElementById('contact-form').reset();
                 formMessage.classList.add('hidden');
-            }, 7000);
+            }, 5000);
         });
-        
-        // ------------------------------------------
-        // INICIALIZACIÓN
-        // ------------------------------------------
 
-        showPage('page-inicio');
-        updateCatalog();
-
+        // Inicializar la aplicación al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('page-inicio');
+            updateCatalog();
+        });
     </script>
-</body>
+    </body>
 </html>
