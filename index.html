@@ -177,8 +177,8 @@
     </main>
 
     <div id="info-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl max-w-5xl w-full max-h-screen overflow-y-auto relative p-6">
-            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-5xl max-h-screen overflow-y-auto relative p-4 sm:p-6">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors z-10">
                 <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             
@@ -192,11 +192,11 @@
         // Array de productos con variantes y precios
         const products = [
             {
-                name: "Infinix Smart 9 HD",
+                name: "Honor 90 Lite",
                 brand: "Honor",
                 shortDescription: "256GB/8+5RAM<br>1 Año de Garantía",
                 longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella lateral\nFlash",
-                images: ["img/infinixsmart9hd.png", "img/infinixsmart9hd.png", "img/infinixsmart9hd.png"],
+                images: ["images/honor90lite.png", "images/honor90litelateral.png", "images/honor90litetrasero.png"],
                 specs: [
                     "Procesador MediaTek Dimensity 6020",
                     "Sistema operativo Android 13 MagicOS",
@@ -479,14 +479,14 @@
             
             // Contenido completo del modal
             modalContent.innerHTML = `
-                <div class="flex flex-col lg:flex-row items-center lg:items-start text-left space-y-8 lg:space-y-0 lg:space-x-8 p-4">
+                <div class="flex flex-col lg:flex-row items-center lg:items-start text-left space-y-8 lg:space-y-0 lg:space-x-8">
                     <div class="flex flex-col items-center w-full lg:w-1/2">
                         <div class="w-full aspect-square mb-4 overflow-hidden rounded-lg">
                              <img id="main-product-image" src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-cover">
                         </div>
-                        <div class="flex space-x-2 overflow-x-auto w-full justify-center">
+                        <div class="flex space-x-2 overflow-x-auto w-full justify-center p-1">
                             ${product.images.map(image => `
-                                <img src="${image}" alt="${product.name}" class="thumbnail w-20 h-20 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-cyan-600 transition-colors" onclick="document.getElementById('main-product-image').src='${image}'">
+                                <img src="${image}" alt="${product.name}" class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-cyan-600 transition-colors" onclick="document.getElementById('main-product-image').src='${image}'">
                             `).join('')}
                         </div>
                     </div>
@@ -506,21 +506,21 @@
                         
                         ${optionsHtml}
                         
-                        <div class="flex items-center space-x-4 mb-6">
-                            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                        <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 w-full">
+                            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden w-full sm:w-auto">
                                 <button id="qty-minus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors">-</button>
                                 <input id="qty-input" type="number" value="1" min="1" max="${selectedVariant.stock}" class="w-12 text-center border-none focus:outline-none p-2">
                                 <button id="qty-plus" class="p-2 text-gray-600 hover:bg-gray-100 transition-colors">+</button>
                             </div>
-                            <a id="modal-whatsapp-link" href="https://wa.me/593967427594?text=${encodeURIComponent(initialWhatsappMessage)}" class="flex-1 text-center bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition-colors">
+                            <a id="modal-whatsapp-link" href="https://wa.me/593967427594?text=${encodeURIComponent(initialWhatsappMessage)}" class="w-full text-center bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition-colors">
                                 COMPRAR POR WHATSAPP
                             </a>
                         </div>
                         
                         <div class="border-b border-gray-200 mt-6">
-                            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                                <button id="tab-desc" class="tab-btn border-b-2 border-cyan-600 text-cyan-600 font-bold py-2 px-4 transition-colors duration-200">DESCRIPCIÓN</button>
-                                <button id="tab-specs" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-4 transition-colors duration-200">ESPECIFICACIÓN</button>
+                            <nav class="-mb-px flex space-x-4 sm:space-x-8" aria-label="Tabs">
+                                <button id="tab-desc" class="tab-btn border-b-2 border-cyan-600 text-cyan-600 font-bold py-2 px-1 sm:px-4 transition-colors duration-200">DESCRIPCIÓN</button>
+                                <button id="tab-specs" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 sm:px-4 transition-colors duration-200">ESPECIFICACIÓN</button>
                             </nav>
                         </div>
                         <div id="tab-content" class="pt-4 text-gray-700 text-sm">
