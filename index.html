@@ -397,12 +397,19 @@
         // *************************************************************
         // * LÓGICA DE FINANCIAMIENTO (TASAS FIJAS DE EJEMPLO)
         // *************************************************************
-        const INTEREST_RATE_ANNUAL = 0.18; // 18% Anual
-        const INTEREST_RATE_MONTHLY = INTEREST_RATE_ANNUAL / 12; // 1.5% Mensual
+        // ESTAS TASAS SON ANUALES y PUEDEN SER MODIFICADAS
+        const INTEREST_RATES_ANNUAL = {
+            '3': 0.12, // 12% Anual para 3 meses
+            '6': 0.18, // 18% Anual para 6 meses
+            '9': 0.24  // 24% Anual para 9 meses
+        };
 
         function calculatePayment(price, months, frequency) {
             const principal = price;
-            const rate = INTEREST_RATE_MONTHLY;
+            // Obtener la tasa anual basada en los meses seleccionados
+            const annualRate = INTEREST_RATES_ANNUAL[months] || 0.18; // 18% por defecto si no se encuentra
+            const monthlyRate = annualRate / 12;
+
             const totalMonths = parseInt(months);
             const totalPayments = totalMonths * (
                 frequency === 'mensual' ? 1 :
@@ -410,19 +417,16 @@
                 frequency === 'semanal' ? 4 : 1
             );
             
-            // Usamos la fórmula de cuota fija con interés simple por simplicidad
-            // (La fórmula de amortización real es compleja y para un ejemplo simple,
-            // usaremos interés fijo sobre el capital y lo dividiremos en cuotas)
-            
             // Cálculo simplificado (Interés total sobre el capital por el tiempo)
-            const totalInterest = principal * rate * totalMonths;
+            const totalInterest = principal * monthlyRate * totalMonths;
             const totalAmountDue = principal + totalInterest;
             const installmentAmount = totalAmountDue / totalPayments;
             
             return {
                 totalAmountDue: totalAmountDue.toFixed(2),
                 installmentAmount: installmentAmount.toFixed(2),
-                totalPayments: totalPayments
+                totalPayments: totalPayments,
+                annualRate: (annualRate * 100).toFixed(0) // Devuelve la tasa para mostrarla en el modal
             };
         }
         // *************************************************************
@@ -546,7 +550,7 @@
                         </div>
 
                         <div id="financing-options" class="hidden p-3 bg-gray-50 rounded-lg border mb-4">
-                            <p class="text-gray-700 font-semibold mb-3 text-center">Opciones de Financiamiento (Tasa Anual 18%):</p>
+                            <p class="text-gray-700 font-semibold mb-3 text-center">Opciones de Financiamiento:</p>
                             
                             <div class="flex space-x-4 mb-3">
                                 <div class="w-1/2">
@@ -567,6 +571,9 @@
                                 </div>
                             </div>
                             <div class="bg-white p-3 rounded-md border-dashed border-gray-300 border text-center">
+                                <p class="text-sm font-medium text-gray-600">
+                                    Tasa Anual Aplicada: <strong id="financing-annual-rate" class="text-cyan-600">0%</strong>
+                                </p>
                                 <p class="text-sm font-medium text-gray-600">Total a Pagar: <strong id="financing-total-amount" class="text-red-500">$0.00</strong></p>
                                 <p class="text-lg font-bold text-green-600">Cuota: <strong id="financing-installment-amount">$0.00</strong></p>
                                 <p class="text-xs text-gray-400">Total de Pagos: <span id="financing-total-payments">0</span></p>
@@ -632,6 +639,7 @@
             const financingTotalAmount = document.getElementById('financing-total-amount');
             const financingInstallmentAmount = document.getElementById('financing-installment-amount');
             const financingTotalPayments = document.getElementById('financing-total-payments');
+            const financingAnnualRate = document.getElementById('financing-annual-rate'); // Nuevo elemento para la tasa
 
             // Elementos de pestañas
             const tabDescBtn = document.getElementById('tab-desc');
@@ -696,7 +704,7 @@
                     financingOptions.classList.remove('hidden');
                     priceLabelElement.textContent = `Precio Total Financiado (${quantity} unid):`;
                     
-                    // Cálculo de Plazos (asume solo 1 unidad para financiamiento)
+                    // Cálculo de Plazos 
                     const totalProductPrice = basePrice * quantity;
                     const months = paymentMonthsSelect.value;
                     const frequency = paymentFrequencySelect.value;
@@ -706,11 +714,12 @@
                     finalPriceDisplay = calculation.totalAmountDue;
                     
                     // Actualizar indicadores de financiamiento
+                    financingAnnualRate.textContent = `${calculation.annualRate}%`; // Tasa anual aplicada
                     financingTotalAmount.textContent = `$${calculation.totalAmountDue}`;
                     financingInstallmentAmount.textContent = `$${calculation.installmentAmount} / ${frequency}`;
                     financingTotalPayments.textContent = calculation.totalPayments;
                     
-                    whatsappMessage = `Hola, me interesa financiar ${quantity} unidad(es) del ${product.name} (${currentSelection.almacenamiento}, ${currentSelection.ram}, ${currentSelection.color}). Modalidad: Plazos (${months} meses, pago ${frequency}). Cuota: $${calculation.installmentAmount}. Precio Total: $${calculation.totalAmountDue}.`;
+                    whatsappMessage = `Hola, me interesa financiar ${quantity} unidad(es) del ${product.name} (${currentSelection.almacenamiento}, ${currentSelection.ram}, ${currentSelection.color}). Modalidad: Plazos (${months} meses con tasa anual del ${calculation.annualRate}%, pago ${frequency}). Cuota: $${calculation.installmentAmount}. Precio Total: $${calculation.totalAmountDue}.`;
                 }
 
                 // 4. Actualizar UI y Link de WhatsApp
