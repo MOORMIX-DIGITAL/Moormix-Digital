@@ -3,273 +3,540 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos - Versión Final</title>
+    <title>Moormix Digital - Tecnología y Accesorios</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cyan-600': '#00BCD4',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* Estilo para asegurar que el contenido se desplace sobre el fondo de la modal */
-        #info-modal {
-            background-color: rgba(0, 0, 0, 0.75);
-            z-index: 50; /* Tailwind z-50 */
+        /* Estilos básicos para asegurar que el modal y las páginas funcionan */
+        .content-page {
+            min-height: calc(100vh - 4rem - 2.5rem); /* Altura mínima restando el header y el nuevo banner */
         }
-        /* Ocultar las flechas y botones de número en input type="number" */
-        input[type=number]::-webkit-outer-spin-button,
-        input[type=number]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+        .modal-open {
+            overflow: hidden;
         }
-        input[type=number] {
-            -moz-appearance: textfield;
+        /* ESTILOS PARA EL BANNER ROTATIVO */
+        #top-banner-promo {
+            height: 2.5rem; /* Altura fija para el banner (40px) */
+            line-height: 2.5rem; /* Centrado vertical */
+            overflow: hidden; /* Importante para ocultar los textos fuera de la vista */
+            white-space: nowrap;
+            text-align: center;
+            background-color: #00BCD4; /* Color Cian */
+            color: white;
+            font-weight: 600; /* Semibold */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        /* Contenedor de los mensajes */
+        #promo-text-container {
+            display: inline-block;
+            transition: transform 0.5s ease-in-out; /* Transición suave al cambiar de texto */
+        }
+        .promo-message {
+            display: inline-block;
+            width: 100%; /* Ocupa todo el ancho visible */
+            text-align: center;
+            /* Se establece un pequeño padding para asegurar que el texto no esté pegado a los bordes si se cambia de ancho */
+            padding: 0 1rem; 
         }
     </style>
 </head>
 <body class="bg-gray-50">
 
-    <div class="bg-cyan-700 text-white py-2 overflow-hidden" id="rotating-text-banner">
-        <div class="container mx-auto px-4 text-center">
-            <p id="rotating-text" class="text-sm font-medium transition-opacity duration-500 ease-in-out opacity-100">
-                Cargando promociones...
-            </p>
-        </div>
+    <div id="top-banner-promo">
+        <div id="promo-text-container">
+            </div>
     </div>
     
-    <header class="bg-white shadow-md sticky top-0 z-40">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-cyan-600">MiTienda</h1>
-            <nav class="hidden md:flex space-x-6">
-                <button id="btn-inicio" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Inicio</button>
-                <button id="btn-catalogo" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Catálogo</button>
-                <button id="btn-nosotros" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Nosotros</button>
-                <button id="btn-contacto" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Contacto</button>
-            </nav>
-            <button id="menu-toggle" class="md:hidden p-2 rounded-md hover:bg-gray-100">
-                <i class="fa fa-bars text-xl"></i>
-            </button>
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-3xl font-extrabold text-cyan-600">Moormix</span>
+                    <span class="text-3xl font-light text-gray-800">Digital</span>
+                </div>
+
+                <nav class="hidden md:flex md:space-x-4">
+                    <button id="btn-inicio" class="text-gray-600 hover:text-cyan-600 px-3 py-2 rounded-md text-lg font-medium transition-colors">Inicio</button>
+                    <button id="btn-catalogo" class="text-gray-600 hover:text-cyan-600 px-3 py-2 rounded-md text-lg font-medium transition-colors">Catálogo</button>
+                    <button id="btn-nosotros" class="text-gray-600 hover:text-cyan-600 px-3 py-2 rounded-md text-lg font-medium transition-colors">Nosotros</button>
+                    <button id="btn-contacto" class="text-gray-600 hover:text-cyan-600 px-3 py-2 rounded-md text-lg font-medium transition-colors">Contacto</button>
+                </nav>
+
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="p-2 text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-600 rounded-md">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
-        <nav id="mobile-menu" class="hidden md:hidden bg-white shadow-lg pb-2">
-            <button id="btn-inicio-mob" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="document.getElementById('btn-inicio').click()">Inicio</button>
-            <button id="btn-catalogo-mob" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="document.getElementById('btn-catalogo').click()">Catálogo</button>
-            <button id="btn-nosotros-mob" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="document.getElementById('btn-nosotros').click()">Nosotros</button>
-            <button id="btn-contacto-mob" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="document.getElementById('btn-contacto').click()">Contacto</button>
-        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg py-2">
+            <button id="mobile-btn-inicio" class="block w-full text-left text-gray-700 hover:bg-gray-100 px-4 py-2 text-base font-medium transition-colors" onclick="showPage('page-inicio')">Inicio</button>
+            <button id="mobile-btn-catalogo" class="block w-full text-left text-gray-700 hover:bg-gray-100 px-4 py-2 text-base font-medium transition-colors" onclick="showPage('page-catalogo'); updateCatalog();">Catálogo</button>
+            <button id="mobile-btn-nosotros" class="block w-full text-left text-gray-700 hover:bg-gray-100 px-4 py-2 text-base font-medium transition-colors" onclick="showPage('page-nosotros')">Nosotros</button>
+            <button id="mobile-btn-contacto" class="block w-full text-left text-gray-700 hover:bg-gray-100 px-4 py-2 text-base font-medium transition-colors" onclick="showPage('page-contacto')">Contacto</button>
+        </div>
     </header>
 
-    <main class="container mx-auto px-4 py-8">
-        <section id="page-inicio" class="content-page">
-            <div class="text-center py-20 bg-gray-100 rounded-xl">
-                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Bienvenido a Nuestra Tienda Digital</h2>
-                <p class="text-xl text-gray-600 mb-8">Encuentra los mejores productos electrónicos con opciones de financiamiento flexibles.</p>
-                <button id="btn-ir-catalogo" class="bg-cyan-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-cyan-700 transition-colors">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <section id="page-inicio" class="content-page hidden">
+            <div class="text-center py-20 bg-cyan-50 rounded-xl shadow-inner">
+                <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Bienvenidos a <span class="text-cyan-600">Moormix Digital</span></h1>
+                <p class="text-xl text-gray-600 mb-8">La mejor tecnología móvil y accesorios con la mejor garantía.</p>
+                <button id="btn-ir-catalogo" class="bg-cyan-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-cyan-700 transition duration-300">
                     Ver Catálogo Ahora
                 </button>
+            </div>
+
+            <div class="mt-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Nuestros Valores</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="p-6 bg-white rounded-xl shadow-lg">
+                        <svg class="w-12 h-12 text-cyan-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.001 12.001 0 0012 21.001a12.001 12.001 0 008.618-14.016z"></path></svg>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Garantía Total</h3>
+                        <p class="text-gray-500">Ofrecemos un año de garantía en todos nuestros dispositivos.</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-xl shadow-lg">
+                        <svg class="w-12 h-12 text-cyan-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Mejores Precios</h3>
+                        <p class="text-gray-500">Precios competitivos que incluyen el IVA para tu total tranquilidad.</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-xl shadow-lg">
+                        <svg class="w-12 h-12 text-cyan-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Última Tecnología</h3>
+                        <p class="text-gray-500">Siempre a la vanguardia con los modelos más recientes del mercado.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="page-catalogo" class="content-page hidden">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Catálogo de Productos</h2>
-            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
-                <input type="text" id="search-input" placeholder="Buscar por nombre o descripción..." class="w-full sm:flex-1 p-3 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
-                <select id="sort-order" class="p-3 border border-gray-300 rounded-lg bg-white w-full sm:w-auto">
-                    <option value="name">Ordenar por Nombre</option>
-                    <option value="price">Ordenar por Precio</option>
+            <h1 class="text-4xl font-bold text-gray-800 mb-6 border-b pb-2">Catálogo de Productos</h1>
+
+            <div class="mb-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <input type="text" id="search-input" placeholder="Buscar por nombre o descripción..." class="w-full sm:w-2/3 p-3 border border-gray-300 rounded-lg focus:ring-cyan-600 focus:border-cyan-600">
+                <select id="sort-order" class="w-full sm:w-1/3 p-3 border border-gray-300 rounded-lg focus:ring-cyan-600 focus:border-cyan-600 bg-white">
+                    <option value="default">Ordenar por...</option>
+                    <option value="name">Nombre (A-Z)</option>
+                    <option value="price">Precio (Menor a Mayor)</option>
                 </select>
             </div>
-            <div id="catalogo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+            <div id="catalogo-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 </div>
         </section>
 
         <section id="page-nosotros" class="content-page hidden">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6">Acerca de Nosotros</h2>
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <p class="text-gray-700">Somos una empresa dedicada a ofrecer la mejor tecnología con las mejores opciones de pago. Nuestro objetivo es acercar la innovación a todos nuestros clientes.</p>
+            <h1 class="text-4xl font-bold text-gray-800 mb-6 border-b pb-2">Quiénes Somos</h1>
+            <div class="bg-white p-8 rounded-xl shadow-lg space-y-6">
+                <p class="text-lg text-gray-700">
+                    <strong class="font-bold text-cyan-600">Moormix Digital</strong> nace de la pasión por la tecnología y el compromiso con nuestros clientes. Somos una empresa dedicada a ofrecer la última generación de dispositivos móviles y accesorios, priorizando siempre la calidad y el servicio postventa.
+                </p>
+                <p class="text-gray-600">
+                    Nuestra misión es simple: conectar a las personas con la tecnología que necesitan, de forma transparente y accesible. Por eso, todos nuestros precios incluyen el IVA y respaldamos cada venta con una garantía sólida de un año. Creemos en la confianza y en construir relaciones duraderas con cada cliente.
+                </p>
+                <h2 class="text-2xl font-semibold text-gray-800 pt-4">Nuestra Promesa</h2>
+                <ul class="list-disc list-inside space-y-2 text-gray-600 pl-4">
+                    <li>**Transparencia:** Precios claros y honestos, sin sorpresas.</li>
+                    <li>**Calidad:** Solo vendemos productos nuevos y originales.</li>
+                    <li>**Soporte:** Un equipo listo para asistirte en todo momento.</li>
+                    <li>**Garantía:** El respaldo que necesitas por un año completo.</li>
+                </ul>
             </div>
         </section>
 
         <section id="page-contacto" class="content-page hidden">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6">Contáctanos</h2>
-            <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
-                <form id="contact-form" class="space-y-4">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
-                        <input type="text" id="name" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+            <h1 class="text-4xl font-bold text-gray-800 mb-6 border-b pb-2">Contáctanos</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Envíanos un mensaje</h2>
+                    <form id="contact-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
+                            <input type="text" id="name" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-600 focus:border-cyan-600">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                            <input type="email" id="email" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-600 focus:border-cyan-600">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700">Mensaje, Reclamo o Sugerencia</label>
+                            <textarea id="message" rows="4" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-600 focus:border-cyan-600"></textarea>
+                        </div>
+                        <p id="form-message" class="text-sm hidden"></p>
+                        <button type="submit" class="w-full bg-cyan-600 text-white font-bold py-3 rounded-lg hover:bg-cyan-700 transition duration-300">
+                            Enviar Mensaje (Abre tu App de Email)
+                        </button>
+                    </form>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">WhatsApp Directo</h3>
+                        <a href="https://wa.me/593967427594" target="_blank" class="text-green-600 hover:text-green-700 font-medium flex items-center">
+                            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 14.5c-.24 0-.46-.08-.65-.21l-3.26-2.04c-.39-.24-.65-.68-.65-1.16V7.5c0-.55.45-1 1-1s1 .45 1 1v5.18l2.97 1.86c.49.31.65.94.34 1.43-.16.25-.43.39-.71.39z"/></svg>
+                            +593 96 742 7594
+                        </a>
+                        <p class="text-gray-500 text-sm mt-2">Atención inmediata para compras y consultas.</p>
                     </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
-                        <input type="email" id="email" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Correo de Soporte</h3>
+                        <p class="text-cyan-600 font-medium">moormixdigital@outloo.com</p>
+                        <p class="text-gray-500 text-sm mt-2">Para soporte técnico, garantías y reclamos.</p>
                     </div>
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700">Mensaje</label>
-                        <textarea id="message" rows="4" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-cyan-600 text-white py-2 rounded-md hover:bg-cyan-700 transition-colors">Enviar Mensaje</button>
-                </form>
-                <p id="form-message" class="mt-4 text-sm hidden"></p>
+                </div>
             </div>
         </section>
-        
+
     </main>
 
-    <div id="info-modal" class="fixed inset-0 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform transition-all relative">
-            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl font-light leading-none z-10 p-2">
-                &times;
+    <div id="info-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-5xl max-h-screen overflow-y-auto relative p-4 sm:p-6">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors z-10">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <div id="modal-content" class="p-6 sm:p-8 lg:p-10">
+            
+            <div id="modal-content" class="mt-4">
                 </div>
         </div>
     </div>
 
 
     <script>
-        // *************************************************************
-        // * DATA INICIAL (Catálogo de Productos)
-        // *************************************************************
+        // Array de productos con variantes y precios
         const products = [
-            // DEBES ASEGURARTE QUE TU ARRAY 'products' ESTÉ AQUÍ.
             {
-                id: 1,
-                name: "Smartphone Galaxy S23",
-                brand: "SAMSUNG",
-                shortDescription: "Potente, elegante y con una cámara impresionante.",
-                longDescription: "El Galaxy S23 cuenta con un procesador de última generación y una pantalla Dynamic AMOLED 2X. Ideal para fotografía y juegos. Diseño premium con resistencia al agua IP68.",
-                specs: ["Cámara Principal de 50MP", "Batería de larga duración", "Pantalla de 6.1 pulgadas", "Resistencia IP68"],
-                images: ["https://picsum.photos/400/400?random=1", "https://picsum.photos/400/400?random=2", "https://picsum.photos/400/400?random=3"],
-                tag: "Nuevo",
+                name: "Honor 90 Lite",
+                brand: "Honor",
+                shortDescription: "256GB/8+5RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella lateral\nFlash",
+                images: ["images/honor90lite.png", "images/honor90litelateral.png", "images/honor90litetrasero.png"],
+                specs: [
+                    "Procesador MediaTek Dimensity 6020",
+                    "Sistema operativo Android 13 MagicOS",
+                    "Pantalla 6.7\" LTPSLCD FHD+ 90GHz",
+                    "Cámara frontal 16 MP",
+                    "Cámara trasera 100 MP",
+                    "Batería 4500mAh",
+                    "Tarjeta de memoria",
+                    "Flash",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
                 variants: [
-                    { almacenamiento: "128GB", ram: "8GB", color: "Negro", price: 850.00, tax: 0.12, priceWithTax: 952.00, stock: 15 },
-                    { almacenamiento: "256GB", ram: "8GB", color: "Negro", price: 900.00, tax: 0.12, priceWithTax: 1008.00, stock: 10 },
+                    { almacenamiento: "256GB", ram: "8GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "8GB", color: "Lila", price: 120.75, stock: 15 },
                 ]
             },
             {
-                id: 2,
-                name: "Laptop HP Spectre",
-                brand: "HP",
-                shortDescription: "Diseño ultradelgado y rendimiento superior para profesionales.",
-                longDescription: "Esta laptop combina un chasis de aluminio pulido con un potente procesador Intel Core i7. Perfecta para multitarea intensiva y edición de contenido.",
-                specs: ["Procesador i7 de 13ª Gen", "Pantalla táctil 4K", "Chasis de aluminio", "Duración de batería de 15h"],
-                images: ["https://picsum.photos/400/400?random=4", "https://picsum.photos/400/400?random=5"],
-                tag: "Oferta",
+                name: "Honor x6c",
+                brand: "Honor",
+                shortDescription: "256GB/6+6RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nHuella lateral",
+                images: ["images/honorx6c.png", "images/honorx6clateral.png", "images/honorx6ctrasero.png"],
+                specs: [
+                    "Procesador MediaTek Helio G81 Ultra",
+                    "Sistema operativo Android 15 MagicOS",
+                    "Pantalla 6.61\" HD+ +IPS 120GHz",
+                    "Cámara frontal 5 MP",
+                    "Cámara trasera 50 MP",
+                    "Batería 5300mAh",
+                    "Tarjeta de memoria",
+                    "Resistencia al polvo y salpicadura de agua IP54",
+                    "Flash LED",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
                 variants: [
-                    { almacenamiento: "512GB SSD", ram: "16GB", color: "Plata", price: 1300.00, tax: 0.12, priceWithTax: 1456.00, stock: 8 },
-                ]
+                    { almacenamiento: "256GB", ram: "12GB", color: "Celeste", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "12GB", color: "Blanco", price: 120.75, stock: 15 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Celeste", price: 120.75, stock: 15 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Blanco", price: 120.75, stock: 15 },
+                ],
             },
-            // ... MÁS PRODUCTOS
+            {
+                name: "Honor x7c",
+                brand: "Honor",
+                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\nReconocimiento facial\nHuella en pantalla",
+                images: ["images/honorx7c.png", "images/honorx7clateral.png", "images/honorx7ctrasero.png"],
+                specs: [
+                    "Procesador Qualcomm Snapdragon 685",
+                    "Sistema operativo Android 14 MagicOS",
+                    "Pantalla 6.78\" TFTLCD FHD+ +IPS 120GHz",
+                    "Cámara frontal 8 MP",
+                    "Cámara trasera 108 MP",
+                    "Batería 5200mAh",
+                    "Tarjeta de memoria",
+                    "Resistencia al polvo y salpicadura de agua IP54",
+                    "Flash dual",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "16GB", color: "Blanco", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Negro", price: 120.75, stock: 15 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "verde", price: 120.75, stock: 15 },
+                ],
+            },
+            {
+                name: "Honor x8c",
+                brand: "Honor",
+                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                images: ["images/honorx8c.png", "images/honorx8clateral.png", "images/honorx8ctrasero.png"],
+                specs: [
+                    "Procesador Snapdragon 685",
+                    "Sistema operativo Android 15 MagicOS",
+                    "Pantalla 6.78\" AMOLED HD+ +IPS 120GHz",
+                    "Cámara frontal 8 MP",
+                    "Cámara trasera 108 MP",
+                    "Batería 5150mAh",
+                    "Tarjeta de memoria",
+                    "Resistencia al polvo y salpicadura de agua IP54",
+                    "Flash dual",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "16GB", color: "Cian", price: 120.75, stock: 20 },
+                    { almacenamiento: "512GB", ram: "16GB", color: "Cian", price: 120.75, stock: 15 },
+                ],
+            },
+            {
+                name: "Tecno Spark 40 Pro",
+                brand: "Tecno",
+                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
+                specs: [
+                    "Procesador MediaTek Helio G100",
+                    "Sistema operativo Android 15 HIOS",
+                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
+                    "Cámara frontal 13 MP",
+                    "Cámara trasera 50 MP",
+                    "Batería 5200mAh",
+                    "Tarjeta de memoria",
+                    "Resistencia al polvo y salpicadura de agua IP54",
+                    "Flash dual°",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
+                ],
+            },
+            {
+                name: "Tecno Spark 40 Pro",
+                brand: "Tecno",
+                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
+                specs: [
+                    "Procesador MediaTek Helio G100",
+                    "Sistema operativo Android 15 HIOS",
+                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
+                    "Cámara frontal 13 MP",
+                    "Cámara trasera 50 MP",
+                    "Batería 5200mAh",
+                    "Tarjeta de memoria",
+                    "Resistencia al polvo y salpicadura de agua IP54",
+                    "Flash dual°",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
+                ],
+            },
+            {
+                name: "Tecno Spark 40 Pro",
+                brand: "Tecno",
+                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
+                specs: [
+                    "Procesador MediaTek Helio G100",
+                    "Sistema operativo Android 15 HIOS",
+                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
+                    "Cámara frontal 13 MP",
+                    "Cámara trasera 50 MP",
+                    "Batería 5200mAh",
+                    "Tarjeta de memoria",
+                    "Resistencia al polvo y salpicadura de agua IP54",
+                    "Flash dual°",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
+                ],
+            },
+            {
+                name: "Tecno Spark 40 Pro",
+                brand: "Tecno",
+                shortDescription: "256GB/8+8RAM<br>1 Año de Garantía",
+                longDescription: "IMAGEN DE REFERENCIA.\nBuen rendimiento para Usos Básicos y Estudiantiles\Huella en pantalla",
+                images: ["https://placehold.co/800x800/ffffff/000000?text=Frente", "https://placehold.co/800x800/ffffff/000000?text=Vista+2", "https://placehold.co/800x800/ffffff/000000?text=Vista+3"],
+                specs: [
+                    "Procesador MediaTek Helio G100",
+                    "Sistema operativo Android 15 HIOS",
+                    "Pantalla 6.78\" FHD+ +IPS 144GHz",
+                    "Cámara frontal 13 MP",
+                    "Cámara trasera 50 MP",
+                    "Batería 5200mAh",
+                    "Tarjeta de memoria",
+                    "Resistencia al polvo y salpicadura de agua IP54",
+                    "Flash dual°",
+                    "Dual Sim",
+                    "USB tipo C"
+                ],
+                variants: [
+                    { almacenamiento: "256GB", ram: "16GB", color: "Gris Oscuro", price: 120.75, stock: 20 },
+                    { almacenamiento: "256GB", ram: "16GB", color: "Azul", price: 120.75, stock: 15 },
+                ]
+            }
         ];
+
+        // Calcular el precio con IVA para todas las variantes
+        products.forEach(product => {
+            product.variants.forEach(variant => {
+                variant.priceWithTax = variant.price * 1.15; // 15% de IVA
+            });
+        });
         
         // *************************************************************
-        // * CORRECCIÓN 1: LÓGICA DE FINANCIAMIENTO (calculatePayment)
+        // * LÓGICA DE FINANCIAMIENTO (TASAS FIJAS DE EJEMPLO)
         // *************************************************************
-        /**
-         * Calcula los montos de pago para la modalidad a plazos.
-         * Utiliza una tasa de interés simple que varía según la duración del plazo.
-         */
-        function calculatePayment(basePrice, months, frequency) {
-            const monthsInt = parseInt(months);
-            let annualRate = 0;
+        // ESTAS TASAS SON ANUALES y PUEDEN SER MODIFICADAS
+        const INTEREST_RATES_ANNUAL = {
+            '3': 0.12, // 12% Anual para 3 meses
+            '6': 0.18, // 18% Anual para 6 meses
+            '9': 0.24  // 24% Anual para 9 meses
+        };
+
+        function calculatePayment(price, months, frequency) {
+            const principal = price;
+            // Obtener la tasa anual basada en los meses seleccionados
+            const annualRate = INTEREST_RATES_ANNUAL[months] || 0.18; // 18% por defecto si no se encuentra
+            const monthlyRate = annualRate / 12;
+
+            const totalMonths = parseInt(months);
+            const totalPayments = totalMonths * (
+                frequency === 'mensual' ? 1 :
+                frequency === 'quincenal' ? 2 :
+                frequency === 'semanal' ? 4 : 1
+            );
             
-            // Tasa de interés anual simple basada en los meses (EJEMPLO DE TASAS)
-            if (monthsInt <= 3) {
-                annualRate = 0.10; // 10%
-            } else if (monthsInt <= 6) {
-                annualRate = 0.15; // 15%
-            } else {
-                annualRate = 0.20; // 20%
-            }
-            
-            // Tasa de interés total por el período
-            const totalInterestRate = annualRate * (monthsInt / 12);
-            
-            // Monto total a pagar (capital + interés)
-            const totalAmount = basePrice * (1 + totalInterestRate);
-            
-            // Calcular el número total de pagos
-            let totalPayments = 0;
-            if (frequency === 'mensual') {
-                totalPayments = monthsInt;
-            } else if (frequency === 'quincenal') {
-                totalPayments = monthsInt * 2;
-            } else if (frequency === 'semanal') {
-                totalPayments = monthsInt * 4; 
-            }
-            
-            // Calcular el monto de la cuota
-            const installmentAmount = totalPayments > 0 ? (totalAmount / totalPayments) : 0;
+            // Cálculo simplificado (Interés total sobre el capital por el tiempo)
+            const totalInterest = principal * monthlyRate * totalMonths;
+            const totalAmountDue = principal + totalInterest;
+            const installmentAmount = totalAmountDue / totalPayments;
             
             return {
-                totalAmountDue: totalAmount.toFixed(2),
+                totalAmountDue: totalAmountDue.toFixed(2),
                 installmentAmount: installmentAmount.toFixed(2),
                 totalPayments: totalPayments,
-                annualRate: `${(annualRate * 100).toFixed(0)}%`
+                annualRate: (annualRate * 100).toFixed(0) // Devuelve la tasa para el mensaje de WhatsApp
             };
         }
-
+        // *************************************************************
 
         // *************************************************************
-        // * CORRECCIÓN 2: LÓGICA DEL BANNER ROTATIVO (startTextRotation)
+        // * LÓGICA DEL BANNER ROTATIVO (NUEVA FUNCIÓN)
         // *************************************************************
-        
-        const rotatingTexts = [
-            "¡ENVÍOS GRATIS a todo el país en compras mayores a $200!",
-            "PAGA A PLAZOS FÁCILMENTE - ¡Consulta nuestras opciones de financiamiento!",
-            "OFERTAS RELÁMPAGO: ¡Hasta 20% de descuento en modelos seleccionados!",
-            "CALIDAD GARANTIZADA - Todos nuestros productos tienen 1 año de garantía."
+        const PROMO_MESSAGES = [
+            "ENVÍOS GRATIS con planes a crédito",
+            "ENVÍOS SEGUROS a todo el país",
+            "REVISIÓN del producto antes de ser enviado"
         ];
-        let currentTextIndex = 0;
-        const rotationInterval = 5000; // 5 segundos
+        let currentMessageIndex = 0;
 
         function startTextRotation() {
-            const textElement = document.getElementById('rotating-text');
-            if (!textElement) return;
+            const container = document.getElementById('promo-text-container');
+            const banner = document.getElementById('top-banner-promo');
 
-            function updateText() {
-                // Iniciar la transición de salida (fade-out)
-                textElement.classList.remove('opacity-100');
-                textElement.classList.add('opacity-0');
+            // 1. Inyectar todos los mensajes en el DOM
+            container.innerHTML = PROMO_MESSAGES.map(msg => 
+                `<span class="promo-message w-full">${msg}</span>`
+            ).join('');
+            
+            // Se calcula el ancho del banner (el elemento padre)
+            const bannerWidth = banner.offsetWidth;
 
-                setTimeout(() => {
-                    // Cambiar el texto
-                    textElement.textContent = rotatingTexts[currentTextIndex];
-                    currentTextIndex = (currentTextIndex + 1) % rotatingTexts.length;
+            // 2. Función para realizar la rotación
+            function rotateText() {
+                // El ancho de cada mensaje es el ancho del banner.
+                // Mover el contenedor a la izquierda por el ancho del banner * el índice actual.
+                const translateX = -(currentMessageIndex * bannerWidth);
+                
+                // Aplicar la transformación de manera suave
+                container.style.transform = `translateX(${translateX}px)`;
+                
+                // Mover al siguiente índice de forma circular
+                currentMessageIndex = (currentMessageIndex + 1) % PROMO_MESSAGES.length;
 
-                    // Iniciar la transición de entrada (fade-in)
-                    textElement.classList.remove('opacity-0');
-                    textElement.classList.add('opacity-100');
-                }, 500); 
+                // Llamarse a sí misma después de 4 segundos
+                setTimeout(rotateText, 4000); 
             }
 
-            // Ejecutar inmediatamente y luego en el intervalo
-            updateText();
-            setInterval(updateText, rotationInterval);
+            // Es necesario esperar un momento o a que la página cargue para obtener el offsetWidth real, 
+            // pero para asegurar la rotación inmediata, llamamos a la función.
+            // La rotación también se actualizará si la ventana cambia de tamaño.
+            window.addEventListener('resize', () => {
+                // Forzar un reinicio al cambiar el tamaño para recalcular el ancho
+                container.style.transition = 'none'; // Desactivar transición momentáneamente
+                currentMessageIndex = 0;
+                container.style.transform = `translateX(0px)`;
+                // Volver a activar la transición después de un pequeño retraso
+                setTimeout(() => {container.style.transition = 'transform 0.5s ease-in-out';}, 100);
+            });
+            
+            // Iniciar el ciclo después de que se haya establecido el ancho inicial (aunque sea en el DOMContentLoaded)
+            setTimeout(rotateText, 4000); 
         }
+        // *************************************************************
 
-        // *************************************************************
-        // * FUNCIONES DEL CATÁLOGO Y MODAL (Lógica de tu código original)
-        // *************************************************************
-        
         // Función para renderizar los productos en el catálogo
         function renderProducts(productsToRender) {
-            // ... (Tu función renderProducts original) ...
-             const catalogoGrid = document.getElementById('catalogo-grid');
-            if (!catalogoGrid) return;
-            
-            catalogoGrid.innerHTML = '';
-            
+            const catalogoGrid = document.getElementById('catalogo-grid');
+            catalogoGrid.innerHTML = ''; // Limpiar el contenedor
             if (productsToRender.length === 0) {
-                catalogoGrid.innerHTML = '<p class="col-span-full text-center text-gray-500 text-xl py-10">No se encontraron productos que coincidan con la búsqueda.</p>';
+                catalogoGrid.innerHTML = `<p class="col-span-full text-center text-gray-500">No se encontraron productos.</p>`;
                 return;
             }
-
-            productsToRender.forEach(product => {
-                // Encuentra el índice del producto en el array original para el botón Más Info
-                const index = products.findIndex(p => p.id === product.id); 
-
-                const tagHtml = product.tag ? 
-                    `<span class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl z-10">${product.tag}</span>` : 
-                    '';
-
-                const priceHtml = product.variants && product.variants.length > 0 
-                    ? `<p class="text-3xl font-bold text-cyan-600 mb-4">$${product.variants[0].priceWithTax.toFixed(2)}</p>` 
-                    : `<p class="text-lg text-red-500 mb-4">Sin precio</p>`;
+            productsToRender.forEach((product, index) => {
+                const tagColor = product.tag === "Oferta" ? "bg-red-500" : (product.tag === "Nuevo" ? "bg-green-500" : (product.tag === "Pocas Unidades" ? "bg-yellow-500" : "bg-cyan-600"));
+                const tagHtml = product.tag ? `<span class="absolute top-2 right-2 ${tagColor} text-white text-xs font-semibold px-2 py-1 rounded-full uppercase shadow-md">${product.tag}</span>` : '';
+                
+                // PRECIO SÓLO CON IVA EN LA TARJETA
+                const priceHtml = `
+                    <div class="mb-4">
+                        <span class="text-2xl font-bold text-cyan-600">
+                            $${product.variants[0].priceWithTax.toFixed(2)}
+                        </span>
+                        <span class="text-xs font-semibold text-gray-500 block">
+                            (Precio con IVA)
+                        </span>
+                    </div>
+                `;
                 
                 const productCard = `
                     <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full relative">
@@ -287,28 +554,27 @@
                 `;
                 catalogoGrid.innerHTML += productCard;
             });
-
+            // Añadir listeners a los nuevos botones
             document.querySelectorAll('.info-btn').forEach(button => {
                 button.addEventListener('click', showModal);
             });
         }
-           
+            
         // Función para mostrar el modal con la información del producto
         function showModal(event) {
-             // ... (Tu función showModal original, modificada para usar calculatePayment) ...
             const index = event.target.getAttribute('data-product-index');
             const product = products[index];
-            
             const modal = document.getElementById('info-modal');
             const modalContent = document.getElementById('modal-content');
             
-            // Recolectar opciones únicas
+            // Recolectar opciones únicas para cada categoría
             const uniqueOptions = {
                 almacenamiento: [...new Set(product.variants.map(v => v.almacenamiento))].sort(),
                 ram: [...new Set(product.variants.map(v => v.ram))].sort(),
                 color: [...new Set(product.variants.map(v => v.color))].sort()
             };
             
+            // Establecer la variante inicial como la primera
             let selectedVariant = product.variants[0];
 
             // Generar las opciones dinámicamente
@@ -436,7 +702,7 @@
             `;
             
             // *************************************************************
-            // * REFERENCIAS DE ELEMENTOS Y LÓGICA DE INTERACCIÓN (Original)
+            // * REFERENCIAS DE ELEMENTOS Y LÓGICA DE INTERACCIÓN
             // *************************************************************
             
             // Elementos de opciones de producto
@@ -461,10 +727,12 @@
             const tabContentSpecs = document.getElementById('tab-content-specs');
 
 
+            // Estado actual del modal
             let currentPaymentMode = 'contado';
 
             // Función principal para actualizar precio, stock y mensaje de WhatsApp
             function updateModalUI() {
+                // 1. Obtener la variante de producto seleccionada
                 const currentSelection = {
                     almacenamiento: document.querySelector('.option-btn[data-option-type="almacenamiento"][data-selected="true"]')?.getAttribute('data-option-value') || uniqueOptions.almacenamiento[0],
                     ram: document.querySelector('.option-btn[data-option-type="ram"][data-selected="true"]')?.getAttribute('data-option-value') || uniqueOptions.ram[0],
@@ -478,29 +746,25 @@
                 );
                 
                 let basePrice = matchedVariant ? matchedVariant.priceWithTax : 0;
-                let quantity = parseInt(qtyInput.value) || 1;
+                const quantity = parseInt(qtyInput.value) || 1;
 
+                // 2. Actualizar Stock y Cantidad
                 if (matchedVariant) {
                     modalStockElement.textContent = matchedVariant.stock;
                     qtyInput.max = matchedVariant.stock;
                     
                     if (quantity > matchedVariant.stock) {
-                        quantity = matchedVariant.stock > 0 ? 1 : 0;
-                        qtyInput.value = quantity;
+                        qtyInput.value = matchedVariant.stock > 0 ? 1 : 0;
                     } else if (quantity === 0 && matchedVariant.stock > 0) {
-                        quantity = 1;
-                        qtyInput.value = quantity;
-                    } else if (quantity < 1 && matchedVariant.stock > 0) {
-                        quantity = 1;
-                        qtyInput.value = quantity;
+                        qtyInput.value = 1;
                     }
                 } else {
                     modalStockElement.textContent = '0';
                     qtyInput.max = 0;
                     qtyInput.value = 0;
-                    quantity = 0;
                 }
                 
+                // 3. Lógica de Financiamiento
                 let finalPriceDisplay = '';
                 let whatsappMessage = '';
                 
@@ -519,7 +783,7 @@
                     financingOptions.classList.remove('hidden');
                     priceLabelElement.textContent = `Precio Total Financiado (${quantity} unid):`;
                     
-                    // Llama a la función CORREGIDA
+                    // Cálculo de Plazos 
                     const totalProductPrice = basePrice * quantity;
                     const months = paymentMonthsSelect.value;
                     const frequency = paymentFrequencySelect.value;
@@ -533,28 +797,28 @@
                     financingInstallmentAmount.textContent = `$${calculation.installmentAmount} / ${frequency}`;
                     financingTotalPayments.textContent = calculation.totalPayments;
                     
-                    whatsappMessage = `Hola, me interesa financiar ${quantity} unidad(es) del ${product.name} (${currentSelection.almacenamiento}, ${currentSelection.ram}, ${currentSelection.color}). Modalidad: Plazos (${months} meses con tasa anual del ${calculation.annualRate}, pago ${frequency}). Cuota: $${calculation.installmentAmount}. Precio Total: $${calculation.totalAmountDue}.`;
+                    // EL MENSAJE DE WHATSAPP AÚN INCLUYE LA TASA PARA TRANSPARENCIA EN LA VENTA
+                    whatsappMessage = `Hola, me interesa financiar ${quantity} unidad(es) del ${product.name} (${currentSelection.almacenamiento}, ${currentSelection.ram}, ${currentSelection.color}). Modalidad: Plazos (${months} meses con tasa anual del ${calculation.annualRate}%, pago ${frequency}). Cuota: $${calculation.installmentAmount}. Precio Total: $${calculation.totalAmountDue}.`;
                 }
 
-                // Actualizar UI y Link de WhatsApp
+                // 4. Actualizar UI y Link de WhatsApp
                 modalPriceElement.textContent = `$${finalPriceDisplay}`;
+                whatsappLinkElement.href = `https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}`;
                 
-                if (quantity > 0) {
-                    whatsappLinkElement.href = `https://wa.me/593967427594?text=${encodeURIComponent(whatsappMessage)}`;
+                // Asegurar que el botón de WhatsApp esté activo si hay stock
+                if (parseInt(qtyInput.value) > 0) {
                     whatsappLinkElement.classList.remove('bg-gray-400', 'cursor-not-allowed');
                     whatsappLinkElement.classList.add('bg-green-500', 'hover:bg-green-600');
-                    whatsappLinkElement.setAttribute('target', '_blank');
                 } else {
                     whatsappLinkElement.classList.add('bg-gray-400', 'cursor-not-allowed');
                     whatsappLinkElement.classList.remove('bg-green-500', 'hover:bg-green-600');
                     whatsappLinkElement.href = '#';
-                    whatsappLinkElement.removeAttribute('target');
                 }
             }
 
 
             // *************************************************************
-            // * MANEJADORES DE EVENTOS (Original)
+            // * MANEJADORES DE EVENTOS
             // *************************************************************
 
             // 1. Manejador de botones de modo de pago (Contado/Plazos)
@@ -563,6 +827,7 @@
                     const mode = e.target.getAttribute('data-payment-mode');
                     currentPaymentMode = mode;
                     
+                    // Actualizar estilos
                     document.querySelectorAll('.payment-mode-btn').forEach(btn => {
                         btn.classList.remove('bg-cyan-600', 'text-white');
                         btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
@@ -594,18 +859,10 @@
                 }
             });
             qtyInput.addEventListener('change', updateModalUI); 
-            qtyInput.addEventListener('input', () => { 
-                const max = parseInt(qtyInput.max);
-                let val = parseInt(qtyInput.value) || 0;
-
-                if (val > max) {
-                    qtyInput.value = max;
-                } else if (val < 1 && max > 0) {
-                    qtyInput.value = 1;
-                } else if (max === 0) {
-                    qtyInput.value = 0;
+            qtyInput.addEventListener('input', () => { // Manejar el input directo
+                if (parseInt(qtyInput.value) > parseInt(qtyInput.max)) {
+                    qtyInput.value = qtyInput.max;
                 }
-
                 updateModalUI();
             });
 
@@ -660,6 +917,10 @@
             tabDescBtn.addEventListener('click', () => showTabContent('tab-desc'));
             tabSpecsBtn.addEventListener('click', () => showTabContent('tab-specs'));
 
+            // *************************************************************
+            // * INICIALIZACIÓN
+            // *************************************************************
+
             // Inicializar la pestaña y la UI
             showTabContent('tab-desc');
             updateModalUI(); 
@@ -680,6 +941,7 @@
                 mobileMenu.classList.toggle('hidden');
             });
 
+            // Cierra el menú móvil al hacer clic en un enlace de navegación
             document.querySelectorAll('#mobile-menu button, #mobile-menu a').forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.add('hidden');
@@ -717,6 +979,7 @@
         // Manejador de evento para cerrar el modal
         document.getElementById('close-modal').addEventListener('click', hideModal);
         document.getElementById('info-modal').addEventListener('click', (event) => {
+            // Cerrar si se hace click fuera del contenido del modal
             if (event.target === event.currentTarget) {
                 hideModal();
             }
@@ -727,7 +990,7 @@
             const searchInput = document.getElementById('search-input');
             const sortOrderSelect = document.getElementById('sort-order');
             
-            if (!searchInput || !sortOrderSelect) return; 
+            if (!searchInput || !sortOrderSelect) return; // Asegurar que los elementos existan
 
             const searchTerm = searchInput.value.toLowerCase();
             const sortOrder = sortOrderSelect.value;
@@ -761,13 +1024,16 @@
             const body = `Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`;
             const mailtoLink = `mailto:moormixdigital@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             
+            // Abrir la aplicación de email del usuario
             window.location.href = mailtoLink;
 
+            // Mostrar un mensaje de confirmación
             const formMessage = document.getElementById('form-message');
             formMessage.textContent = "Tu mensaje ha sido enviado a tu cliente de correo para su confirmación.";
             formMessage.classList.remove('hidden');
             formMessage.classList.add('text-green-600');
             
+            // Limpiar el formulario después de un breve retraso
             setTimeout(() => {
                 document.getElementById('contact-form').reset();
                 formMessage.classList.add('hidden');
@@ -779,9 +1045,9 @@
             showPage('page-inicio');
             updateCatalog();
             
-            // INICIAR EL BANNER ROTATIVO (CORRECCIÓN IMPLEMENTADA)
-            startTextRotation(); 
+            // INICIAR EL BANNER ROTATIVO
+            startTextRotation();
         });
     </script>
-</body>
+    </body>
 </html>
