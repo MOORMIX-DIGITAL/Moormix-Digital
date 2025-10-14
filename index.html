@@ -19,16 +19,44 @@
     <style>
         /* Estilos básicos para asegurar que el modal y las páginas funcionan */
         .content-page {
-            min-height: calc(100vh - 4rem); /* Altura mínima restando el header */
+            min-height: calc(100vh - 4rem - 2.5rem); /* Altura mínima restando el header y el nuevo banner */
         }
-        /* Ajuste para que el scroll del body no afecte el modal (Aunque ya no es tan crítico con el overflow-y-auto en el modal) */
         .modal-open {
             overflow: hidden;
+        }
+        /* ESTILOS PARA EL BANNER ROTATIVO */
+        #top-banner-promo {
+            height: 2.5rem; /* Altura fija para el banner (40px) */
+            line-height: 2.5rem; /* Centrado vertical */
+            overflow: hidden; /* Importante para ocultar los textos fuera de la vista */
+            white-space: nowrap;
+            text-align: center;
+            background-color: #00BCD4; /* Color Cian */
+            color: white;
+            font-weight: 600; /* Semibold */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        /* Contenedor de los mensajes */
+        #promo-text-container {
+            display: inline-block;
+            transition: transform 0.5s ease-in-out; /* Transición suave al cambiar de texto */
+        }
+        .promo-message {
+            display: inline-block;
+            width: 100%; /* Ocupa todo el ancho visible */
+            text-align: center;
+            /* Se establece un pequeño padding para asegurar que el texto no esté pegado a los bordes si se cambia de ancho */
+            padding: 0 1rem; 
         }
     </style>
 </head>
 <body class="bg-gray-50">
 
+    <div id="top-banner-promo">
+        <div id="promo-text-container">
+            </div>
+    </div>
+    
     <header class="bg-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -430,7 +458,62 @@
             };
         }
         // *************************************************************
+
+        // *************************************************************
+        // * LÓGICA DEL BANNER ROTATIVO (NUEVA FUNCIÓN)
+        // *************************************************************
+        const PROMO_MESSAGES = [
+            "ENVÍOS GRATIS con planes a crédito",
+            "ENVÍOS SEGUROS a todo el país",
+            "REVISIÓN del producto antes de ser enviado"
+        ];
+        let currentMessageIndex = 0;
+
+        function startTextRotation() {
+            const container = document.getElementById('promo-text-container');
+            const banner = document.getElementById('top-banner-promo');
+
+            // 1. Inyectar todos los mensajes en el DOM
+            container.innerHTML = PROMO_MESSAGES.map(msg => 
+                `<span class="promo-message w-full">${msg}</span>`
+            ).join('');
             
+            // Se calcula el ancho del banner (el elemento padre)
+            const bannerWidth = banner.offsetWidth;
+
+            // 2. Función para realizar la rotación
+            function rotateText() {
+                // El ancho de cada mensaje es el ancho del banner.
+                // Mover el contenedor a la izquierda por el ancho del banner * el índice actual.
+                const translateX = -(currentMessageIndex * bannerWidth);
+                
+                // Aplicar la transformación de manera suave
+                container.style.transform = `translateX(${translateX}px)`;
+                
+                // Mover al siguiente índice de forma circular
+                currentMessageIndex = (currentMessageIndex + 1) % PROMO_MESSAGES.length;
+
+                // Llamarse a sí misma después de 4 segundos
+                setTimeout(rotateText, 4000); 
+            }
+
+            // Es necesario esperar un momento o a que la página cargue para obtener el offsetWidth real, 
+            // pero para asegurar la rotación inmediata, llamamos a la función.
+            // La rotación también se actualizará si la ventana cambia de tamaño.
+            window.addEventListener('resize', () => {
+                // Forzar un reinicio al cambiar el tamaño para recalcular el ancho
+                container.style.transition = 'none'; // Desactivar transición momentáneamente
+                currentMessageIndex = 0;
+                container.style.transform = `translateX(0px)`;
+                // Volver a activar la transición después de un pequeño retraso
+                setTimeout(() => {container.style.transition = 'transform 0.5s ease-in-out';}, 100);
+            });
+            
+            // Iniciar el ciclo después de que se haya establecido el ancho inicial (aunque sea en el DOMContentLoaded)
+            setTimeout(rotateText, 4000); 
+        }
+        // *************************************************************
+
         // Función para renderizar los productos en el catálogo
         function renderProducts(productsToRender) {
             const catalogoGrid = document.getElementById('catalogo-grid');
@@ -636,7 +719,6 @@
             const financingTotalAmount = document.getElementById('financing-total-amount');
             const financingInstallmentAmount = document.getElementById('financing-installment-amount');
             const financingTotalPayments = document.getElementById('financing-total-payments');
-            // const financingAnnualRate = document.getElementById('financing-annual-rate'); // YA NO SE NECESITA EN EL DOM
 
             // Elementos de pestañas
             const tabDescBtn = document.getElementById('tab-desc');
@@ -711,7 +793,6 @@
                     finalPriceDisplay = calculation.totalAmountDue;
                     
                     // Actualizar indicadores de financiamiento
-                    // Nota: Se ha quitado la actualización de la Tasa Anual en el modal.
                     financingTotalAmount.textContent = `$${calculation.totalAmountDue}`;
                     financingInstallmentAmount.textContent = `$${calculation.installmentAmount} / ${frequency}`;
                     financingTotalPayments.textContent = calculation.totalPayments;
@@ -941,7 +1022,7 @@
             const message = document.getElementById('message').value;
             const subject = "Reclamo o sugerencia de " + name;
             const body = `Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`;
-            const mailtoLink = `mailto:moormixdigital@outloo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const mailtoLink = `mailto:moormixdigital@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             
             // Abrir la aplicación de email del usuario
             window.location.href = mailtoLink;
@@ -963,6 +1044,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             showPage('page-inicio');
             updateCatalog();
+            
+            // INICIAR EL BANNER ROTATIVO
+            startTextRotation();
         });
     </script>
     </body>
