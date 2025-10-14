@@ -21,7 +21,7 @@
         .content-page {
             min-height: calc(100vh - 4rem); /* Altura mínima restando el header */
         }
-        /* Ajuste para que el scroll del body no afecte el modal */
+        /* Ajuste para que el scroll del body no afecte el modal (Aunque ya no es tan crítico con el overflow-y-auto en el modal) */
         .modal-open {
             overflow: hidden;
         }
@@ -518,12 +518,19 @@
                         </div>
                         
                         <div class="border-b border-gray-200 mt-6">
-                            <nav class="-mb-px flex space-x-4 sm:space-x-8" aria-label="Tabs">
-                                <button id="tab-desc" class="tab-btn border-b-2 border-cyan-600 text-cyan-600 font-bold py-2 px-1 sm:px-4 transition-colors duration-200">DESCRIPCIÓN</button>
-                                <button id="tab-specs" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 sm:px-4 transition-colors duration-200">ESPECIFICACIÓN</button>
+                            <nav class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4" aria-label="Tabs">
+                                <button id="tab-desc" class="tab-btn border-b-2 border-cyan-600 text-cyan-600 font-bold py-2 px-4 text-left w-full sm:w-auto transition-colors duration-200">
+                                    DESCRIPCIÓN
+                                </button>
+                                <button id="tab-specs" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-4 text-left w-full sm:w-auto transition-colors duration-200">
+                                    ESPECIFICACIÓN
+                                </button>
                             </nav>
                         </div>
-                        <div id="tab-content" class="pt-4 text-gray-700 text-sm">
+                        
+                        <div id="tab-content-desc" class="pt-4 text-gray-700 text-sm">
+                            </div>
+                        <div id="tab-content-specs" class="pt-4 text-gray-700 text-sm hidden">
                             </div>
                     </div>
                 </div>
@@ -575,27 +582,34 @@
             // Lógica para pestañas
             const tabDescBtn = document.getElementById('tab-desc');
             const tabSpecsBtn = document.getElementById('tab-specs');
-            const tabContent = document.getElementById('tab-content');
+            const tabContentDesc = document.getElementById('tab-content-desc');
+            const tabContentSpecs = document.getElementById('tab-content-specs');
             
+            // Función para mostrar el contenido de la pestaña seleccionada
             function showTabContent(tabId) {
-                // Limpiar clases de ambos botones
+                // 1. Limpiar clases y ocultar todos los contenidos
                 document.querySelectorAll('.tab-btn').forEach(btn => {
                     btn.classList.remove('border-cyan-600', 'text-cyan-600', 'font-bold');
                     btn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
                 });
+                tabContentDesc.classList.add('hidden');
+                tabContentSpecs.classList.add('hidden');
                 
-                // Aplicar clases al botón seleccionado
+                // 2. Aplicar clases al botón seleccionado y mostrar el contenido correspondiente
                 const selectedBtn = document.getElementById(tabId);
                 selectedBtn.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
                 selectedBtn.classList.add('border-cyan-600', 'text-cyan-600', 'font-bold');
                 
                 if (tabId === 'tab-desc') {
-                    // Reemplazar saltos de línea con <br>
+                    // Cargar contenido de Descripción
                     const formattedDescription = product.longDescription.replace(/\n/g, '<br>');
-                    tabContent.innerHTML = `<p>${formattedDescription}</p>`;
+                    tabContentDesc.innerHTML = `<p>${formattedDescription}</p>`;
+                    tabContentDesc.classList.remove('hidden');
                 } else if (tabId === 'tab-specs') {
+                    // Cargar contenido de Especificación
                     const specsList = product.specs.map(spec => `<li class="mb-1">${spec}</li>`).join('');
-                    tabContent.innerHTML = `<ul class="list-disc list-inside space-y-1">${specsList}</ul>`;
+                    tabContentSpecs.innerHTML = `<ul class="list-disc list-inside space-y-1">${specsList}</ul>`;
+                    tabContentSpecs.classList.remove('hidden');
                 }
             }
 
