@@ -426,7 +426,7 @@
                 totalAmountDue: totalAmountDue.toFixed(2),
                 installmentAmount: installmentAmount.toFixed(2),
                 totalPayments: totalPayments,
-                annualRate: (annualRate * 100).toFixed(0) // Devuelve la tasa para mostrarla en el modal
+                annualRate: (annualRate * 100).toFixed(0) // Devuelve la tasa para el mensaje de WhatsApp
             };
         }
         // *************************************************************
@@ -571,9 +571,6 @@
                                 </div>
                             </div>
                             <div class="bg-white p-3 rounded-md border-dashed border-gray-300 border text-center">
-                                <p class="text-sm font-medium text-gray-600">
-                                    Tasa Anual Aplicada: <strong id="financing-annual-rate" class="text-cyan-600">0%</strong>
-                                </p>
                                 <p class="text-sm font-medium text-gray-600">Total a Pagar: <strong id="financing-total-amount" class="text-red-500">$0.00</strong></p>
                                 <p class="text-lg font-bold text-green-600">Cuota: <strong id="financing-installment-amount">$0.00</strong></p>
                                 <p class="text-xs text-gray-400">Total de Pagos: <span id="financing-total-payments">0</span></p>
@@ -639,7 +636,7 @@
             const financingTotalAmount = document.getElementById('financing-total-amount');
             const financingInstallmentAmount = document.getElementById('financing-installment-amount');
             const financingTotalPayments = document.getElementById('financing-total-payments');
-            const financingAnnualRate = document.getElementById('financing-annual-rate'); // Nuevo elemento para la tasa
+            // const financingAnnualRate = document.getElementById('financing-annual-rate'); // YA NO SE NECESITA EN EL DOM
 
             // Elementos de pestañas
             const tabDescBtn = document.getElementById('tab-desc');
@@ -714,11 +711,12 @@
                     finalPriceDisplay = calculation.totalAmountDue;
                     
                     // Actualizar indicadores de financiamiento
-                    financingAnnualRate.textContent = `${calculation.annualRate}%`; // Tasa anual aplicada
+                    // Nota: Se ha quitado la actualización de la Tasa Anual en el modal.
                     financingTotalAmount.textContent = `$${calculation.totalAmountDue}`;
                     financingInstallmentAmount.textContent = `$${calculation.installmentAmount} / ${frequency}`;
                     financingTotalPayments.textContent = calculation.totalPayments;
                     
+                    // EL MENSAJE DE WHATSAPP AÚN INCLUYE LA TASA PARA TRANSPARENCIA EN LA VENTA
                     whatsappMessage = `Hola, me interesa financiar ${quantity} unidad(es) del ${product.name} (${currentSelection.almacenamiento}, ${currentSelection.ram}, ${currentSelection.color}). Modalidad: Plazos (${months} meses con tasa anual del ${calculation.annualRate}%, pago ${frequency}). Cuota: $${calculation.installmentAmount}. Precio Total: $${calculation.totalAmountDue}.`;
                 }
 
