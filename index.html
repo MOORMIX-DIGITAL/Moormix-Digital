@@ -459,60 +459,6 @@
         }
         // *************************************************************
 
-        // *************************************************************
-        // * LÓGICA DEL BANNER ROTATIVO (NUEVA FUNCIÓN)
-        // *************************************************************
-        const PROMO_MESSAGES = [
-            "ENVÍOS GRATIS con planes a crédito",
-            "ENVÍOS SEGUROS a todo el país",
-            "REVISIÓN del producto antes de ser enviado"
-        ];
-        let currentMessageIndex = 0;
-
-        function startTextRotation() {
-            const container = document.getElementById('promo-text-container');
-            const banner = document.getElementById('top-banner-promo');
-
-            // 1. Inyectar todos los mensajes en el DOM
-            container.innerHTML = PROMO_MESSAGES.map(msg => 
-                `<span class="promo-message w-full">${msg}</span>`
-            ).join('');
-            
-            // Se calcula el ancho del banner (el elemento padre)
-            const bannerWidth = banner.offsetWidth;
-
-            // 2. Función para realizar la rotación
-            function rotateText() {
-                // El ancho de cada mensaje es el ancho del banner.
-                // Mover el contenedor a la izquierda por el ancho del banner * el índice actual.
-                const translateX = -(currentMessageIndex * bannerWidth);
-                
-                // Aplicar la transformación de manera suave
-                container.style.transform = `translateX(${translateX}px)`;
-                
-                // Mover al siguiente índice de forma circular
-                currentMessageIndex = (currentMessageIndex + 1) % PROMO_MESSAGES.length;
-
-                // Llamarse a sí misma después de 4 segundos
-                setTimeout(rotateText, 4000); 
-            }
-
-            // Es necesario esperar un momento o a que la página cargue para obtener el offsetWidth real, 
-            // pero para asegurar la rotación inmediata, llamamos a la función.
-            // La rotación también se actualizará si la ventana cambia de tamaño.
-            window.addEventListener('resize', () => {
-                // Forzar un reinicio al cambiar el tamaño para recalcular el ancho
-                container.style.transition = 'none'; // Desactivar transición momentáneamente
-                currentMessageIndex = 0;
-                container.style.transform = `translateX(0px)`;
-                // Volver a activar la transición después de un pequeño retraso
-                setTimeout(() => {container.style.transition = 'transform 0.5s ease-in-out';}, 100);
-            });
-            
-            // Iniciar el ciclo después de que se haya establecido el ancho inicial (aunque sea en el DOMContentLoaded)
-            setTimeout(rotateText, 4000); 
-        }
-        // *************************************************************
 
         // Función para renderizar los productos en el catálogo
         function renderProducts(productsToRender) {
