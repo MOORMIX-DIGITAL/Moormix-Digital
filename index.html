@@ -693,6 +693,20 @@
             }
         ];
 
+     // 1. Determina el color basado en la etiqueta (propiedad 'tag' del producto)
+const tagColor = product.tag === "Oferta" 
+    ? "bg-red-500" 
+    : (product.tag === "Nuevo" 
+        ? "bg-green-500" 
+        : (product.tag === "Pocas Unidades" 
+            ? "bg-yellow-500" 
+            : "bg-cyan-600")); // Color por defecto si no coincide
+
+// 2. Crea la estructura HTML de la etiqueta. Solo se crea si product.tag tiene contenido.
+const tagHtml = product.tag 
+    ? `<span class="absolute top-2 right-2 ${tagColor} text-white text-xs font-semibold px-2 py-1 rounded-full uppercase shadow-md">${product.tag}</span>` 
+    : '';
+
         // Calcular el precio con IVA para todas las variantes
         products.forEach(product => {
             product.variants.forEach(variant => {
