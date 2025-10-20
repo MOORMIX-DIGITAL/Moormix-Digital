@@ -758,6 +758,10 @@ function renderProducts(productsToRender) {
                 break;
             case 'oferta':
                 label = 'OFERTA 🔥';
+                classes += ' bg-fuchsia-600 animate-pulse';
+                break;
+            case 'agotado':
+                label = 'AGOTADO';
                 classes += ' bg-red-600 animate-pulse';
                 break;
             case 'agotandose':
