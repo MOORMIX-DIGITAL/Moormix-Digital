@@ -212,7 +212,7 @@
                     "Dual Sim",
                     "USB tipo C"
                 ],
-                tag: "Agotandose",
+                tag: "Agotado",
                 variants: [
                     { almacenamiento: "64GB", ram: "6GB", color: "Azul", price: 89.00, stock: 20 },
                     { almacenamiento: "64GB", ram: "6GB", color: "Dorado", price: 89.00, stock: 15 },
@@ -763,9 +763,9 @@ function renderProducts(productsToRender) {
                 break;
             case 'agotado':
                 label = 'AGOTADO';
-                classes += ' bg-red-600 animate-pulse';
+                classes += ' bg-red-700 animate-pulse';
                 break;
-            case 'agotandose':
+            case 'pocas unidades':
                 label = '¡POCAS UNIDADES!';
                 classes += ' bg-amber-500';
                 break;
