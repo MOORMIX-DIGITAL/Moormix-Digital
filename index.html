@@ -754,15 +754,15 @@ function renderProducts(productsToRender) {
         
         switch (tag.toLowerCase()) {
             case 'nuevo':
-                label = 'NUEVO ✨';
+                label = 'NUEVO';
                 classes += ' bg-cyan-600';
-                break;
-            case 'oferta':
-                label = 'OFERTA 🔥';
-                classes += ' bg-fuchsia-600 animate-pulse';
                 break;
             case 'agotado':
                 label = 'AGOTADO';
+                classes += ' bg-fuchsia-600 animate-pulse';
+                break;
+            case 'oferta':
+                label = 'OFERTA';
                 classes += ' bg-red-700 animate-pulse';
                 break;
             case 'pocas unidades':
