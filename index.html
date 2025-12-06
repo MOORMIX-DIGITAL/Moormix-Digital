@@ -700,7 +700,10 @@
                 variant.priceWithTax = variant.price * 1.15; // 15% de IVA
             });
         });
-        
+
+     products.forEach((product. index) => {
+      product.id = index;
+      });
         // *************************************************************
         // * LÓGICA DE FINANCIAMIENTO (TASAS FIJAS DE EJEMPLO)
         // *************************************************************
@@ -812,34 +815,38 @@ function renderProducts(productsToRender) {
                     </div>
                 `;
                 
-                const productCard = `
-                    <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform hover:scale-105 h-full relative">
-                        ${tagHtml}
-                        <div class="w-full aspect-square mb-4 overflow-hidden rounded-lg">
-                            <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-cover">
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">${product.name}</h3>
-                        <p class="text-gray-500 text-sm mb-4 flex-1">${product.shortDescription}</p>
-                        ${priceHtml}
-                        <button class="info-btn w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg hover:bg-gray-300 transition-colors" data-product-index="${index}">
-                            Más Info
-                        </button>
-                    </div>
-                `;
-                catalogoGrid.innerHTML += productCard;
-            });
-            // Añadir listeners a los nuevos botones
-            document.querySelectorAll('.info-btn').forEach(button => {
-                button.addEventListener('click', showModal);
-            });
-        }
+const productCard = `
+    ${priceHtml}
+    <button class="info-btn w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg hover:bg-gray-300 transition-colors" data-product-id="${product.id}">
+        Más Info
+    </button>
+</div>
+`;
+catalogoGrid.innerHTML += productCard;
+});
+// Y corrige el listener para usar un parámetro consistente:
+document.querySelectorAll('.info-btn').forEach(button => {
+    // Al hacer clic, pasamos el ID del producto directamente.
+    button.addEventListener('click', (e) => {
+        const productId = e.currentTarget.getAttribute('data-product-id');
+        showModal(productId);
+    });
+});
+// (La función showModal ahora debe aceptar el ID directamente)
+}
             
         // Función para mostrar el modal con la información del producto
-        function showModal(event) {
-            const index = event.target.getAttribute('data-product-index');
-            const product = products[index];
-            const modal = document.getElementById('info-modal');
-            const modalContent = document.getElementById('modal-content');
+        function showModal(productId) {
+
+const product = products.find(p => p.id === parseInt(productId)); 
+    
+    if (!product) {
+        console.error('Producto no encontrado con ID:', productId);
+        return;
+    }
+    
+    const modal = document.getElementById('info-modal');
+    const modalContent = document.getElementById('modal-content');
             
             // Recolectar opciones únicas para cada categoría
             const uniqueOptions = {
