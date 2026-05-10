@@ -705,38 +705,49 @@
       product.id = index;
       });
         // *************************************************************
-        // * LÓGICA DE FINANCIAMIENTO (TASAS FIJAS DE EJEMPLO)
+        // * LÓGICA DE FINANCIAMIENTO POR RANGOS DE PRECIO
         // *************************************************************
-        // ESTAS TASAS SON ANUALES y PUEDEN SER MODIFICADAS
-        const INTEREST_RATES_ANNUAL = {
-            '3': 1.20, // 12% Anual para 3 meses
-            '6': 1.80, // 18% Anual para 6 meses
-            '9': 2.00  // 24% Anual para 9 meses
-        };
+        // Rango A: $0–$150   → 3m x1.50 | 6m x2.20 | 9m x3.00
+        // Rango B: $151–$300 → 3m x1.40 | 6m x2.14 | 9m DESHABILITADO
+        // Rango C: >$300     → 3m x1.30 | 6m x1.80 | 9m DESHABILITADO
 
-        function calculatePayment(price, months, frequency) {
-            const principal = price;
-            // Obtener la tasa anual basada en los meses seleccionados
-            const annualRate = INTEREST_RATES_ANNUAL[months] || 0.18; // 18% por defecto si no se encuentra
-            const monthlyRate = annualRate / 12;
+        function getMultiplier(basePrice, months) {
+            if (basePrice <= 150) {
+                // Rango A: $0–$150
+                if (months === '3') return 1.50;
+                if (months === '6') return 2.20;
+                if (months === '9') return 3.00;
+            } else if (basePrice <= 300) {
+                // Rango B: $151–$300
+                if (months === '3') return 1.40;
+                if (months === '6') return 2.14;
+                // 9 meses no disponible en Rango B
+            } else {
+                // Rango C: más de $300
+                if (months === '3') return 1.30;
+                if (months === '6') return 1.80;
+                // 9 meses no disponible en Rango C
+            }
+            return null; // Opción no disponible
+        }
 
+        function calculatePayment(priceWithTax, basePrice, months, frequency) {
+            const multiplier = getMultiplier(basePrice, months);
+            if (!multiplier) return null;
+
+            const totalAmountDue = priceWithTax * multiplier;
             const totalMonths = parseInt(months);
             const totalPayments = totalMonths * (
                 frequency === 'mensual' ? 1 :
                 frequency === 'quincenal' ? 2 :
                 frequency === 'semanal' ? 4 : 1
             );
-            
-            // Cálculo simplificado (Interés total sobre el capital por el tiempo)
-            const totalInterest = principal * monthlyRate * totalMonths;
-            const totalAmountDue = principal + totalInterest;
             const installmentAmount = totalAmountDue / totalPayments;
-            
+
             return {
                 totalAmountDue: totalAmountDue.toFixed(2),
                 installmentAmount: installmentAmount.toFixed(2),
-                totalPayments: totalPayments,
-                annualRate: (annualRate * 100).toFixed(0) // Devuelve la tasa para el mensaje de WhatsApp
+                totalPayments: totalPayments
             };
         }
 
@@ -1070,22 +1081,38 @@ const product = products.find(p => p.id === parseInt(productId));
                     financingOptions.classList.remove('hidden');
                     priceLabelElement.textContent = `Precio Total Financiado (${quantity} unid):`;
                     
-                    // Cálculo de Plazos 
+                    // Cálculo de Plazos por rango de precio
                     const totalProductPrice = basePrice * quantity;
-                    const months = paymentMonthsSelect.value;
+                    const variantBasePrice = matchedVariant ? matchedVariant.price : 0;
                     const frequency = paymentFrequencySelect.value;
-                    
-                    const calculation = calculatePayment(totalProductPrice, months, frequency);
-                    
-                    finalPriceDisplay = calculation.totalAmountDue;
-                    
-                    // Actualizar indicadores de financiamiento
-                    financingTotalAmount.textContent = `$${calculation.totalAmountDue}`;
-                    financingInstallmentAmount.textContent = `$${calculation.installmentAmount} / ${frequency}`;
-                    financingTotalPayments.textContent = calculation.totalPayments;
-                    
-                    // EL MENSAJE DE WHATSAPP AÚN INCLUYE LA TASA PARA TRANSPARENCIA EN LA VENTA
-                    whatsappMessage = `Hola, me interesa financiar ${quantity} unidad(es) del ${product.name} (${currentSelection.almacenamiento}, ${currentSelection.ram}, ${currentSelection.color}). Modalidad: Plazos (${months} meses con tasa anual del ${calculation.annualRate}%, pago ${frequency}). Cuota: $${calculation.installmentAmount}. Precio Total: $${calculation.totalAmountDue}.`;
+
+                    // Mostrar/ocultar opción de 9 meses según el precio base (sin IVA)
+                    const option9m = paymentMonthsSelect.querySelector('option[value="9"]');
+                    if (option9m) {
+                        const allow9m = variantBasePrice <= 150;
+                        option9m.disabled = !allow9m;
+                        option9m.hidden = !allow9m;
+                        if (!allow9m && paymentMonthsSelect.value === '9') {
+                            paymentMonthsSelect.value = '6';
+                        }
+                    }
+
+                    const months = paymentMonthsSelect.value;
+                    const calculation = calculatePayment(totalProductPrice, variantBasePrice, months, frequency);
+
+                    if (calculation) {
+                        finalPriceDisplay = calculation.totalAmountDue;
+                        financingTotalAmount.textContent = `$${calculation.totalAmountDue}`;
+                        financingInstallmentAmount.textContent = `$${calculation.installmentAmount} / ${frequency}`;
+                        financingTotalPayments.textContent = calculation.totalPayments;
+                        whatsappMessage = `Hola, me interesa financiar ${quantity} unidad(es) del ${product.name} (${currentSelection.almacenamiento}, ${currentSelection.ram}, ${currentSelection.color}). Modalidad: Plazos (${months} meses, pago ${frequency}). Cuota: $${calculation.installmentAmount}. Precio Total: $${calculation.totalAmountDue}.`;
+                    } else {
+                        finalPriceDisplay = totalProductPrice.toFixed(2);
+                        financingTotalAmount.textContent = '-';
+                        financingInstallmentAmount.textContent = '-';
+                        financingTotalPayments.textContent = '-';
+                        whatsappMessage = `Hola, me interesa conocer opciones de financiamiento para ${quantity} unidad(es) del ${product.name} (${currentSelection.almacenamiento}, ${currentSelection.ram}, ${currentSelection.color}).`;
+                    }
                 }
 
                 // 4. Actualizar UI y Link de WhatsApp
